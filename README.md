@@ -1,155 +1,230 @@
-## Description
-**jSQL Injection** is a lightweight application used to find database information from a distant server.
+<img src="https://talk.openmrs.org/uploads/default/original/2X/f/f1ec579b0398cb04c80a54c56da219b2440fe249.jpg" alt="OpenMRS"/>
 
-It's **free**, **open source** and **cross-platform** for Windows, Linux and Mac and it works with Java from version 11 to 17.
+[![Build Status](https://travis-ci.org/openmrs/openmrs-core.svg?branch=master)](https://travis-ci.org/openmrs/openmrs-core) [![Coverage Status](https://coveralls.io/repos/github/openmrs/openmrs-core/badge.svg?branch=master)](https://coveralls.io/github/openmrs/openmrs-core?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a51303ee46c34775a7c31c8d6016da6b)](https://www.codacy.com/app/openmrs/openmrs-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=openmrs/openmrs-core&amp;utm_campaign=Badge_Grade)
 
-![Kali Linux logo](https://github.com/ron190/jsql-injection/raw/master/web/images/kali_favicon.png "Kali Linux logo") jSQL Injection is also part of the official penetration testing distribution [Kali Linux](http://www.kali.org/) and is included in various other distributions like [Pentest Box](https://pentestbox.com/), [Parrot Security OS](https://www.parrotsec.org), [ArchStrike](https://archstrike.org/) and [BlackArch Linux](http://www.blackarch.org/).
+api: [![API](https://snyk.io/test/github/openmrs/openmrs-core/badge.svg?targetFile=api%2Fpom.xml)](https://snyk.io/test/github/openmrs/openmrs-core?targetFile=api%2Fpom.xml)
+test: [![test](https://snyk.io/test/github/openmrs/openmrs-core/badge.svg?targetFile=test%2Fpom.xml)](https://snyk.io/test/github/openmrs/openmrs-core?targetFile=test%2Fpom.xml)
+tools: [![tools](https://snyk.io/test/github/openmrs/openmrs-core/badge.svg?targetFile=tools%2Fpom.xml)](https://snyk.io/test/github/openmrs/openmrs-core?targetFile=tools%2Fpom.xml)
+web: [![web](https://snyk.io/test/github/openmrs/openmrs-core/badge.svg?targetFile=web%2Fpom.xml)](https://snyk.io/test/github/openmrs/openmrs-core?targetFile=web%2Fpom.xml)
+webapp: [![webapp](https://snyk.io/test/github/openmrs/openmrs-core/badge.svg?targetFile=webapp%2Fpom.xml)](https://snyk.io/test/github/openmrs/openmrs-core?targetFile=webapp%2Fpom.xml)
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/ron190jsql.svg?style=social&label=ron190 "Developer Twitter account")](https://twitter.com/ron190jsql)<br>
-[![Java 11 to 17](https://img.shields.io/badge/java-11%20to%2017-orange?logo=java "Version range compatibility")](http://www.oracle.com/technetwork/java/javase/downloads/)
-[![JUnit 5](https://img.shields.io/badge/junit-5-50940f)](http://junit.org)
-[![Maven 3.1](https://img.shields.io/badge/maven-3.1-a2265a)](https://maven.apache.org/)
-[![License](https://img.shields.io/github/license/ron190/jsql-injection)](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)<br>
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ron190/jsql-injection/Java%20CI%20with%20Maven%20and%20Docker?label=%20&logo=github "Github build status")](https://github.com/ron190/jsql-injection/actions)
-[![Sonar](https://img.shields.io/sonar/coverage/jsql-injection:jsql-injection?label=%20&logo=sonarqube&server=https%3A%2F%2Fsonarcloud.io "Sonar coverage")](https://sonarcloud.io/dashboard?id=jsql-injection%3Ajsql-injection)
-[![Codecov](https://img.shields.io/codecov/c/github/ron190/jsql-injection?label=%20&logo=codecov "Codecov coverage")](https://codecov.io/gh/ron190/jsql-injection)
-[![Codacy](https://img.shields.io/codacy/coverage/e7ccb247f9b74d489a1fa9f9483c978f?label=%20&logo=codacy "Codacy coverage")](https://app.codacy.com/manual/ron190/jsql-injection/dashboard)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/ron190/jsql-injection.svg?logo=lgtm&logoWidth=18&label=%20 "LGTM alerts")](https://lgtm.com/projects/g/ron190/jsql-injection/alerts/)
-[![Codebeat badge](https://codebeat.co/badges/457d8c76-c470-4457-ad06-310a6d8b4b3e "CODEBEAT status")](https://codebeat.co/projects/github-com-ron190-jsql-injection-master)<br>
-[![Sonar Violations (long format)](https://img.shields.io/sonar/violations/jsql-injection:jsql-injection?format=long&label=%20&logo=sonarqube&server=https%3A%2F%2Fsonarcloud.io "Sonar Violations")](https://sonarcloud.io/dashboard?id=jsql-injection%3Ajsql-injection)
+OpenMRS is a patient-based medical record system focusing on giving providers a free customizable electronic medical record system (EMR).
 
-## Features
-- Automatic injection of 33 database engines: Access, Altibase, C-treeACE, CockroachDB, CUBRID, DB2, Derby, Exasol, Firebird, FrontBase, H2, Hana, HSQLDB, Informix, Ingres, InterSystems-IRIS, MaxDB, Mckoi, MemSQL, MimerSQL, MonetDB, MySQL, Neo4j, Netezza, NuoDB, Oracle, PostgreSQL, Presto, SQLite, SQL Server, Sybase, Teradata and Vertica
-- Multiple injection strategies: Normal, Error, Blind and Time
-- Various injection processes: Default, Zip, Dios
-- Database fingerprint: Basic error, Order By error, Boolean single query
-- Script sandboxes for SQL and tampering
-- List to inject multiple targets
-- Read and write files using injection
-- Create and display Web shell and SQL shell
-- Bruteforce password hash
-- Search for admin pages
-- Hash, encode and decode text
-- Authenticate using Basic, Digest, NTLM and Kerberos  
-- Proxy connection on HTTP, SOCKS4 and SOCKS5
+The mission of OpenMRS is to improve health care delivery in resource-constrained environments by coordinating a global community that creates a robust, scalable, user-driven, open source medical record system platform.
 
-## Installation [[jsql-injection-v0.85.jar](https://github.com/ron190/jsql-injection/releases/download/v0.85/jsql-injection-v0.85.jar)]
-Install [Java](http://java.com) 11 or up to 17, then download the latest [release](https://github.com/ron190/jsql-injection/releases/) and double-click on the file `jsql-injection-v0.85.jar` to launch the software.<br>
-You can also type `java -jar jsql-injection-v0.85.jar` in your terminal to start the program.<br>
-If you are using Kali Linux then get the latest release using command `sudo apt-get -f install jsql`, or make a system full upgrade with `apt update` then `apt full-upgrade`.<br>
-To run older version on Java 16+ use `java --illegal-access=warn --add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED -jar jsql-injection-v0.84.jar`.
+#### Table of Contents
 
-## Continuous integration
-This software is developed using open source libraries like [Spring](https://spring.io), [Spock](http://spockframework.org) and [Hibernate](https://hibernate.org) and is tested using continuous integration platform like Travis CI and Github Actions.<br> 
-Non regression tests run against dockerized and in memory databases and GUI is tested on VNC screen in the cloud on CI platforms.<br>
-Then quality checks are stored on code quality platforms.
-```
-+---+ +-----------------------------------------------------------------------+
-|   | |                         JUNIT TEST FRAMEWORK                          |
-|   | +-----------------|-------------------------------------|---------------+
-| D | +-----------------v-------------------+  +--------------v---------------+
-| O | |          INJECTION MODEL            <--+             GUI              |
-| C | +-----------------|-------------------+  +------------------------------+
-| K | +-----------------v-----------------------------------------------------+
-| E | |                              SPRING API                               |
-| R | +---|---------|----------|----------|------|------|-------|--------|----+
-|   | +---v---------v----------v----------v------v------v-------v--------v----+
-|   | | MYSQL | POSTGRES | SQL SERVER | CUBRID | H2 | DERBY | HSQLDB | SQLITE |
-+---+ +-----------------------------------------------------------------------+
+1. [Build](#build)
+   1. [Prerequisites](#prerequisites)
+   2. [Build Command](#build-command)
+   3. [Deploy](#deploy)
+2. [Navigating the repository](#navigating-the-repository)
+3. [Software Development Kit](#software-development-kit)
+4. [Extending OpenMRS with Modules](#extending-openmrs-with-modules)
+5. [Documentation](#documentation)
+   1. [Developer guides](#developer-guides)
+   2. [Wiki](#wiki)
+   3. [Website](#website)
+6. [Contributing](#contributing)
+   1. [Code](#code)
+   2. [Code Reviews](#code-reviews)
+   3. [Translation](#translation)
+7. [Issues](#issues)
+8. [Community](#community)
+9. [Support](#support)
+10. [License](#license)
+
+## Build
+
+### Prerequisites
+
+#### Java
+
+OpenMRS is a Java application which is why you need to install a Java JDK.
+
+If you want to build the master branch you will need a Java JDK of minimum version 8.
+
+#### Maven
+
+Install the build tool [Maven](https://maven.apache.org/).
+
+You need to ensure that Maven uses the Java JDK needed for the branch you want to build.
+
+To do so execute
+
+```bash
+mvn -version
 ```
 
-## [[Test-bed scripts for Spring](https://github.com/ron190/jsql-injection/tree/master/model/src/test/java/spring/rest)]
+which will tell you what version Maven is using. Refer to the [Maven docs](https://maven.apache.org/configure.html) if you need to configure Maven.
 
-## [[Test-bed scripts for PHP](https://github.com/ron190/jsql-injection/tree/master/web/test-bed)]
-Use the sample scripts to test injection on your local environment. First install a development environment like [EasyPHP](http://www.easyphp.org), then download the [test-bed PHP scripts](https://github.com/ron190/jsql-injection/tree/master/web/test-bed) and move them into `www/`.
-```php
-<?php
-# http://127.0.0.1/mysql/strategy/get-normal.php?id=0
+#### Git
 
-$link = mysqli_connect('localhost', 'root', '', 'my_database');
+Install the version control tool [git](https://git-scm.com/) and clone this repository with
 
-$result = $link->query("SELECT col1, col2 FROM my_table where id=$_GET[id]");
-
-while ($row = $result->fetch_array($result, MYSQLI_NUM))
-    echo join(',', $row);
+```bash
+git clone https://github.com/openmrs/openmrs-core.git
 ```
 
-## Screenshots
-[![Database](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/database-mini.png "Database")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/database.png)
-[![SQL Engine](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.82/sqlengine-mini.png "SQL Engine")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.82/sqlengine.png)
-[![Tamper](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.82/tamper-mini.png "Tamper")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.82/tamper.png)
-[![Batch scan](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/scan-mini.png "Batch scan")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/scan.png)
-[![Admin page](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/admin-mini.png "Admin page")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/admin.png)
-[![Web shell](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/webshell-mini.png "Web shell")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/webshell.png)
-[![SQL shell](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/sqlshell-mini.png "SQL shell")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/sqlshell.png)
-[![File](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/file-mini.png "File")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/file.png)
-[![Upload](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/upload-mini.png "Upload")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/upload.png)
-[![Bruteforce](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/bruter-mini.png "Bruteforce")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/bruter.png)
-[![Coder](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/coder-mini.png "Coder")](https://github.com/ron190/jsql-injection/raw/master/web/images/v0.75/coder.png)
+### Build Command
 
-## [[Roadmap](https://github.com/ron190/jsql-injection/projects)]
-```
-- New manager: create auth token for Basic, Digest, Negotiate, NTLM
-- Full Path Disclosure
-- WAF fingerprinting
-- Inject user defined query
-- Inject range of rows
-- Routed query strategy
-- Connect to Digest/Kerberos API with HttpClient
-- Replace Docker with Kubernetes
-- Database fingerprinting: Boolean single query
+After you have taken care of the [Prerequisites](#prerequisites)
+
+Execute the following
+
+```bash
+cd openmrs-core
+mvn clean package
 ```
 
-## In progress
-```
-- Implement DNS/HTTP out-of-band algorithm
-- Inject each Cookie parameters
-- Rows custom load
-```
+This will generate the OpenMRS application in `webapp/target/openmrs.war` which you will have to deploy into an application server like for example [tomcat](https://tomcat.apache.org/) or [jetty](http://www.eclipse.org/jetty/).
 
-## Since latest release
-```
-- Testing Oracle DNS/HTTP out-of-band
-- Testing PostgreSQL DNS out-of-band
-- Testing Websocket Basic/STOMP
-- Testing GraphQL
-- Testing Kerberos
+### Deploy
+
+For development purposes you can simply deploy the `openmrs.war` into the application server jetty via
+
+```bash
+cd openmrs-core/webapp
+mvn jetty:run
 ```
 
-## Change log
+If all goes well (check the console output) you can access the OpenMRS application at `localhost:8080/openmrs`.
 
-**v0.84-85** `Upgrade to Java 11, compatible up to Java 17`
+Refer to [Getting Started as a Developer - Maven](https://wiki.openmrs.org/display/docs/Maven) for some more information
+on useful Maven commands and build options.
 
-**v0.83** `Modes Zip and Dios, Insertion char and db fingerprinting, 33 dbs including Altibase C-treeACE Exasol FrontBase InterSystems-IRIS MemSQL MimerSQL MonetDB Netezza and Presto`
+## Navigating the repository
 
-**v0.82** `Tampering options, Refactoring for Cloud and multithreading`
+The project tree is set up as follows:
 
-**v0.81** `Test all parameters including JSON, Parse forms and Csrf tokens, 23 dbs including CockroachDB Mckoi Neo4j NuoDB Hana and Vertica, Translation complete: Russian, Chinese`
+<table>
+ <tr>
+  <td>api/</td>
+  <td>Java and resource files for building the java api jar file.</td>
+ </tr>
+ <tr>
+  <td>tools/</td>
+  <td>Meta code used during compiling and testing. Does not go into any released binary (like doclets).</td>
+ </tr>
+ <tr>
+  <td>web/</td>
+  <td>Java and resource files that are used in the webapp/war file.</td>
+ </tr>
+ <tr>
+  <td>webapp/</td>
+  <td>files used in building the war file (contains JSP files on older versions).</td>
+ </tr>
+ <tr>
+  <td>pom.xml</td>
+  <td>The main maven file used to build and package OpenMRS.</td>
+ </tr>  
+</table>
 
-**v0.79** `Error Strategies for MySQL and PostgreSQL compatible with Order/Group By, Wider range of Characters Insertion including multibyte %bf`
+## Software Development Kit
 
-**v0.78** `SQL Engine, MySQL Error strategy: DOUBLE, Translations: es pt de it nl id, 18 Database flavors including Access`
+For rapid development of modules and the OpenMRS Platform code check out the
+awesome SDK at
 
-**v0.76** `Translation: cz, 17 dbs including SQLite`
+https://wiki.openmrs.org/display/docs/OpenMRS+SDK
 
-**v0.75** `URI injection point, Source code mavenification, Upgrade to Java 7`
+## Extending OpenMRS with Modules
 
-**v0.73** `Authentication: Basic Digest Negotiate NTLM and Kerberos, Database flavor selection`
+OpenMRS has a modular architecture that allows developers to extend the OpenMRS core functionality by creating modules that can easily be added or removed to meet the needs of a specific implementation.
 
-**v0.7** `Scan multiple URLs, Github Issue reporter, 16 dbs including Cubrid Derby H2 HSQLDB MariaDB and Teradata`
+Before creating your own module go to the [OpenMRS Module Repository](https://addons.openmrs.org/) and see if there is already a module for your specific use case. If so deploy and try it and if a functionality is missing join the developers of the module to add a feature.
 
-**alpha-v0.6** `Speed x2: No more hex encoding, 10 dbs including Oracle SQLServer PostgreSQL DB2 Firebird Informix Ingres MaxDb and Sybase, JUnit tests, Log4j, GUI translation`
+If you haven't found what you were looking for refer to the [Module - wiki](https://wiki.openmrs.org/display/docs/Modules) to learn how you can create a new module.
 
-**0.5** `SQL Shell, File Uploader`
+## Documentation
 
-**0.4** `Admin page finder, Bruteforce hashes like MD5 and MySQL, Encode and decode string with methods like Base64, Hex and MD5`
+### Developer guides
 
-**0.3** `File injection, Web Shell with integrated CLI, Persistence of application parameters, Update checker`
+If you want to contribute please refer to these resources
 
-**0.2** `Strategy Time, Multi-thread control: Start Pause Resume and Stop, Log URL calls`
+* [Getting Started as a Developer](https://wiki.openmrs.org/display/docs/Get+Started+as+a+Developer)
+* [How To Configure Your IDE](https://wiki.openmrs.org/display/docs/How-To+Setup+And+Use+Your+IDE)
+* [How To Make a Pull Request](https://wiki.openmrs.org/display/docs/Pull+Request+Tips)
 
-**0.0-0.1** `Method GET POST Header and Cookie, Strategies Normal Error and Blind, Best strategy selection, Progression bars, Simple evasion, Proxy settings, MySQL only`
+### Wiki
 
-## Disclaimer
-Attacking web-server is illegal without prior mutual consent. The end user is responsible and obeys all applicable laws.
-Developers assume no liability and are not responsible for any misuse or damage caused by this program.
+If you are looking for detailed guides on how to install, configure, contribute and
+extend OpenMRS visit
+
+http://wiki.openmrs.org
+
+### Website
+
+If you are looking for more information regarding OpenMRS as an organization
+check
+
+http://openmrs.org
+
+## Contributing
+
+Contributions are very welcome, we can definitely use your help!
+
+OpenMRS organizes the privileges of its contributors in developer stages which
+are documented [here](https://wiki.openmrs.org/display/RES/OpenMRS+Developer+Stages).
+
+Read the following sections to find out where you could help.
+
+### Code
+
+Check out our [contributing guidelines](CONTRIBUTING.md), read through the [Developer guides](#developer-guides).
+
+After you've read up :eyeglasses: [grab an introductory issue](https://wiki.openmrs.org/display/docs/Contribute+as+a+Developer#ContributeasaDeveloper-Workonanissue) that is `Ready For Work`.
+
+### Code Reviews
+
+You might not have the time to develop yourself but enough experience with
+OpenMRS and/or reviewing code, your help on code reviews will be much
+appreciated!
+
+Read
+
+https://wiki.openmrs.org/display/docs/Code+Review
+
+and get started with re-:eyes: pull requests!
+
+### Translation
+
+We use
+
+https://www.transifex.com/openmrs/OpenMRS/
+
+to manage our translations.
+
+The `messages.properties` file in this repository is our single source of
+truth. It contains key, value pairs for the English language which is the
+default.
+
+Transifex fetches updates to this file every night which can then be translated
+by you and me on transifex website itself. At any time we can pull new translations from transifex
+back into this repository. Other languages like for ex. Spanish will then be in
+the `messages_es.properties` file.
+
+If you would like to know how to help with translations see
+
+http://openmrs.org/join-the-community/translate/
+
+## Issues
+
+If you want help fix existing issues or you found a bug and want to tell us please go to
+
+https://issues.openmrs.org
+
+## Community
+
+[![OpenMRS Talk](https://omrs-shields.psbrandt.io/custom/openmrs/talk/F26522?logo=openmrs)](http://talk.openmrs.org)
+[![OpenMRS IRC](https://img.shields.io/badge/openmrs-irc-EEA616.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MTIiIGhlaWdodD0iNjEyIiB2aWV3Qm94PSIwIDAgNjEyIDYxMiI%2BPHBhdGggZD0iTTE1MyAyMjkuNWMtMjEuMTMzIDAtMzguMjUgMTcuMTE3LTM4LjI1IDM4LjI1UzEzMS44NjcgMzA2IDE1MyAzMDZjMjEuMTE0IDAgMzguMjUtMTcuMTE3IDM4LjI1LTM4LjI1UzE3NC4xMzMgMjI5LjUgMTUzIDIyOS41em0xNTMgMGMtMjEuMTMzIDAtMzguMjUgMTcuMTE3LTM4LjI1IDM4LjI1UzI4NC44NjcgMzA2IDMwNiAzMDZjMjEuMTE0IDAgMzguMjUtMTcuMTE3IDM4LjI1LTM4LjI1UzMyNy4xMzMgMjI5LjUgMzA2IDIyOS41em0xNTMgMGMtMjEuMTMzIDAtMzguMjUgMTcuMTE3LTM4LjI1IDM4LjI1UzQzNy44NjcgMzA2IDQ1OSAzMDZzMzguMjUtMTcuMTE3IDM4LjI1LTM4LjI1UzQ4MC4xMzMgMjI5LjUgNDU5IDIyOS41ek0zMDYgMEMxMzcuMDEyIDAgMCAxMTkuODc1IDAgMjY3Ljc1YzAgODQuNTE0IDQ0Ljg0OCAxNTkuNzUgMTE0Ljc1IDIwOC44MjZWNjEybDEzNC4wNDctODEuMzRjMTguNTUyIDMuMDYyIDM3LjYzOCA0Ljg0IDU3LjIwMyA0Ljg0IDE2OS4wMDggMCAzMDYtMTE5Ljg3NSAzMDYtMjY3Ljc1UzQ3NS4wMDggMCAzMDYgMHptMCA0OTcuMjVjLTIyLjMzOCAwLTQzLjkxLTIuNi02NC42NDMtNy4wMmwtOTAuMDQgNTQuMTI0IDEuMjA0LTg4LjdDODMuNSA0MTQuMTMzIDM4LjI1IDM0NS41MTMgMzguMjUgMjY3Ljc1YzAtMTI2Ljc0IDExOS44NzUtMjI5LjUgMjY3Ljc1LTIyOS41czI2Ny43NSAxMDIuNzYgMjY3Ljc1IDIyOS41UzQ1My44NzUgNDk3LjI1IDMwNiA0OTcuMjV6IiBmaWxsPSIjZmZmIi8%2BPC9zdmc%2B)](http://irc.openmrs.org)
+[![OpenMRS Telegram](https://img.shields.io/badge/openmrs-telegram-009384.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIuNjY3IiB5MT0iLjE2NyIgeDI9Ii40MTciIHkyPSIuNzUiPjxzdG9wIHN0b3AtY29sb3I9IiMzN2FlZTIiIG9mZnNldD0iMCIvPjxzdG9wIHN0b3AtY29sb3I9IiMxZTk2YzgiIG9mZnNldD0iMSIvPjwvbGluZWFyR3JhZGllbnQ%2BPGxpbmVhckdyYWRpZW50IGlkPSJiIiB4MT0iLjY2IiB5MT0iLjQzNyIgeDI9Ii44NTEiIHkyPSIuODAyIj48c3RvcCBzdG9wLWNvbG9yPSIjZWZmN2ZjIiBvZmZzZXQ9IjAiLz48c3RvcCBzdG9wLWNvbG9yPSIjZmZmIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSIxMjAiIGN5PSIxMjAiIHI9IjEyMCIgZmlsbD0idXJsKCNhKSIvPjxwYXRoIGZpbGw9IiNjOGRhZWEiIGQ9Ik05OCAxNzVjLTMuODg4IDAtMy4yMjctMS40NjgtNC41NjgtNS4xN0w4MiAxMzIuMjA3IDE3MCA4MCIvPjxwYXRoIGZpbGw9IiNhOWM5ZGQiIGQ9Ik05OCAxNzVjMyAwIDQuMzI1LTEuMzcyIDYtM2wxNi0xNS41NTgtMTkuOTU4LTEyLjAzNSIvPjxwYXRoIGZpbGw9InVybCgjYikiIGQ9Ik0xMDAuMDQgMTQ0LjQxbDQ4LjM2IDM1LjczYzUuNTIgMy4wNDQgOS41IDEuNDY3IDEwLjg3Ni01LjEyNGwxOS42ODUtOTIuNzYzYzIuMDE2LTguMDgtMy4wOC0xMS43NDYtOC4zNTgtOS4zNWwtMTE1LjU5IDQ0LjU3MmMtNy44OSAzLjE2NS03Ljg0NCA3LjU2Ny0xLjQ0IDkuNTI4bDI5LjY2NCA5LjI2IDY4LjY3My00My4zMjZjMy4yNC0xLjk2NiA2LjIxNy0uOTEgMy43NzUgMS4yNTgiLz48L3N2Zz4%3D)](https://telegram.me/openmrs)
+[![OpenMRS Wiki](https://img.shields.io/badge/openmrs-wiki-5B57A6.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQyIiB2aWV3Qm94PSIwIDAgMTYwIDE0MiI%2BPHBhdGggY2xhc3M9InN0MCIgZD0iTTExMy42MTUgOTQuNDk0Yy0yLjAxNi0zLjk3NC00LjQwNS03Ljk5LTcuMi0xMi4wNzctMi0yLjkzLTQuMTQ1LTUuNzc4LTYuMzg3LTguNTY3LS45MS0xLjEzNi0uNTMtMi41NDguMTY3LTMuMjUuNjg4LS43MDUgMS4zOC0xLjQxIDIuMDc2LTIuMTIgOS41OC05Ljc3IDE5LjQ5LTE5Ljg3MyAyNy4wOS0zMC43ODcgOC4wOC0xMS42MSAxMi41Ni0yMi42MjQgMTMuNjktMzMuOTU0LjEyLTEuMTQtLjQtMi4zNS0xLjMyLTMuMDUtLjYtLjQ2LTEuMzMtLjctMi4wNy0uNy0uNDEgMC0uODIuMDctMS4yMS4yMi03LjM3IDIuODItMTQuODUgNC45Ni0yMS42OCA2LjU1LTEuMzkuMzItMi41MSAxLjM2LTIuOTggMi42LTQuOTggMTMuNjMtMTcuNjggMjYuNjEtMzEuMDEgNDAuMi0uNTMuNTEtMS4yOCAxLjE4LTIuNSAxLjE4cy0xLjk2LS42NS0yLjUtMS4xOGMtMTMuMzMtMTMuNTktMjYuMDMtMjYuNTItMzEtNDAuMTUtLjQ2LTEuMjQtMS41OS0yLjI4LTIuOTgtMi42QzM2Ljk0IDUuMjIgMjkuNDUgMi45IDIyLjEuMDhjLS4zOTgtLjE1LS44MS0uMjI1LTEuMjItLjIyNS0uNzQgMC0xLjQ3LjI0LTIuMDcuNy0uOTQuNzE4LTEuNDQgMS44NzItMS4zMiAzLjA0OCAxLjEzIDExLjMzMiA1LjYgMjIuNDggMTMuNjg0IDM0LjA5IDcuNiAxMC45MTUgMTcuNTEgMjEuMDE3IDI3LjA5IDMwLjc4NyAxNy42NSAxNy45OTQgMzQuMzMgMzQuOTk3IDM1Ljc5IDU0LjcxMy4xMyAxLjc4IDEuNjIgMy4xNTggMy40IDMuMTU4aDIwLjc0Yy45NCAwIDEuODMtLjM4IDIuNDctMS4wNi42NS0uNjcuOTktMS41OC45NC0yLjUyLS4xOC0zLjcxLS43Mi03LjQyLTEuNTktMTEuMTZoLjAxYy0uMDI4LS4xMS0uMDQ3LS4yMi0uMDQ3LS4zMyAwLS43NS41ODgtMS4zOCAxLjM1Ny0xLjM4LjA3IDAgLjEzLjAyLjIuMDMgMTYuOTMgMi40OCAyNy42MzYgNi40NCAyNy42NSAxMC44di4wMWMwIDQuMTEtOS42MjMgMTAuMzEtMjUuMjY2IDE0Ljg1bC0uMDA1LjAxYy0xLjM5LjQtMi40MDYgMS42Ni0yLjQwNiAzLjE1IDAgMS44MSAxLjQ5MyAzLjI4IDMuMzQgMy4yOC4yNTUgMCAuNS0uMDMuNzQtLjA4IDIxLjAyNi00Ljg2IDM0Ljk2NS0xMy4wMzQgMzQuOTY1LTIyLjI2MiAwLTEwLjk1NC0xOC44NC0yMC43NC00Ni45LTI1LjE1MnpNNTguMDEgODMuODA2Yy0uNDI1LS40NDQtMS4yNzctMS4wMzgtMi40MjItMS4wMzgtMS41NDcgMC0yLjQ2NiAxLTIuODEyIDEuNTMtMi4yNjQgMy40NDQtNC4yNCA2Ljg0My01Ljk0NiAxMC4yMDhDMTguODEgOTguOTI0IDAgMTA4LjcgMCAxMTkuNjVjMCA5LjIzNyAxMy44NCAxNy4zOTQgMzQuOTA1IDIyLjI1NS4wMDMuMDAyLjAyMyAwIC4wMyAwIC4yNS4wNTguNTA0LjA5NS43Ny4wOTUgMS44NDYgMCAzLjM0LTEuNDcgMy4zNC0zLjI4IDAtMS40ODctMS4wMTctMi43My0yLjQtMy4xM2wtLjAxLS4wMjJjLTE1LjY0NS00LjU0LTI1LjI3LTEwLjc0NC0yNS4yNy0xNC44NTJ2LS4wMWMuMDE3LTQuMzUzIDEwLjY5My04LjMwNiAyNy41OC0xMC43ODcuMDYyLS4wMS4xMi0uMDIuMTgyLS4wMi43NzUgMCAxLjM2OC42MyAxLjM2OCAxLjM5IDAgLjExLS4wMi4yMy0uMDQ2LjMzbC4wMS4wMWMtLjg3IDMuNzEtMS40IDcuNDEtMS41OCAxMS4xMS0uMDUuOTMuMjkgMS44NS45NCAyLjUzLjY0LjY3IDEuNTQgMS4wNiAyLjQ4IDEuMDZoMjAuNzRjMS43OCAwIDMuMjgtMS40IDMuNDEtMy4xNy40NS02LjA3IDIuMzUtMTIuMTUgNS43OC0xOC41NCAxLjE5LTIuMjEuMjYtNC4yOS0uNDItNS4xOC0zLjQyLTQuNDMtNy41OS05LjE2LTEzLjgxLTE1LjY1eiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik03Ny44NjggMzIuNTc4Yy44Mi43OTggMS43NS45NDcgMi4zOS45NDdoLjAwNmMuNjQyIDAgMS41Ny0uMTQ4IDIuMzktLjk0NiA3LjMxMy03LjExIDExLjI0Mi0xNS40IDEyLjEwMy0xNy43MS4xMjUtLjM0LjI1Mi0uNzMuMjUyLTEuMjYgMC0xLjg0LTEuNTQtMy4xNi0zLjE0LTMuMTYtMS4zMyAwLTUuMS4zOS0xMS41OS4zOWgtLjA1Yy02LjUgMC0xMC4yNy0uMzktMTEuNTktLjM5LTEuNjEgMC0zLjE0IDEuMzEtMy4xNCAzLjE1IDAgLjUzLjEzLjkyLjI1IDEuMjYuODYgMi4zIDQuNzkgMTAuNTkgMTIuMSAxNy43eiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg%3D%3D)](https://wiki.openmrs.org)
+
+## Support
+
+Talk to us on [OpenMRS Talk](https://talk.openmrs.org/)
+
+## License
+
+[MPL 2.0 w/ HD](http://openmrs.org/license/) © [OpenMRS Inc.](http://www.openmrs.org/)
+
