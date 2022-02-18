@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="libs/clojure-1.8.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="libs/soot-trunk.jar" sourcepath="libs/sootsources-trunk.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/qwal-1.0.3-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="doclibs/codox.core-0.6.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="doclibs/hiccup-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="doclibs/java.classpath-0.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="doclibs/tools.namespace-0.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/java.jdbc-0.3.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/sqlite-jdbc-3.7.15-SNAPSHOT-2.jar"/>
+	<classpathentry exported="true" kind="lib" path="benchmarklibs/criterium-0.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jmetal4.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/guava-18.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/core.logic-0.8.10.jar" sourcepath="libs/core.logic-0.8.10-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
