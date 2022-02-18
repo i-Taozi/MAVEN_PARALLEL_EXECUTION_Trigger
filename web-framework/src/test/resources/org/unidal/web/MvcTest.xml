@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plexus>
+	<components>
+		<component>
+			<role>org.unidal.web.mvc.model.ModuleRegistry</role>
+			<implementation>org.unidal.web.mvc.model.ModuleRegistry</implementation>
+		</component>
+		<component>
+			<role>org.unidal.web.mvc.Module</role>
+			<role-hint>org.unidal.web.test.book.BookModule</role-hint>
+			<implementation>org.unidal.web.test.book.BookModule</implementation>
+			<requirements>
+				<requirement>
+					<role>org.unidal.web.test.book.BookManager</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>org.unidal.web.test.book.BookManager</role>
+			<implementation>org.unidal.web.test.book.BookManager</implementation>
+		</component>
+	</components>
+</plexus>
