@@ -1,22 +1,13 @@
 language: java
-dist: trusty
-sudo: false
-# see https://sormuras.github.io/blog/2018-03-20-jdk-matrix.html
-matrix:
-  include:
-    # 8
-    - env: JDK='OpenJDK 8'
-      jdk: openjdk8
-    # 11
-    - env: JDK='OpenJDK 11'
-      # switch to JDK 11 before running tests
-      before_script: . $TRAVIS_BUILD_DIR/ci/install-jdk.sh -F 11 -L GPL
-before_install:
-  # Require JDK8 for compiling
-  - jdk_switcher use openjdk8
-  - ./install-snapshots.sh
-install: mvn -T 1C install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn -T 1C test -Djacoco.skip=true -Dmaven.test.failure.ignore=true -Dmaven.javadoc.skip=true -B -V
+notifications:
+  email: false
+  slack:
+    secure: "drNgYCrHpXj/sSrnoRUpMUp4jq3Jq/EXV6llQ0JYo3qkRirUec7ZgVA59Ln57Higv+EG8qpbRT/dohzV7mqn0bb2inXPJCI7JJtUJZNNjo/fkDZaSPFHJAWa1XjtEfAnIbQCd7EtU9RnIAGn7IwXqfxZOLakP0ZpkpNOjfuTdcI2S3GEkZJSDrwB7Q7LlzGuAlZkx0BWHkoyb7zCUVJ94ftiwHPy3nT05EzlbXyQ3xUUe1Y+pGZ7oBWsN8k7LumHN3SMwTnFu7mvVoTN53BH2zD3I2mACKsnF2KIyk+6p4IUiFeYQc2z5lnX8YMFiWkUpFbWhetUwsnjNRUZ4TvtqBkOBaEHyBn82nigUiYbW8Ea8ZjzqrcBTxOaK9Qt8C/LC0CcclxyHFQD7fSrD4IYNv6/vC/jWB+CCoVPFF+ZaJLQhiN847p+wlU0EJuyewqrb57n3Xfzzk5AtIzYpculg62CCW2caCfXR4rEa8JdDATQr/c7tvnrx2XXwlKWA/crRPAOVCj6fA0FADNvC0W3QexLDGOpwobqKbN5z2Ouw4sISyPAhfCsgGVrbTz4HYtFf3riIzbW5lJcs63XhNZdaYI8eDL8PTpxtFwhhyOHtOR+p0ez5TSWO9N2e6+HOGMm7rG0ykNY+Vs2Pri2FwRLjq/sQLLdyJpejkgrrIF/vzE="
 cache:
   directories:
-    - $HOME/.m2
+  - $HOME/.m2
+env:
+  matrix:
+    - PROFILE=BUKKIT
+install: "mvn clean install -P ${PROFILE} -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
+script: "mvn test -P ${PROFILE} -B"
