@@ -1,0 +1,569 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>jsql-injection</groupId>
+        <artifactId>jsql-injection</artifactId>
+        <version>v0.85</version>
+    </parent>
+    <artifactId>jsql-model</artifactId>
+    <name>jsql-model</name>
+    
+    <repositories>
+<!--         <repository> -->
+<!--             <id>default</id> -->
+<!--             <url>https://repo.maven.apache.org/maven2/</url> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>cubrid-repository</id> -->
+<!--             <url>http://maven.cubrid.org/</url> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>jspresso-repository</id> -->
+<!--             <url>http://repository.jspresso.org/maven2</url> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>exasol-repository</id> -->
+<!--             <url>https://maven.exasol.com/artifactory/exasol-releases</url> -->
+<!--             <snapshots> -->
+<!--                 <enabled>false</enabled> -->
+<!--             </snapshots> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>oracle-repository</id> -->
+<!--             <url>http://maven.geomajas.org/</url> -->
+<!--         </repository> -->
+<!--         <repository> -->
+<!--             <id>monetdb-repository</id> -->
+<!--             <url>https://clojars.org/repo/</url> -->
+<!--         </repository> -->
+    </repositories> 
+    
+    <properties>
+      <sonar.projectKey>jsql-injection:model</sonar.projectKey>
+      <sonar.exclusions>**/blind/patch/*, **/DigestMD4.java</sonar.exclusions>
+    </properties>
+    
+    <build>
+        <plugins>
+
+            <!-- Spock -->
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.10.1</version>
+                <configuration>
+                    <testSources>
+                        <testSource>
+                            <directory>${project.basedir}/src/test/java</directory>
+                            <includes>
+                                <include>**/*.groovy</include>
+                            </includes>
+                        </testSource>
+                    </testSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addSources</goal>
+                            <goal>addTestSources</goal>
+                            <goal>addStubSources</goal>
+                            <goal>addTestStubSources</goal>
+                            <goal>compile</goal>
+                            <goal>compileTests</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <!-- Compatible only jdk > 9 -->
+                    <argLine>@{argLine} ${MAVEN_NASHORN}</argLine>
+                    <includes>
+                        <include>**/*Spock</include>
+                    </includes>
+                    <!-- Display each method time metrics on a test class -->
+                    <reportFormat>plain</reportFormat>
+                </configuration>
+            </plugin>
+
+            <!-- Integration tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <!-- Version 3.0.0-M5 does not trigger ITs -->
+                <version>3.0.0-M4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Don't override, it breaks generating report -->
+                    <argLine>@{argLine} ${MAVEN_NASHORN}</argLine>
+                    <!-- Set number of retry, allows 1st test to run Spring then run other tests -->
+                    <rerunFailingTestsCount>3</rerunFailingTestsCount>
+                    <includes>
+                        <include>**/*TestSuite.java</include>
+                    </includes>
+                    <!-- Display each method time metrics on a test class -->
+                    <reportFormat>plain</reportFormat>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.4.RELEASE</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.4.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- jSQL purpose -->
+        
+        <!-- Standalone Nashorn build compatible with jdk11 -->
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20200518</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.juniversalchardet</groupId>
+            <artifactId>juniversalchardet</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.27</version>
+        </dependency>
+    
+        <!-- Log4j2 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        
+        <!-- Test purpose -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId> 
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>2.3.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.3.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.1.1-1</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+          <groupId>dnsjava</groupId>
+          <artifactId>dnsjava</artifactId>
+          <version>3.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <version>5.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-tools</artifactId>
+            <version>5.2.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>5.0.2</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- Spock -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-test-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.3-groovy-2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!--Only necessary for surefire to run spock tests during the 
+                maven build -->
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit-pioneer</groupId>
+            <artifactId>junit-pioneer</artifactId>
+            <version>0.4.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-log</artifactId>
+            <version>0.18.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JDBC drivers -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>8.2.1.jre8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwenn</groupId>
+            <artifactId>sqlite-dialect</artifactId>
+            <version>0.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j.driver</groupId>
+            <artifactId>neo4j-java-driver</artifactId>
+            <version>4.0.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-jdbc-driver</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>cubrid</groupId> -->
+<!--             <artifactId>cubrid-jdbc</artifactId> -->
+<!--             <version>10.2.2.8874</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <!-- Version 2.5.1 fails on test listValues() -->
+            <version>2.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbynet</artifactId>
+            <version>10.14.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <scope>test</scope>
+        </dependency>
+            
+<!--         <dependency> -->
+<!--             <groupId>altibase</groupId> -->
+<!--             <artifactId>altibase-connector-java</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>7.1</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/Altibase.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>ctreeACE</groupId> -->
+<!--             <artifactId>ctreeace-connector-java</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>0.0</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/ctreeJDBC.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>frontbase</groupId> -->
+<!--             <artifactId>frontbase-connector-java</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>2.5.9</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/frontbasejdbc.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>intersystems-iris</groupId> -->
+<!--             <artifactId>intersystems-iris-connector-java</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>3.1.0</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/intersystems-jdbc-3.1.0.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>mimersql</groupId> -->
+<!--             <artifactId>mimersql</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>3.40</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/mimjdbc3.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>netezza</groupId> -->
+<!--             <artifactId>netezza</artifactId> -->
+<!--             <scope>system</scope> -->
+<!--             <version>3.40</version> -->
+<!--             <systemPath>${project.basedir}/src/test/resources/jdbc/nzjdbc-1.0.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>com.exasol</groupId> -->
+<!--             <artifactId>exasol-jdbc</artifactId> -->
+<!--             <version>7.0.3</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>monetdb</groupId> -->
+<!--             <artifactId>monetdb-jdbc</artifactId> -->
+<!--             <version>2.29</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>com.facebook.presto</groupId> -->
+<!--             <artifactId>presto-jdbc</artifactId> -->
+<!--             <version>0.243.2</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.firebirdsql.jdbc</groupId> -->
+<!--             <artifactId>jaybird</artifactId> -->
+<!--             <version>4.0.1.java7</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+
+    </dependencies>
+</project>

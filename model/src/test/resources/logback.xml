@@ -1,0 +1,26 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                [jsql-logback] %date{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %logger{36} - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="org.hibernate" level="OFF" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+    <root level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.neo4j.ogm.drivers.http" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+    <!-- Remove annoying logs -->
+    <logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="OFF" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+</configuration>

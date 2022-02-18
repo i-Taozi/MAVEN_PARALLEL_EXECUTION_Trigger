@@ -1,0 +1,8 @@
+{
+    "version": "0.85",
+    "news": [
+        "[New release v0.85] Various internal improvements, Run now on latest Java 17",
+        "[Ongoing] Experiment with Kerberos, Websocket, GraphQL, Kubernetes and DNS",
+        "[Roadmap] More tampers, DNS/HTTP Out of band, WAF fingerprint"
+    ]
+}
