@@ -28,15 +28,15 @@ script:
   - if [[ $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then export REVISION=${TRAVIS_TAG:1}; export CHANGELIST=""; fi
   # Build using the revision
   - echo "Building version ${REVISION}${CHANGELIST}"
-  - mvn test install -B -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C test install -B -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
   - codecov
   # Make sure artifacts can be built
-  - mvn package -pl ugs-classic assembly:assembly -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
-  - mvn package -pl ugs-platform/application -P create-autoupdate -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
-  - mvn package -pl ugs-platform/application -P create-macosx-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
-  - mvn package -pl ugs-platform/application -P create-win-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
-  - mvn package -pl ugs-platform/application -P create-linux-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
-  - mvn package -pl ugs-platform/application -P create-pi-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-classic assembly:assembly -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-platform/application -P create-autoupdate -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-platform/application -P create-macosx-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-platform/application -P create-win-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-platform/application -P create-linux-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
+  - mvn -T 1C package -pl ugs-platform/application -P create-pi-package -DskipTests=true -Drevision=${REVISION} -Dchangelist=${CHANGELIST}
 
 deploy:
   # Only deploy as nightly if master branch without tag
