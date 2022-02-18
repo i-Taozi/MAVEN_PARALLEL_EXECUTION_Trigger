@@ -1,18 +1,6 @@
 language: java
+before_install:
+  - unset _JAVA_OPTIONS
 jdk:
-  - openjdk-ea
-  - openjdk17
-  - openjdk11
   - openjdk8
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - jdk: openjdk-ea
-
-after_success:
-  - mvn -T 1C clean test jacoco:report-aggregate coveralls:report
-
-cache:
-  directories:
-  - $HOME/.m2
+  - openjdk11
