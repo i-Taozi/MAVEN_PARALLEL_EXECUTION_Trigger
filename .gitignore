@@ -3,14 +3,18 @@
 # it using "git config --global core.excludesfile ~/.gitignore".
 
 # Maven
-target
 /target/
-/*/target/
-/mysql/lib_mysqludf_dari.so
-/docs/documentation/javadocs
-/docs/documentation/_site
-/asm/dependency-reduced-pom.xml
-/reflections/dependency-reduced-pom.xml
-
-# Jekyll
-_site
+/app-archetype/
+/archetypes/app/target/
+/archetypes/content-article/target/
+/archetypes/content-common/target/
+/archetypes/app-archetype/target/
+/archetypes/content-common-archetype/target/
+/archetypes/content-article-archetype/target/
+/db/target/
+/docs/documentation/_site/*
+/hunspell/target/
+/tool-ui/bower_components/
+/tool-ui/node/
+/tool-ui/node_modules/
+/tool-ui/target/

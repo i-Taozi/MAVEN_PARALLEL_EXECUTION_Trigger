@@ -1,0 +1,434 @@
+.popup {
+  display: none;
+  left: 50%;
+  margin-left: -20%;
+  max-width: 600px;
+  position: fixed;
+  top: 95px;
+  width: 40%;
+  z-index: 50;
+
+  &.popup-show {
+    display: block;
+  }
+
+  > .popup-content,
+  > .content {
+    > .widget,
+    > .frame > .widget {
+      border-style: none;
+      margin: -20px;
+    }
+  }
+
+  &:before {
+    background-color: black;
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: 0.2;
+    position: fixed;
+    transform: translateZ(0);
+    top: 0;
+    right: 0;
+  }
+
+  &.popup-fixed {
+    bottom: 10% !important;
+    height: auto !important;
+    left: 10% !important;
+    max-width: none !important;
+    position: fixed !important;
+    right: 10% !important;
+    top: (@toolHeader-height + 20px) !important;
+    width: auto !important;
+
+    > .content {
+      top: 0;
+
+      > .marker {
+        display: none !important;
+      }
+    }
+  }
+}
+
+.popup-content {
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 2px;
+  box-shadow: 0 0 20px fade(black, 10%);
+  padding: 20px;
+  position: relative;
+  top: 10px;
+}
+
+.popup-marker {
+  border-color: transparent transparent white transparent;
+  border-style: solid;
+  border-width: 10px;
+  left: 5px;
+  position: absolute;
+  top: -20px;
+}
+
+.popup-closeButton {
+  &:extend(.widget-controls-button all);
+
+  .icon-remove;
+
+  right: @widget-controlsOffset;
+  position: absolute;
+  top: @widget-controlsOffset;
+  z-index: 1;
+
+  .popup.popup-loading &:not(:hover):after,
+  .popup.loading &:not(:hover):after {
+    content: url(icon/ajax-loader.gif);
+    display: block;
+    height: 16px;
+    margin: 2px 0 0 2px;
+    width: 16px;
+  }
+}
+
+// Preview window should cover most of the window.
+.popup[name^=contentPreview-] {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100% !important;
+  left: 0 !important;
+  overflow: auto !important;
+  position: fixed !important;
+  top: 0 !important;
+  width: 100% !important;
+  z-index: 2000 !important;
+
+  > .content {
+    margin: 40px;
+
+    > .marker {
+      display: none;
+    }
+  }
+}
+
+.popup[name='siteSwitch'] {
+  width: 300px;
+
+  .siteSwitch-content {
+    margin: 0 -20px;
+    padding: 0 20px;
+    
+    .searchInput {
+      display: block;
+    }
+    
+    input, label, select {
+      width: 100%;
+    }
+
+    select {
+      margin-bottom: 8px;
+    }
+
+    .links {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// These contain content forms so make them bigger.
+.popup[name^=contentEnhancement-],
+.popup[name=contentImageMetadata],
+.popup[name=contentRemoteOverlayEdit],
+.popup[name^=objectId-],
+.popup[name=contentRaw],
+.popup[name=contentSectionContent],
+.popup[name=linkById],
+.popup[name=miscSavedSearch],
+.popup[name=searchAdvancedQuery],
+.popup[name=uploadFiles] {
+  max-width: 1000px;
+  width: 70%;
+}
+
+.popup[data-popup-source-class~='objectId-create'],
+.popup[data-popup-source-class~='objectId-edit'],
+.popup[data-popup-source-class~='rte2-enhancement-toolbar-edit'] {
+  height: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  max-width: none !important;
+  position: absolute !important;
+  top: (@toolHeader-height) !important;
+  width: 100% !important;
+
+  .hasToolBroadcast & {
+    top: (@toolBroadcast-height + @toolHeader-height) !important;
+  }
+
+  &:before {
+    background: #c9c9c9;
+    opacity: 0.9;
+  }
+
+  > .content {
+    background-color: transparent;
+    border-style: none;
+    box-shadow: none;
+    padding-top: 20px;
+    top: 0;
+
+    > .marker,
+    > .closeButton {
+      display: none;
+    }
+  }
+}
+
+.rte-fullscreen .popup[data-popup-source-class~='rte2-enhancement-toolbar-edit'] {
+  overflow: auto !important;
+  position: fixed !important;
+  top: 0 !important;
+}
+
+.popup[data-popup-source-class~='objectId-select'].popup-show,
+.popup[data-popup-source-class~='rte2-enhancement-toolbar-change'].popup-show {
+  bottom: auto !important;
+  left: auto !important;
+  max-width: 900px !important;
+  position: fixed !important;
+  right: 40px !important;
+  top: (@toolHeader-height + 40px) !important;
+  width: ~'calc(100% - 365px) !important';
+
+  .hasToolBroadcast & {
+    top: (@toolBroadcast-height + @toolHeader-height + 40px) !important;
+  }
+
+  > .content {
+    top: 0;
+
+    > .marker {
+      display: none !important;
+    }
+  }
+
+  ~ .popup[data-popup-source-class~='objectId-select'].popup-show,
+  ~ .popup[data-popup-source-class~='rte2-enhancement-toolbar-change'].popup-show {
+    left: auto !important;
+    right: 60px !important;
+    top: (@toolHeader-height + 60px) !important;
+    width: ~'calc(100% - 345px) !important';
+
+    .hasToolBroadcast & {
+      top: (@toolBroadcast-height + @toolHeader-height + 60px) !important;
+    }
+
+    ~ .popup[data-popup-source-class~='objectId-select'].popup-show,
+    ~ .popup[data-popup-source-class~='rte2-enhancement-toolbar-change'].popup-show {
+      left: auto !important;
+      right: 80px !important;
+      top: (@toolHeader-height + 80px) !important;
+      width: ~'calc(100% - 325px) !important';
+
+      .hasToolBroadcast & {
+        top: (@toolBroadcast-height + @toolHeader-height + 80px) !important;
+      }
+
+      ~ .popup[data-popup-source-class~='objectId-select'].popup-show,
+      ~ .popup[data-popup-source-class~='rte2-enhancement-toolbar-change'].popup-show {
+        left: auto !important;
+        right: 100px !important;
+        top: (@toolHeader-height + 100px) !important;
+        width: ~'calc(100% - 305px) !important';
+
+        .hasToolBroadcast & {
+          top: (@toolBroadcast-height + @toolHeader-height + 100px) !important;
+        }
+      }
+    }
+  }
+}
+
+.popup[name='miscSearch'],
+.popup[name='profilePanel'] {
+  bottom: auto !important;
+  left: 0 !important;
+  margin-top: 4px !important;
+  max-width: none !important;
+  right: 0 !important;
+  top: (@toolHeader-height - 14) !important;
+  width: auto !important;
+
+  .hasToolBroadcast & {
+    top: (@toolBroadcast-height + @toolHeader-height - 14) !important;
+  }
+
+  &:before {
+    top: @toolHeader-height;
+
+    .hasToolBroadcast & {
+      top: (@toolBroadcast-height + @toolHeader-height);
+    }
+  }
+
+  > .content {
+    border-radius: 0;
+    border-top: 2px solid @color-separator;
+    box-shadow: 0 40px 80px -40px black;
+
+    > .closeButton {
+      background: transparent;
+      border-color: transparent;
+      right: 5px;
+      top: 4px;
+    }
+
+    > .marker {
+      border-color: transparent transparent @color-separator transparent;
+
+      &:before {
+        border-color: transparent transparent white transparent;
+        border-style: solid;
+        border-width: 8px;
+        content: '';
+        left: -8px;
+        position: absolute;
+        top: -5px;
+      }
+    }
+
+    > .frame {
+      h1 {
+        display: none;
+      }
+
+      > .widget {
+        border-style: none;
+      }
+    }
+  }
+}
+
+.popup[name='miscSearch'] {
+  > .content {
+    > .marker {
+      left: 350px !important;
+    }
+  }
+}
+
+.popup[name='profilePanel'] {
+  > .content {
+    > .marker {
+      left: auto !important;
+      right: 85px !important;
+    }
+  }
+}
+
+.popup[name=miscSearch] {
+  > .content {
+    padding: 20px 20px 20px (@length-toolTitle-width + 60);
+  }
+
+  .searchHistory {
+    .background-flat(@color-heading);
+    bottom: -15px;
+    box-sizing: border-box;
+    display: block;
+    left: (-60 - @length-toolTitle-width);
+    overflow: auto;
+    padding: 20px;
+    position: absolute;
+    top: -15px;
+    width: (@length-toolTitle-width + 40);
+  }
+
+  .searchFilters {
+    border-style: none;
+    margin-top: 0;
+    padding-top: 0;
+
+    .action-cancel {
+      top: 0;
+    }
+  }
+
+  .searchInput {
+    display: none;
+  }
+}
+
+.popup-objectId-edit-heading {
+  .icon;
+  .icon-arrow-left;
+  .widget;
+
+  display: block;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 50px;
+  margin: 0 0 @gap-large 0;
+  overflow: hidden;
+  padding: 0 @gap-large;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:before {
+    position: relative;
+    top: -2px;
+  }
+}
+
+.popup.toolNav-popup {
+  left: 0 !important;
+  margin: 4px 0 0 0 !important;
+  max-width: none !important;
+  position: fixed !important;
+  right: auto !important;
+  top: (@toolHeader-height - 14) !important;
+  width: auto !important;
+  z-index: 101 !important;
+
+  .hasToolBroadcast & {
+    top: (@toolBroadcast-height + @toolHeader-height - 14) !important;
+  }
+
+  &:before {
+    top: @toolHeader-height !important;
+
+    .hasToolBroadcast & {
+      top: (@toolBroadcast-height + @toolHeader-height) !important;
+    }
+  }
+
+  > .content {
+    border-radius: 0 !important;
+    border-bottom-right-radius: 2px !important;
+    border-style: none !important;
+    border-top: 2px solid @color-separator !important;
+    box-shadow: 0 40px 80px -40px black !important;
+    padding: 0 !important;
+
+    > .marker {
+      border-color: transparent transparent @color-separator transparent;
+      left: 24px !important;
+
+      &:before {
+        border-color: transparent transparent white transparent;
+        border-style: solid;
+        border-width: 8px;
+        content: '';
+        left: -8px;
+        position: absolute;
+        top: -5px;
+      }
+    }
+
+    > .closeButton {
+      display: none;
+    }
+  }
+}

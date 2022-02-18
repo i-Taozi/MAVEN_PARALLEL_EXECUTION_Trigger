@@ -1,0 +1,90 @@
+package com.psddev.cms.db;
+
+import com.psddev.dari.db.Modification;
+import com.psddev.dari.db.ObjectField;
+import com.psddev.dari.db.Query;
+import com.psddev.dari.db.State;
+import com.psddev.dari.db.VisibilityLabel;
+
+import java.util.UUID;
+
+@BulkUploadDraft.FieldInternalNamePrefix("cms.bulkUpload.")
+public class BulkUploadDraft extends Modification<Object> implements VisibilityLabel {
+
+    @Indexed
+    private UUID uploadId;
+
+    @Indexed(visibility = true)
+    @ToolUi.Sortable(false)
+    private String containerId;
+
+    private transient boolean runAfterSave;
+
+    public UUID getUploadId() {
+        return uploadId;
+    }
+
+    public void setUploadId(UUID uploadId) {
+        this.uploadId = uploadId;
+    }
+
+    public String getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(String containerId) {
+        this.containerId = containerId;
+    }
+
+    public boolean isRunAfterSave() {
+        return runAfterSave;
+    }
+
+    public void setRunAfterSave(boolean runAfterSave) {
+        this.runAfterSave = runAfterSave;
+    }
+
+    @Override
+    public String createVisibilityLabel(ObjectField field) {
+        if ("cms.bulkUpload.containerId".equals(field.getInternalName())) {
+            return Localization.currentUserText(getClass(), "displayName");
+
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    protected void afterSave() {
+        if (!isRunAfterSave()
+                || !getState().isVisible()) {
+            return;
+        }
+
+        for (Object item : Query
+                .fromAll()
+                .where("cms.bulkUpload.containerId = ?", getId().toString())
+                .selectAll()) {
+            State itemState = State.getInstance(item);
+
+            itemState.as(BulkUploadDraft.class).setContainerId(null);
+            itemState.saveImmediately();
+        }
+    }
+
+    @Override
+    protected void afterDelete() {
+        State state = getState();
+
+        if (state.isVisible()) {
+            return;
+        }
+
+        for (Object item : Query
+                .fromAll()
+                .where("cms.bulkUpload.containerId = ?", state.getId().toString())
+                .selectAll()) {
+            State.getInstance(item).deleteImmediately();
+        }
+    }
+}

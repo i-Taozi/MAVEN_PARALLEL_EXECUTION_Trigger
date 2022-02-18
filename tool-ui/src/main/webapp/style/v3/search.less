@@ -1,0 +1,592 @@
+@-actions-borderWidth: 2px;
+@-actions-padding: 20px;
+@-actions-width: 200px;
+
+.searchResult-container {
+  display: flex;
+}
+
+.searchResult-items {
+  flex: 1 1 auto;
+  margin-right: (@-actions-padding - 1px);
+  width: calc(100% - 259px);
+}
+
+.searchResult-views {
+  margin-bottom: 10px;
+
+  .piped {
+    margin-bottom: 0;
+  }
+}
+
+.searchResult-view {
+  overflow: hidden;
+  position: relative;
+}
+
+.searchResult-fields {
+  .link {
+    &:extend(.select all);
+  }
+}
+
+.searchSorter,
+.queryRestrictions,
+.searchResult-fields,
+.searchResult-sorts,
+.searchResult-limits {
+  float: left;
+  margin: 0 10px 10px 0;
+
+  form {
+    display: inline;
+  }
+}
+
+.queryRestrictions:empty {
+  display: none;
+}
+
+.searchPagination,
+.searchResult-pagination {
+  float: right;
+  margin: 0 0 10px 10px;
+
+  .pagination {
+    display: block;
+    margin: 0;
+  }
+
+  .infiniteScroll & {
+    display: none;
+  }
+}
+
+.searchResultImages,
+.searchResultList,
+.searchResult-list {
+  float: left;
+  margin-top: 10px;
+  width: 100%;
+  overflow-x: hidden;
+  &.fixedScrollableArea {
+      overflow-x: auto;
+  }
+}
+
+.searchResultList > .frame {
+  clear: both;
+}
+
+.searchResult-actions {
+  border-left: @-actions-borderWidth solid @color-separator;
+  flex: 0 0 auto;
+  padding-left: (@-actions-padding - (@-actions-borderWidth / 2));
+  width: (@-actions-width + @-actions-padding + (@-actions-borderWidth / 2));
+}
+
+.searchResult-action-simple {
+  margin-bottom: 10px;
+
+  .button {
+    width: 100%;
+  }
+}
+
+.searchResult-action-complex {
+  .background-flat(@color-heading);
+  border-radius: 2px;
+  margin: 20px 0;
+  padding: 10px;
+
+  form {
+    margin: 0;
+  }
+}
+
+.searchResult-action-createContent {
+  &:extend(.searchResult-action-complex all);
+
+  .select {
+    margin-bottom: 10px;
+  }
+}
+
+.searchResult-images {
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  figure {
+    border: 1px solid darken(white, 20%);
+    box-sizing: border-box;
+    float: left;
+    height: 150px;
+    margin: 0 10px 10px 0;
+    padding: 4px;
+    position: relative;
+    width: 200px;
+
+    input[type='checkbox'] {
+      left: 10px;
+      position: absolute;
+      top: 10px;
+      z-index: 1;
+    }
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    .searchResult-mixed & {
+      height: 100px;
+      width: auto;
+    }
+  }
+}
+
+.searchForm {
+  overflow: hidden;
+  margin: -5px;
+  padding: 5px;
+}
+
+.searchControls {
+  @-borderWidth: 2px;
+  @-padding: 20px;
+
+  border-right: @-borderWidth solid @color-separator;
+  box-sizing: border-box;
+  float: left;
+  padding-right: @-padding;
+  width: (@search-controls-width-large + @-padding + @-borderWidth);
+
+  input[type=text],
+  select {
+    width: 100%;
+  }
+
+  .searchForm[max-width^='700px'] & {
+    width: (@search-controls-width-small + @-padding + @-borderWidth);
+  }
+}
+
+.searchFilters {
+  @-length-top: @input-height + 20px;
+
+  border-top: 2px solid @color-separator;
+  margin: @-length-top 0 20px 0;
+  padding: 20px 0 0 0;
+  position: relative;
+
+  form {
+    margin-bottom: 0;
+  }
+
+  .searchInput {
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: (0 - @-length-top);
+  }
+
+  .action-cancel {
+    .small;
+
+    color: @color-remove;
+    left: 50px;
+    position: absolute;
+    top: 20px;
+  }
+}
+
+.searchHistory {
+  display: none;
+}
+
+.searchRecentSelect {
+  position: relative;
+  padding-bottom: 40px;
+
+  &:after {
+    bottom: 19px;
+    border-top: 2px solid @color-separator;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.savedSearches {
+  .links {
+    li {
+      position: relative;
+
+      &:hover {
+        .savedSearches-remove {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .savedSearches-remove {
+    .icon;
+    .icon-action-delete;
+
+    display: none;
+    position: absolute;
+    right: 19px;
+    top: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.searchMissing {
+  .icon;
+  .icon-level-down;
+
+  color: @color-placeholder;
+  font-size: 80%;
+  line-height: @input-height;
+  margin-bottom: -10px;
+  padding-right: 20px;
+  position: relative;
+  text-align: right;
+  text-transform: uppercase;
+
+  &:before {
+    position: absolute;
+    right: 0;
+    top: 6px;
+  }
+}
+
+.searchFilter {
+  margin-top: 10px;
+  position: relative;
+
+  .objectId,
+  .objectId-select {
+    display: block;
+    width: 100%;
+  }
+
+  .objectId-clear {
+    .icon-only;
+
+    position: absolute;
+    right: 25px;
+    top: 5px;
+  }
+
+  &.searchFilter-date {
+    position: relative;
+
+    .calendarButton {
+      width: 100%;
+    }
+
+    > input:first-child + .calendarButton {
+      border-bottom-color: transparent;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    > input[name$='.x'] + .calendarButton {
+      border-top-color: transparent;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      margin-top: -1px;
+      position: relative;
+
+      &:after {
+        border-top: 1px solid @color-separator;
+        content: '';
+        height: 0;
+        left: 10px;
+        position: absolute;
+        top: 0;
+        right: 10px;
+      }
+    }
+  }
+
+  &.searchFilter-number input[type='text'] {
+    width: 50%;
+  }
+
+  &.searchFilter-advancedQuery {
+    position: relative;
+
+    input[type='text'] {
+      padding-right: @input-height;
+    }
+
+    .icon-action-edit {
+      bottom: ((@input-height - @lineHeight-default) / 2);
+      position: absolute;
+      right: ((@input-height - @iconSize-default) / 2);
+    }
+  }
+
+  &.searchFilter-missing {
+    &:before,
+    &:after,
+    > * {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    > input[type='checkbox'][name$='.m'] {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  &.searchFilter-multiple {
+    padding-left: 20px;
+    position: relative;
+
+    &:before {
+      border-color: @color-border;
+      border-style: solid;
+      border-width: 1px 0 1px 1px;
+      bottom: 14px;
+      content: '';
+      left: 9px;
+      position: absolute;
+      top: 14px;
+      width: 5px;
+    }
+
+    &:after {
+      background-color: white;
+      color: @color-placeholder;
+      content: 'Any';
+      font-size: 10px;
+      height: 20px;
+      left: -5px;
+      line-height: 20px;
+      margin-top: -10px;
+      top: 50%;
+      position: absolute;
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(-90deg);
+      width: 30px;
+    }
+  }
+}
+
+.searchFilterItem {
+  position: relative;
+
+  &:not(:first-child) {
+    margin-top: 5px;
+  }
+}
+
+.searchFiltersLocal {
+  position: relative;
+
+  input[type='checkbox'] {
+    position: absolute;
+    right: 0;
+    top: 6px;
+
+    &:checked {
+      background-image: url(icon/x.svg);
+    }
+  }
+
+  .searchFilter {
+    padding-right: 25px;
+  }
+}
+
+.searchCreate {
+  border-top: 2px solid @color-separator;
+  padding-top: 20px;
+
+  form {
+    margin-bottom: 0;
+  }
+
+  .select {
+    margin-bottom: 10px;
+  }
+}
+
+.searchResult {
+  margin-left: (@search-controls-width-large + 42);
+  position: relative;
+
+  &:before {
+    border-left: 2px solid @color-separator;
+    bottom: 0;
+    content: '';
+    left: -22px;
+    position: absolute;
+    top: 0;
+  }
+
+  .searchForm[max-width^='700px'] & {
+    margin-left: (@search-controls-width-small + 42);
+  }
+}
+
+.searchSuggestionsForm {
+  display: none;
+}
+
+.searchSuggestions {
+  margin-bottom: 20px;
+}
+
+.searchResultImages {
+  figure {
+    border: 1px solid darken(white, 20%);
+    box-sizing: border-box;
+    float: left;
+    height: 100px;
+    margin: 0 10px 10px 0;
+    padding: 4px;
+    max-width: 150px;
+
+    img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+}
+
+.searchResult-selectionReset {
+  margin-left: 10px;
+}
+
+.searchResult-selectionPreview {
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.searchResult-selectionPreview figure {
+  height: auto;
+  margin: 0 5px 5px 0;
+  min-height: 0;
+  min-width: 0;
+  float: left;
+  overflow: hidden;
+  width: auto;
+}
+
+.searchResult-selectionPreview figure img {
+  display: block;
+  height: 30px;
+}
+
+.searchResultFields {
+
+  .searchResultFields-container {
+    display: flex;
+  }
+
+  input[name="fieldNames"] {
+    display: none;
+    width: 0;
+  }
+
+  label {
+    display: block;
+    position: relative;
+    margin: 4px 0;
+    padding: 8px;
+    width: 100%;
+
+    span {
+      display: block;
+      width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  //.searchResultFields-default {
+  //  .icon;
+  //  .icon-lock;
+  //
+  //  &:before {
+  //    position: absolute;
+  //    right: 4px;
+  //  }
+  //}
+
+  .searchResultFields-display, .searchResultFields-hide {
+    width: 50%;
+  }
+
+  .searchResultFields-divider {
+    border-right: 1px solid @color-border;
+    margin: 24px 16px 0px 16px;
+  }
+
+  .searchResultFields-filter {
+    margin-top: 8px;
+    display: block;
+    width: 100%;
+  }
+
+  ul {
+    margin: 4px 0 0 0;
+    overflow-y: auto;
+    max-height: 240px;
+
+    &:empty:before {
+      content: "No additional fields selected.";
+      color: @color-border;
+      font-style: italic;
+    }
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  .searchResultFields-hide li {
+    background: fade(@color-heading, 45%);
+  }
+
+  .searchResultFields-display {
+
+    li {
+      background: mix(@color-focus, white, 10%);
+    }
+
+    label {
+        .icon;
+        .icon-check;
+
+        &:before {
+          position: absolute;
+          right: 4px;
+          opacity: 0.5;
+        }
+    }
+  }
+}
+
+.widget[name="searchAdvancedFull"] {
+  left: 20px;
+  margin-bottom: 40px;
+  position: fixed;
+  right: 20px;
+  top: 90px;
+}
+
+

@@ -1,0 +1,1561 @@
+body.loading {
+  overflow: hidden !important;
+}
+
+.repeatableForm {
+  > ol {
+    counter-reset: item;
+
+    > li {
+      > .repeatableLabel {
+        &:before {
+          content: counter(item) '. ';
+          counter-increment: item;
+        }
+      }
+    }
+  }
+
+  > ol,
+  > ul {
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    > li {
+      background: white;
+      border: 1px solid @color-heading;
+      border-radius: 2px;
+      margin-bottom: 10px;
+      padding: 10px;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      > .repeatableLabel {
+        &:extend(.inputLabelLike all);
+
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        cursor: pointer;
+        left: 0;
+        margin: -10px -10px 10px -10px;
+        padding-left: 25px;
+        padding-right: 45px;
+        position: relative;
+
+        &:after {
+          color: rgba(0, 0, 0, 0.3);
+          content: '\25bc';
+          font-size: 80%;
+          left: 5px;
+          position: absolute;
+        }
+
+        &:hover:after {
+          color: rgba(0, 0, 0, 0.8);
+        }
+      }
+
+      > .repeatablePreview {
+        display: none;
+        max-width: 100%;
+      }
+
+      > .objectInputs {
+        margin-bottom: -10px;
+      }
+
+      > .removeButton {
+        .icon;
+        .icon-remove;
+        .icon-only;
+        .link;
+
+        color: @color-remove;
+        position: absolute;
+        right: ((@input-height - @iconSize-default) / 2);
+        top: ((@input-height - @lineHeight-default) / 2);
+      }
+
+      &.state-focus {
+        border-color: @color-focus;
+
+        > .repeatableLabel {
+          .background-flat(@color-focus);
+        }
+      }
+
+      &.state-changed {
+        border-color: @color-change;
+
+        > .repeatableLabel {
+          .background-flat(@color-change);
+        }
+      }
+
+      &.collapsed:not(.expanded) {
+        padding-bottom: 0;
+
+        > .repeatableLabel {
+          border-bottom-style: none;
+          margin-bottom: 0;
+
+          &:after {
+            content: '\25ba';
+            margin-right: 5px;
+          }
+        }
+
+        > .repeatablePreview {
+          display: block;
+        }
+      }
+
+      &.toBeRemoved {
+        padding-bottom: 0;
+
+        > .repeatableLabel {
+          border-bottom-style: none;
+          color: @color-remove;
+          margin-bottom: 0;
+          text-decoration: line-through;
+
+          &:after {
+            visibility: hidden;
+          }
+        }
+
+        > .removeButton {
+          .icon;
+          .icon-plus;
+          color: @color-link-dark;
+        }
+
+        .previewable-image {
+          opacity: 0.5;
+        }
+        .previewable-label {
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  > .addButtonContainer {
+    margin-top: 10px;
+    overflow: hidden;
+
+    > .addButton {
+      &:extend(.link all);
+
+      .icon;
+      .icon-plus;
+
+      float: left;
+      margin-right: 15px;
+      white-space: nowrap;
+    }
+  }
+
+  &.state-disabled {
+    .removeButton,
+    .addButtonContainer {
+      display: none;
+    }
+  }
+
+  &.repeatableForm-previewable {
+    @preview-counter: preview-counter;
+
+    > ol,
+    > ul {
+      overflow: hidden;
+      
+      // For a numbered carousel create a CSS counter
+      counter-reset: @preview-counter;
+
+      > li:not(.item-vertical-view) {
+        &.state-changed {
+          .background-flat(@color-change);
+        }
+        &.state-error {
+          .background-flat(@color-remove);
+        }
+
+        .inputLabel {
+          display: block;
+          float: none;
+          margin: 0 0 5px 0;
+          padding: 5px;
+          width: auto;
+        }
+
+        .inputSmall {
+          margin-left: 0;
+          padding-left: 2px;
+        }
+
+        .inputNote {
+          margin-left: 2px;
+        }
+
+        .objectId-select {
+          width: 100%;
+        }
+
+        .objectId-edit {
+          margin-left: 0;
+        }
+
+        &.collapsed {
+          .inputLabel,
+          .objectId-clear {
+            display: none !important;
+          }
+
+          .objectId-select {
+            @img-height: 100px;
+
+            display: block;
+            height: (@img-height + 2 * (@input-padding + @input-borderWidth));
+
+            img {
+              height: @img-height;
+            }
+          }
+        }
+      }
+      
+      > li {
+        background: white;
+        box-sizing: border-box;
+        float: left;
+        margin-right: 10px;
+        width: 210px;
+        padding: 4px 4px 22px 4px;
+        border:1px solid #ccc;
+        border-radius:2px;
+        min-height:170px;
+        
+        counter-increment: @preview-counter;
+
+        .previewable-image {
+          display: block;
+          width: 200px;
+          height:150px;
+          cursor: pointer;
+          
+          // Resize the image so it's largest dimension fills the tile completely
+          // and keeps the correct aspect ratio.
+          object-fit: cover;
+
+          // In case src is blank set a background color
+          background-color:#ddd;
+          // In case src is blank set a placeholder color
+          &::before {
+            content: ' ';
+            display: block;
+            position: absolute;
+            width: 200px;
+            height: 150px;
+            min-height: 150px;
+            background-color: #ddd;
+          }
+        }
+
+        .previewable-label {
+          margin:2px 4px 8px;
+          height:2.5em;
+          overflow:hidden;
+        }
+        
+        .previewable-label-prefix {
+          font-weight:bold;
+        }
+
+        .previewable-controls {
+          height:22px;
+          position:absolute;
+          width:100%;
+          left:0;
+          bottom:0;
+          background-color:#f8f8f8;
+        }
+
+        .previewable-control-edit {
+          .icon;
+          .icon-pencil;
+          .icon-only;
+          position:absolute;
+          right:30px;
+          bottom:2px;
+          cursor:pointer;
+          color:#999;
+        }
+        
+        > .repeatableLabel {
+          box-sizing: border-box;
+          overflow: hidden;
+          padding-right: 30px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        > .removeButton {
+          .icon-only;
+
+          left: auto;
+          right: 8px;
+          top:auto;
+          bottom:2px;
+          color:#999;
+        }
+
+        &:before {
+          background: @color-overlay;
+          border: 2px solid white;
+          border-radius: 12px;
+          color: white;
+          content: counter(@preview-counter);
+          height: 24px;
+          left: 10px;
+          line-height: 20px;
+          min-width: 24px;
+          padding: 0 4px;
+          position: absolute;
+          text-align: center;
+          top: 10px;
+        }
+
+        &.item-vertical-view {
+          position: relative;
+          min-height: 250px;
+          height: auto;
+          width: auto;
+          padding-top: 10px;
+          padding-left:5px;
+          border: none;
+          float: none;
+          margin: 0;
+          overflow-y: auto;
+          > .item-preview {
+            position: relative;
+            min-height: 170px;
+            background: white;
+            box-sizing: border-box;
+            float: left;
+            width: 210px;
+            padding: 4px 4px 22px 4px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+
+            .previewable-image {
+              width: 200px;
+              height: 150px;
+              cursor: pointer;
+
+              // Resize the image so it's largest dimension fills the tile completely
+              // and keeps the correct aspect ratio.
+              object-fit: cover;
+
+              // In case src is blank set a background color
+              background-color: #ddd;
+              // In case src is blank set a placeholder color
+              &::before {
+                content: ' ';
+                display: block;
+                position: absolute;
+                width: 200px;
+                height: 150px;
+                min-height: 150px;
+                background-color: #ddd;
+              }
+            }
+
+            .previewable-label {
+              margin: 2px 4px 8px;
+              height: 2.5em;
+              overflow: hidden;
+            }
+
+            .previewable-label-prefix {
+              font-weight: bold;
+            }
+
+            .previewable-controls {
+              height: 22px;
+              position: absolute;
+              width: 100%;
+              left: 0;
+              bottom: 0;
+              background-color: #f8f8f8;
+            }
+
+            .previewable-control-edit {
+              .icon;
+              .icon-pencil;
+              .icon-only;
+              position: absolute;
+              right: 30px;
+              bottom: 2px;
+              cursor: pointer;
+              color: #999;
+            }
+
+            > .repeatableLabel {
+              box-sizing: border-box;
+              overflow: hidden;
+              padding-right: 30px;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            > .removeButton {
+              .icon;
+              .icon-remove;
+              .icon-only;
+              .link;
+
+              position: absolute;
+
+              left: auto;
+              right: 8px;
+              top: auto;
+              bottom: 2px;
+              color: #999;
+            }
+
+            .inputLabel {
+              display: block;
+              float: none;
+              margin: 0 0 5px 0;
+              padding: 5px;
+              width: auto;
+            }
+
+            .inputSmall {
+              margin-left: 0;
+              padding-left: 2px;
+            }
+
+            .inputNote {
+              margin-left: 2px;
+            }
+
+            .objectId-select {
+              width: 100%;
+            }
+
+            .objectId-edit {
+              margin-left: 0;
+            }
+
+            &.collapsed {
+              .inputLabel,
+              .objectId-clear {
+                display: none !important;
+              }
+
+              .objectId-select {
+                @img-height: 100px;
+
+                display: block;
+                height: (@img-height + 2 * (@input-padding + @input-borderWidth));
+
+                img {
+                  height: @img-height;
+                }
+              }
+            }
+
+            &:before {
+              background: @color-overlay;
+              border: 2px solid white;
+              border-radius: 12px;
+              color: white;
+              content: counter(@preview-counter);
+              height: 24px;
+              left: 10px;
+              line-height: 20px;
+              min-width: 24px;
+              padding: 0 4px;
+              position: absolute;
+              text-align: center;
+              top: 10px;
+            }
+
+            .item-index-select {
+              height: 24px;
+              left: 10px;
+              line-height: 20px;
+              min-width: 24px;
+              position: absolute;
+              text-align: center;
+              top: 10px;
+              z-index: 99;
+            }
+          }
+          > .itemEdit-vertical-container {
+            min-height: 170px;
+            position: absolute;
+            float: left;
+            left: 230px;
+            right: 5px;
+          }
+          &.state-changed {
+            > .item-preview {
+              .background-flat(@color-change);
+            }
+          }
+          &.state-error {
+            > .item-preview {
+              .background-flat(@color-remove);
+              > .previewable-label > a {
+                color:white;
+              }
+            }
+          }
+        }
+
+        &.toBeRemoved {
+          > .item-preview {
+            .previewable-control-edit {
+              display: none;
+            }
+            > .removeButton {
+              .icon-plus;
+            }
+          }
+          > .itemEdit-vertical-container {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+
+    > ol,
+    > ul {
+      &.view-vertical {
+        > li > div {
+          position: relative;
+        }
+      }
+    }
+
+    > [class^="action-"],
+    > [class*=" action-"] {
+      float: left;
+      margin: 0 10px 0 0;
+    }
+
+    .carousel-tile {
+      
+      .removeButton {
+        .icon;
+        .icon-remove;
+        .icon-only;
+        .link;
+        color: @color-remove;
+        position: absolute;
+        right: 2px;
+        bottom: 4px;
+        
+        // Hide the remove button unless the tile is active
+        display:none;
+      }
+      
+      .toBeRemoved {
+        
+        opacity: 0.5;
+        text-decoration: line-through;
+
+        .removeButton {
+          // Always show the restore button even if tile is not active
+          display:block;
+          .icon-plus;
+          color: @color-link-dark;
+        }
+        
+        // Add padding to the caption to leave room for removeButton
+        figcaption {
+          padding-right: 1em;
+        }
+      }
+    }
+    
+    .carousel-tile-active {
+
+      // Always show remove/restore on the active tile
+      .removeButton {
+        display:block;
+      }
+
+      // Add padding to the caption to leave room for removeButton
+      figcaption {
+        padding-right: 1em;
+      }
+      
+    }
+  }
+}
+
+.repeatablePreviewControls {
+  margin-bottom: @gap-medium;
+
+  .addButton {
+    &:extend(.link all);
+
+    .icon;
+    .icon-action-add;
+
+    margin-left: @gap-medium;
+  }
+}
+
+.view-switcher {
+  float:right;
+}
+
+.view-switcher-active {
+
+    color:black;
+
+    &:hover {
+        text-decoration: none;
+        color:black;
+    }
+}
+
+.repeatableForm > ol > li.collapsed > .frame,
+.repeatableForm > ul > li.collapsed > .frame {
+  min-height: 0;
+}
+
+.repeatableForm {
+  > ol,
+  > ul {
+    > li {
+      &.expanded {
+        &.collapsed,
+        &.toBeRemoved {
+          > .objectInputs {
+            > *:not(.inputContainer-expanded) {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &:not(.expanded) {
+        &.collapsed,
+        &.toBeRemoved {
+          > .objectInputs {
+            display: none;
+          }
+        }
+      }
+
+      > .objectInputs > .tabs {
+        margin-left: -7px;
+        margin-right: -7px;
+      }
+
+      &.collapsed,
+      &.toBeRemoved {
+        .inputContainer-bulkUpload,
+        .inputContainer-expanded {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.repeatableInputs {
+  > ul {
+    list-style: none;
+    margin-left: 0;
+  }
+
+  > ol,
+  > ul {
+    margin-bottom: 0;
+
+    > li {
+      background-color: white;
+      border-bottom: 1px solid @color-placeholder;
+      margin-bottom: 10px;
+      position: relative;
+
+      > .removeButton {
+        .icon;
+        .icon-remove;
+        .link;
+        bottom: 0;
+        color: @color-remove;
+        position: absolute;
+        right: 0;
+      }
+
+      &.toBeRemoved > .removeButton {
+        .icon;
+        .icon-plus;
+        color: @color-link-dark;
+      }
+    }
+  }
+
+  .addButtonContainer {
+    margin-top: 5px;
+
+    > .addButton {
+      &:extend(.link all);
+
+      .icon;
+      .icon-plus;
+
+      margin-right: 15px;
+    }
+  }
+
+  &.state-disabled {
+    .removeButton,
+    .addButtonContainer {
+      display: none;
+    }
+  }
+}
+
+.repeatableLayout {
+  > ol,
+  > ul {
+    list-style-position: inside;
+    margin-bottom: 6px;
+    margin-left: 0;
+
+    > li {
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 1px solid @color-heading;
+      border-radius: 2px;
+      margin-bottom: 6px;
+      padding: 0 6px;
+      position: relative;
+
+      > .repeatableLabel {
+        .background-flat(@color-heading);
+
+        cursor: pointer;
+        left: 0;
+        margin: 0 -6px 6px -6px;
+        min-height: 22px;
+        padding: 5px 12px;
+      }
+
+      > .layouts {
+        margin-bottom: 4px;
+      }
+
+      > .removeButton {
+        .icon;
+        .icon-remove;
+        .icon-only;
+        .link;
+
+        color: @color-remove;
+        position: absolute;
+        right: 5px;
+        top: 10px;
+      }
+
+      &.state-focus {
+        border-color: @color-focus;
+
+        > .repeatableLabel {
+          background-color: @color-focus;
+        }
+      }
+
+      &.toBeRemoved {
+        border-color: #fdd;
+        padding-bottom: 0;
+
+        > .repeatableLabel {
+          border-bottom-style: none;
+          color: @color-remove;
+          margin-bottom: 0;
+          text-decoration: line-through;
+
+          &:after {
+            visibility: hidden;
+          }
+        }
+
+        > .layouts {
+          display: none;
+        }
+
+        > .removeButton {
+          .icon;
+          .icon-plus;
+          color: @color-link-dark;
+        }
+      }
+    }
+  }
+
+  > .addButtonContainer {
+    overflow: hidden;
+
+    > .addButton {
+      &:extend(.link all);
+
+      .icon;
+      .icon-plus;
+
+      float: left;
+      margin-right: 15px;
+      white-space: nowrap;
+    }
+  }
+
+  &.state-disabled {
+    .removeButton,
+    .addButtonContainer {
+      display: none;
+    }
+  }
+
+  .inputContainer-listLayoutItemContainer:not(.inputContainer-listLayoutItemContainer-embedded-expanded) {
+    .inputContainer {
+      &:before {
+        display: none;
+      }
+
+      &.state-changed,
+      &.state-focused {
+        > .inputLabel {
+          .background-flat(@color-heading);
+        }
+      }
+    }
+
+    .inputLabel {
+      display: block;
+      float: none;
+      margin: 0 0 5px 0;
+      padding: 5px;
+      width: auto;
+    }
+
+    .inputSmall {
+      margin-bottom: 5px;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .inputNote {
+      margin-left: 0;
+    }
+  }
+}
+
+.repeatableObjectId {
+  > ol,
+  > ul {
+    list-style-type: none;
+    margin-left: 0;
+
+    > li {
+      align-items: center;
+      display: flex;
+
+      &:before {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        min-width: 18px;
+        padding: 0 4px;
+        text-align: center;
+        vertical-align: top;
+      }
+    }
+  }
+
+  > ol {
+    counter-reset: repeatableObjectId;
+
+    > li {
+      &:before {
+        content: counter(repeatableObjectId) '.';
+        counter-increment: repeatableObjectId;
+      }
+
+      &.sortable-dragging:before {
+        counter-increment: none;
+        visibility: hidden;
+      }
+    }
+  }
+
+  > ul {
+    > li {
+      &:before {
+        content: '\25cf';
+      }
+    }
+  }
+
+  > ol,
+  > ul {
+    margin-bottom: 0;
+
+    &:not(:empty) {
+      margin-bottom: 10px;
+    }
+
+    > li {
+      margin-bottom: 5px;
+      white-space: nowrap;
+
+      > .removeButton {
+        .icon;
+        .icon-remove;
+        .link;
+        color: @color-remove;
+        margin-left: 10px;
+
+        @media @media-tablet {
+          .icon-only;
+
+          margin-left: 5px;
+        }
+      }
+
+      &.toBeRemoved {
+        > .removeButton {
+          .icon;
+          .icon-plus;
+          color: @color-link-dark;
+        }
+
+        .objectId-select {
+          color: @color-remove;
+          text-decoration: line-through;
+
+          &:before,
+          &:after {
+            visibility: hidden !important;
+          }
+
+          img {
+            opacity: 0.5;
+          }
+        }
+
+        .objectId-edit {
+          color: @color-remove;
+          text-decoration: line-through;
+        }
+      }
+    }
+  }
+
+  > [class^="action-"],
+  > [class*=" action-"] {
+    float: left;
+    margin: 5px 10px 0 0;
+  }
+
+  > .addButtonContainer {
+    margin-top: 5px;
+
+    .addButton {
+      &:extend(.link all);
+
+      .icon;
+      .icon-plus;
+    }
+  }
+
+  &.repeatableObjectId-previewable {
+    
+    > .addButtonContainer {
+      float:left;
+    }
+    
+    > ol,
+    > ul {
+      list-style-type: none;
+      margin-left: 0;
+      overflow: hidden;
+
+      > li {
+        align-items: flex-start;
+        background-color: darken(white, 3%);
+        border: 1px solid darken(white, 20%);
+        border-radius: 2px;
+        box-sizing: border-box;
+        float: left;
+        margin: 0 10px 10px 0;
+        padding: 0;
+        position: relative;
+        width: 210px;
+        height:180px;
+        
+        .objectId-select {
+          background-color: white;
+          border: none;
+          box-sizing: border-box;
+          display: block;
+          margin: 0;
+          margin-bottom:4px;
+          padding:4px;
+          width: 100%;
+          height:100%;
+          
+          figure {
+            
+            width: 100%;
+            height:100%;
+
+            img {
+              width: 100%;
+              height:100%;
+              cursor: pointer;
+          
+              // Resize the image so it's largest dimension fills the tile completely
+              // and keeps the correct aspect ratio.
+              object-fit: cover;
+
+              // In case src is blank set a background color
+              background-color:#ddd;
+            }
+
+          }
+
+          &:before,
+          &:after {
+            display: none;
+          }
+        }
+
+        .removeButton {
+          .icon-only;
+          bottom: 8px;
+          position:absolute;
+          right: 6px;
+        }
+        
+        .objectId-edit {
+          .icon-only;
+          bottom: 8px;
+          position:absolute;
+          right: 28px;
+        }
+      }
+    }
+
+    > ol {
+      counter-reset: listItem;
+
+      > li {
+        &:before {
+          background: @color-overlay;
+          border: 2px solid white;
+          border-radius: 12px;
+          color: white;
+          counter-increment: listItem;
+          content: counter(listItem);
+          height: 24px;
+          left: 10px;
+          line-height: 20px;
+          min-width: 24px;
+          padding: 0 4px;
+          position: absolute;
+          text-align: center;
+          top: 10px;
+          z-index: 1;
+        }
+      }
+    }
+  }
+
+  &.state-disabled {
+    .removeButton,
+    .addButtonContainer {
+      display: none;
+    }
+  }
+}
+
+.repeatableText {
+  > ol, > ul {
+    margin-bottom: 0;
+
+    > li {
+      float: left;
+      margin-bottom: 5px;
+      position: relative;
+
+      > input[type=text] {
+        padding-right: @input-height;
+      }
+
+      > .removeButton {
+        .icon;
+        .icon-remove;
+        .link;
+
+        color: @color-remove;
+        position: absolute;
+        right: ((@input-height - @iconSize-default) / 2);
+        top: ((@input-height - @lineHeight-default) / 2);
+        user-select: none;
+        width: @iconSize-default;
+      }
+
+      &.toBeRemoved {
+        > input[type='text'] {
+          color: @color-remove;
+          text-decoration: line-through;
+        }
+
+        > .removeButton {
+          .icon;
+          .icon-plus;
+
+          color: @color-link-dark;
+        }
+      }
+    }
+  }
+
+  > ol {
+    float: left;
+    width: 100%;
+
+    > li {
+      clear: left;
+      white-space: nowrap;
+    }
+  }
+
+  > ul {
+    list-style-type: none;
+    margin-left: 0;
+    overflow: hidden;
+
+    > li {
+      margin-right: 5px;
+    }
+  }
+
+  .addButtonContainer {
+    float: left;
+    max-width: 100%;
+    position: relative;
+
+    > input[type=text] {
+      padding-right: 20px;
+    }
+
+    > .addButton {
+      &:extend(.link all);
+
+      .icon;
+      .icon-plus;
+      .icon-only;
+
+      margin-right: 0;
+      position: absolute;
+      right: ((@input-height - @iconSize-default) / 2 - 5px);
+      top: ((@input-height - @lineHeight-default) / 2);
+      width: @iconSize-default;
+    }
+  }
+
+  &.state-disabled {
+    .removeButton,
+    .addButtonContainer {
+      display: none;
+    }
+  }
+}
+
+.inputContainer {
+    &.state-disabled {
+        .removeButton,
+        .addButtonContainer {
+          display: none;
+        }
+    }
+}
+
+.inputContainer-readOnly {
+  .addButtonContainer {
+    display: none;
+  }
+  .removeButton {
+    display: none;
+  }
+}
+
+.repeatableForm {
+  > ol,
+  > ul {
+    > li.sortable-dragging {
+      box-shadow: 0 0 20px fade(black, 50%);
+    }
+  }
+}
+
+.repeatableObjectId {
+  > ol,
+  > ul {
+    > li.sortable-dragging {
+      > .objectId-select {
+        box-shadow: 0 0 20px fade(black, 50%);
+      }
+    }
+  }
+}
+
+.sortable-parent {
+  z-index: 1000000 !important;
+}
+
+.sortable-droppable {
+  position: relative;
+
+  &:before {
+    border: 5px dotted fade(@color-focus, 50%);
+    border-radius: 5px;
+    bottom: -15px;
+    content: '';
+    left: -15px;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+  }
+}
+
+.addButtonSelectContainer {
+  .icon;
+  .icon-action-add;
+
+  &,
+  .dropDown-label,
+  input[type='text'].dropDown-search {
+    color: @color-link-dark;
+  }
+
+  &:before {
+    line-height: @input-height;
+    vertical-align: bottom;
+  }
+}
+
+.dropDown-container[data-original-class~='addButtonSelect'] {
+  .dropDown-listItem {
+    color: @color-link-dark;
+    padding-left: 6px;
+
+    &:first-child {
+      display: none !important;
+    }
+
+    &.dropDown-listItem-selected {
+      background: white;
+      color: @color-link-dark;
+
+      &.state-hover {
+        background-color: fade(@color-focus, 10%);
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+}
+
+.repeatableLabel-progress {
+  font-size: 10px;
+  position: absolute;
+  right: 50px;
+  text-transform: uppercase;
+  top: 2px;
+
+  [data-toggle-field-value] > & {
+    right: 105px;
+  }
+
+  .repeatableLabel-progressLabel {
+    display: block;
+    text-align: center;
+  }
+    
+  .repeatableLabel-progressBar {
+    border-radius: 3px;
+    height: 6px;
+    width: 180px;
+    background: @color-border;
+
+    .repeatableLabel-progressFill {
+      background: @color-focus;
+      height: 100%;
+    }
+  }    
+}
+
+.repeatableForm-alt {
+
+  > ol > li {
+    &[data-progress-field-value] > .repeatableLabel {
+      padding-right: 368px;
+    }
+
+    &[data-toggle-field-value="false"], &.toBeRemoved {
+      > .repeatableLabel {
+        background: @color-heading;
+      }
+
+      .repeatableLabel-color:before {
+        background: @color-border;
+        border-radius: 10px;
+        content: '';
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      .repeatableLabel-weightLabel:after {
+        content: "0%";
+        min-width: 18px;
+      }
+    }
+
+    &.toBeRemoved {
+      .repeatableLabel-weightLabel,
+      .repeatableLabel-toggleLabel,
+      .repeatableLabel-progress {
+        display: none;
+      }
+    }
+  }   
+}
+
+.repeatableForm-weighted {
+
+  > ol > li {
+    > .repeatableLabel {
+      padding-left: 90px;
+    }
+  }
+    
+  .repeatableForm-itemWeights {
+    border-radius: 2px;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
+
+    &:empty {
+      display: none;
+    }
+  }
+  
+  .repeatableForm-itemWeight {
+    height: 100%;
+    position: relative;
+    
+    &:not(:first-child):after {
+        content: ' ';
+        height: 100%;
+        display:inline-block;
+        background:white;
+        width: 1px;
+    }
+    
+    &:first-child .repeatableForm-itemWeightHandle {
+        display: none;
+    }
+  }
+
+  .repeatableLabel-weightLabel {
+    height: 20px;
+    left: 30px;
+    line-height: 20px;
+    pointer-events: none;
+    position: absolute;
+    top: 5px;
+    width: 45px;
+    z-index: 1;
+    
+    &:after {
+      color: white;
+      content: attr(data-weight-label);
+      font-weight: bold;
+      height: 100%;
+      left: 0;
+      padding-right: 5px;
+      position: absolute;
+      text-align: right;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+  }
+  
+  .repeatableForm-itemWeightHandle {
+    border-radius: 2px;
+    position: absolute;
+    left: -7px;
+    z-index: 2;
+    bottom: 0px;
+    top: 0px;
+    width: 14px;
+    height: 20px;
+    margin: auto;
+    background: white;
+    padding: 1px;
+    cursor: col-resize;
+
+    &:after {
+      bottom: 5px;
+      border-color: @color-overlay;
+      border-style: solid;
+      border-width: 0 1px;
+      content: '';
+      left: 5px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+
+  .repeatableLabel-color {
+    border-radius: 10px;
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.repeatableLabel-toggle {
+  position: absolute;
+  top: 12px;
+  right: 42px;
+  
+  display: none;
+  
+  + .repeatableLabel-toggleLabel {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+      
+    outline: 0;
+    display: block;
+    width: 35px;
+    height: 20px;
+    cursor: pointer;
+    user-select: none;
+    background: @color-border;
+    border-radius: 10px;
+    padding: 2px;
+    transition: all .4s ease;
+     
+    &:after {
+      content: "";  
+      left: 0;
+      border-radius: 50%;
+      background: #fff;
+      transition: all .2s ease;
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+  
+  &:checked {
+    + .repeatableLabel-toggleLabel {
+      background: @color-publish;
+      
+      &:after {
+        margin-left: 15px;
+      }
+    }
+  }
+}
+
+.repeatableForm {
+
+  &-weightResetButton {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    .icon();
+    .icon-refresh();
+  }
+
+  &-itemWeight {
+
+    &-marker {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: white;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 100%;
+    }
+  }
+}
+
+.loading-modal {
+  top: 30%;
+  left: 40%;
+  margin-left: 0;
+  width: 200px;
+  .content {
+    padding: 0px !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: center;
+    .closeButton {
+      display: none;
+    }
+    .plugin-popup {
+
+      @keyframes spinner {
+        to {transform: rotate(360deg);}
+      }
+
+      .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 35%;
+        left: 40%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 3px solid #ccc;
+        border-top-color: #85bd43;
+        animation: spinner .9s linear infinite;
+      }
+    }
+  }
+}
+
+.loading-modal:before {
+  background-color: fade(white, 80%);
+  opacity: 1;
+}

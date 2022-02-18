@@ -1,0 +1,156 @@
+.dropDown-container {
+  &:before,
+  &:after {
+    content: '';
+    height: 10px;
+    left: 1px;
+    position: absolute;
+    right: 6px;
+    z-index: 1;
+  }
+
+  &:before {
+    background: linear-gradient(to bottom, white 0, fade(white, 0%) 100%);
+    top: 0;
+  }
+
+  &:after {
+    background: linear-gradient(to top, white 0, fade(white, 0%) 100%);
+    bottom: 2px;
+  }
+
+  &.dropDown-input-bottom {
+    &:before {
+      top: 2px;
+    }
+
+    &:after {
+      bottom: 0;
+    }
+  }
+}
+
+.dropDown-input {
+  &:extend(.select all);
+
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.dropDown-list-open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: @color-focus;
+
+    &.dropDown-input-bottom {
+      border-radius: 0 0 2px 2px;
+    }
+  }
+
+  &:focus,
+  &.state-focus {
+    background-color: transparent;
+  }
+}
+
+.dropDown-label {
+  .text;
+
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &.state-placeholder {
+    color: @color-placeholder;
+  }
+}
+
+input[type="text"].dropDown-search {
+  .text;
+
+  display: block;
+  overflow: hidden;
+  width: 100%;
+
+  &:focus,
+  &.state-focus {
+    background-color: transparent;
+  }
+}
+
+.dropDown-marker {
+  &:before {
+    background-color: white;
+    content: '';
+    height: 3px;
+    left: 1px;
+    position: absolute;
+    right: 1px;
+    top: -3px;
+
+    .dropDown-input-bottom & {
+      top: -1px;
+    }
+  }
+}
+
+.dropDown-list {
+  background-color: white;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border: @input-borderWidth solid @color-focus;
+  list-style-type: none;
+  margin: 0 5px 0 0;
+  max-height: 300px;
+  overflow: auto;
+  padding: 10px 0 10px 0;
+  position: relative;
+  top: -1px;
+
+  .dropDown-input-bottom & {
+    border-radius: 2px 2px 0 0;
+    top: 1px;
+  }
+}
+
+.dropDown-listGroupLabel {
+  border-bottom: 1px solid @color-placeholder;
+  color: @color-placeholder;
+  font-size: 80%;
+  line-height: (@lineHeight-default * 0.8);
+  text-transform: uppercase;
+  margin: 10px 5px;
+  padding: 0;
+}
+
+.dropDown-listItem {
+  cursor: pointer;
+  height: @input-height;
+  line-height: @input-height;
+  padding: 0px 15px 0px 25px;
+  position: relative;
+  white-space: nowrap;
+
+  &.state-hover {
+    background-color: fade(@color-focus, 10%);
+  }
+
+  &.dropDown-listItem-selected {
+    .icon;
+    .icon-ok;
+
+    .background-flat(@color-focus);
+
+    &:before {
+      left: 4px;
+      position: absolute;
+      top: 0;
+    }
+  }
+
+  input[type=checkbox],
+  input[type=radio] {
+    display: none;
+  }
+}

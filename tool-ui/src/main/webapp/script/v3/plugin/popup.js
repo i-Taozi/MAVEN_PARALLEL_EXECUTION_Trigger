@@ -1,0 +1,290 @@
+/** Inline popup. */
+(function($, win, undef) {
+
+  var $win = $(win),
+      doc = win.document;
+
+  $.plugin2('popup', {
+    '_defaultOptions': {
+
+      // Selector, element, or jquery object for the parent element that will
+      // contain the popup container
+      parent: doc.body,
+      
+      'padding': {
+        'left': 10,
+        'right': 10,
+        'top': 10
+      }
+    },
+
+    '_create': function(element) {
+      var $inner = $(element);
+      var options = this.option();
+      var $container = $('<div/>', { 'class': 'popup' });
+      var $content = $('<div/>', { 'class': 'content' });
+      var $closeButton = $('<div/>', { 'class': 'closeButton' });
+
+      var name = $inner.attr('name');
+      if (name) {
+        $container.attr('name', name);
+      }
+
+      // Bind open and close events.
+      $container.bind('open.popup', function() {
+        $.removeData($container[0], 'popup-close-cancelled');
+        var $original = $(this);
+        var scrollLeft = $original.data('popup-scrollLeft');
+        var scrollTop = $original.data('popup-scrollTop');
+        if (typeof scrollLeft !== 'number' && typeof scrollTop !== 'number') {
+          $original.data('popup-scrollLeft', $win.scrollLeft());
+          $original.data('popup-scrollTop', $win.scrollTop());
+        }
+        $original.addClass('popup-show');
+        $original.resize();
+      });
+
+      $container.bind('restoreOriginalPosition.popup', function() {
+        var $original = $(this);
+        var scrollLeft = $original.data('popup-scrollLeft');
+        var scrollTop = $original.data('popup-scrollTop');
+        $original.removeData('popup-scrollLeft');
+        $original.removeData('popup-scrollTop');
+        if (typeof scrollLeft === 'number' && typeof scrollTop === 'number') {
+          $win.scrollLeft(scrollLeft);
+          $win.scrollTop(scrollTop);
+        }
+      });
+
+      $container.bind('close.popup', function(event) {
+
+        // In the case of nested popups, the close event from the child popup
+        // might propagate up to the parent popup, in which case we do not
+        // want to close the parent popup.
+        // Check for a flag that will be added to the event to indicate a child
+        // popup was already closed.
+        // Note: we can't just stop event propagation because there is other
+        // code relying on popup close events bubbling up to the top.
+        if (event.popupClosed) { return; }
+        
+        if (this === event.target &&
+            !$(this).is('[data-popup-source-class~="imageEditor-hotSpotOverlay"]') &&
+            $container.is(':visible') &&
+            $container.find('.enhancementForm, .contentForm').find('.inputContainer.state-changed').length > 0 &&
+            !confirm('Are you sure you want to close this popup and discard the unsaved changes?')) {
+          $.data($container[0], 'popup-close-cancelled', true);
+          return;
+        }
+
+        $.removeData($container[0], 'popup-close-cancelled');
+          
+        var $original = $(this);
+
+        // Set a flag to indicate this event has already closed a popup,
+        // so we can avoid closing a parent popup in case popups are nested.
+        event.popupClosed = true;
+
+        // Prevent infinite looping for nested popups
+        if ($original.hasClass('popup-show')) {
+
+          // Set a flag to indicate this event has already closed a popup,
+          // so we can avoid closing a parent popup in case popups are nested.
+          event.popupClosed = true;
+          
+          $original.removeClass('popup-show');
+          $original.trigger('closed');
+          $original.resize();
+          $('.popup').each(function() {
+            var $popup = $(this);
+            var $source = $popup.popup('source');
+
+            // If the popup we are closing ($original) contains the link that opened a different popup,
+            // then also close that different popup
+            if ($source && $.contains($original[0], $source[0])) {
+              $popup.popup('close');
+            }
+          });
+        }
+      });
+
+      $closeButton.bind('click.popup', function() {
+        $(this).popup('close');
+      });
+
+      var $body = $(options.parent || doc.body);
+      $content.append($inner);
+      $content.append($closeButton);
+      $container.append($content);
+      $body.append($container);
+    },
+
+    // Opens the popup.
+    'open': function() {
+      this.$caller.popup('container').trigger('open');
+      return this.$caller;
+    },
+
+    'restoreOriginalPosition': function() {
+      this.$caller.popup('container').trigger('restoreOriginalPosition');
+      return this.$caller;
+    },
+
+    // Closes the popup.
+    'close': function() {
+      this.container().trigger('close');
+      return this.$caller;
+    },
+
+    // Returns the enclosing element that contains the popup.
+    'container': function() {
+      return this.$caller.closest('.popup');
+    },
+
+    // Returns the popup content element.
+    'content': function() {
+      return this.$caller.popup('container').find('> .content');
+    },
+
+    // Returns the source element that triggered the popup to open.
+    'source': function($newSource, event) {
+      var options = this.option();
+
+      if (event &&
+          ($newSource.height() < 30 ||
+          typeof event.pageX !== 'number' ||
+          typeof event.pageY !== 'number')) {
+        event = undef;
+      }
+
+      if (typeof $newSource === 'undefined') {
+        var container = this.$caller.popup('container')[0];
+        return container ? $.data(container, 'popup-$source') : null;
+
+      } else {
+        var $container = this.$caller.popup('container');
+        $container.attr('data-popup-source-class', $newSource.prop('class'));
+        $container.each(function() {
+          $.data(this, 'popup-$source', $newSource);
+        });
+
+        // Change position.
+        var sourceOffset = $newSource.offset();
+        var popupWidth = $container.outerWidth();
+
+        // Make sure left is within bounds.
+        var markerDelta = 0;
+        var left = event ? event.pageX - popupWidth / 2 : sourceOffset.left + ($newSource.outerWidth() - popupWidth) / 2;
+        if (left < options.padding.left) {
+          markerDelta = left - options.padding.left;
+          left = options.padding.left;
+        } else {
+          var leftDelta = left + popupWidth - $(doc).width() + options.padding.right;
+          if (leftDelta > 0) {
+            markerDelta = leftDelta;
+            left -= leftDelta;
+          }
+        }
+
+        // Create a arrow-like marker.
+        var $content = $container.popup('content');
+        var $marker = $content.find('> .marker');
+        if ($marker.length === 0) {
+          $marker = $('<div/>', { 'class': 'marker' });
+          $content.append($marker);
+        }
+        var markerLeft = (popupWidth  - 20) / 2 + markerDelta;
+        $marker.css('left', markerLeft < 5 ? 5 : markerLeft);
+
+        // Make sure top is within bounds.
+        var top = event ? event.pageY : sourceOffset.top + $newSource.outerHeight();
+        if (top < 30) {
+          top = 30;
+        }
+
+        // Adjust left/top if position is fixed.
+        var isFixedPosition = $newSource.isFixedPosition();
+        if (isFixedPosition) {
+          left -= $(window).scrollLeft();
+          top -= $(window).scrollTop();
+        }
+
+        var $newSourceParent = $newSource.closest('.popup');
+        if ($newSourceParent.length === 0) {
+          $newSourceParent = $newSource.parent();
+        }
+
+        if (isFixedPosition && (top / $win.height()) > 0.3) {
+          $container.addClass('popup-fixed');
+        }
+
+        $container.css({
+          'left': left,
+          'margin': 0,
+          'position': isFixedPosition ? 'fixed' : 'absolute',
+          'top': top,
+          'z-index': $newSourceParent.zIndex() + 1
+        });
+
+        return this.$caller;
+      }
+    }
+  });
+
+  // Clicking outside the popup should close it.
+  $win.click(function(event) {
+    var target = event.target;
+    var $target = $(target);
+
+    // Special containers that should never close the popup.
+    if ($target.closest('#context-menu-layer, .context-menu-root, .search-reset, .queryField_frames').length > 0) {
+      return;
+    }
+
+    // Close the popup if clicked outside of its own content (e.g. shadow).
+    var $targetPopup = $target.popup('container');
+
+    if ($targetPopup.length > 0) {
+      var $targetPopupContent = $targetPopup.find('> .content');
+
+      // Close the popup if we couldn't find the "content" div within it,
+      // Or if the clicked target is outside the content div.
+      if ($targetPopupContent.length === 0 || $target.closest($targetPopupContent).length === 0) {
+        $targetPopup.popup('close');
+      }
+
+    } else {
+
+      // Close all popups except the one that was just clicked on.
+      $('.popup').each(function() {
+        var $popup = $(this);
+        var $popupSource = $popup.popup('source');
+
+        if ($popupSource && $popupSource.length > 0) {
+          var popupSource = $popupSource[0];
+
+          if (popupSource === target || $.contains(popupSource, target)) {
+            return;
+          }
+        }
+
+        $popup.popup('close');
+      });
+    }
+  });
+
+  // Hitting ESC closes all popups.
+  $win.keydown(function(event) {
+    if (event.which === 27) {
+      var $popups = $('.popup');
+
+      if ($popups.length > 0) {
+        $popups.popup('close');
+        return false;
+
+      } else {
+        return true;
+      }
+    }
+  });
+
+}(jQuery, window));

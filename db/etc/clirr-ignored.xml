@@ -1,38 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <differences>
+
     <difference>
-        <className>com/psddev/dari/db/Database</className>
+        <className>com/psddev/cms/db/ToolUi$DropDown</className>
         <differenceType>7012</differenceType>
-        <method>void addUpdateNotifier(com.psddev.dari.db.UpdateNotifier)</method>
+        <method>boolean sortDescending()</method>
     </difference>
 
     <difference>
-        <className>com/psddev/dari/db/Database</className>
+        <className>com/psddev/cms/db/ToolUi$DropDown</className>
         <differenceType>7012</differenceType>
-        <method>void removeUpdateNotifier(com.psddev.dari.db.UpdateNotifier)</method>
+        <method>java.lang.String sortField()</method>
     </difference>
 
     <difference>
-        <className>com/psddev/dari/db/Database</className>
+        <className>com/psddev/cms/db/ToolUi$RichText</className>
         <differenceType>7012</differenceType>
-        <method>void close()</method>
+        <method>java.lang.Class toolbar()</method>
     </difference>
 
     <difference>
-        <className>com/psddev/dari/db/ObjectStruct</className>
+        <className>com/psddev/cms/tool/SearchResultAction</className>
         <differenceType>7012</differenceType>
-        <method>java.util.List findIndexedFields(com.psddev.dari.db.ObjectStruct)</method>
+        <method>java.lang.String getGroup()</method>
     </difference>
 
     <difference>
-        <className>com/psddev/dari/db/RecalculationDelay</className>
+        <className>com/psddev/cms/tool/SearchResultAction</className>
         <differenceType>7012</differenceType>
-        <method>org.joda.time.DateTime metricAfterDate(org.joda.time.DateTime)</method>
+        <method>int getPosition()</method>
     </difference>
 
     <difference>
-        <className>com/psddev/dari/db/SqlIndex$Table</className>
-        <differenceType>7012</differenceType>
-        <method>java.lang.Object convertReadKey(com.psddev.dari.db.SqlDatabase, com.psddev.dari.db.ObjectIndex, java.lang.String)</method>
+        <className>com/psddev/cms/view/ViewCreator</className>
+        <differenceType>7005</differenceType>
+        <method>java.lang.Object createView(java.lang.Object, com.psddev.cms.view.ViewRequest)</method>
+        <to>java.lang.Object createView(java.lang.Object, java.lang.Object)</to>
     </difference>
+
+    <difference>
+        <className>com/psddev/cms/view/ViewCreator</className>
+        <differenceType>7012</differenceType>
+        <method>java.lang.Class findCreatorClass(java.lang.Object, java.lang.Class, java.lang.String, java.lang.Object)</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/view/ViewCreator</className>
+        <differenceType>7012</differenceType>
+        <method>boolean processRequest(java.lang.Object, com.psddev.cms.view.ViewResponse)</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/view/ViewRenderer</className>
+        <differenceType>7012</differenceType>
+        <method>com.psddev.cms.view.ViewOutput render(java.lang.Object, com.psddev.cms.view.ViewTemplateLoader)</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/db/ToolUi$CollectionItemWeight</className>
+        <differenceType>7012</differenceType>
+        <method>boolean calculated()</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/db/ToolUi$Placeholder</className>
+        <differenceType>7012</differenceType>
+        <method>boolean clearOnChange()</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/db/ToolUi$RichText</className>
+        <differenceType>7012</differenceType>
+        <method>boolean inline()</method>
+    </difference>
+
+    <difference>
+        <className>com/psddev/cms/rtc/RtcState</className>
+        <differenceType>7012</differenceType>
+        <method>java.lang.Iterable close(java.util.Map, java.util.UUID)</method>
+    </difference>
+
 </differences>

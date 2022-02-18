@@ -1,0 +1,375 @@
+.toolBroadcast {
+  .message;
+  .message-error;
+
+  border-radius: 0;
+  height: @toolBroadcast-height;
+  left: 0;
+  line-height: @toolBroadcast-height;
+  overflow: hidden;
+  padding: 0 @toolContent-padding 0 (@toolContent-padding + 20px);
+  position: fixed;
+  text-overflow: ellipsis;
+  top: 0;
+  white-space: nowrap;
+  width: 100%;
+  z-index: 100;
+
+  &:before {
+    height: @toolBroadcast-height;
+    left: @toolContent-padding;
+    line-height: @toolBroadcast-height;
+    top: 0;
+  }
+}
+
+.hasToolBroadcast {
+  margin-top: (@toolBroadcast-height + @toolHeader-height);
+
+  .toolHeader {
+    top: @toolBroadcast-height;
+  }
+}
+
+.toolHeader {
+  background-color: white;
+  box-shadow: 0 0 10px fade(black, 20%);
+  height: @toolHeader-height;
+  left: 0;
+  margin-bottom: @gap-large;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.toolTitle {
+  @-height: @toolHeader-height - 20px;
+
+  font-size: (@-height / 2);
+  font-weight: bold;
+  height: @-height;
+  left: 65px;
+  line-height: @-height;
+  overflow: hidden;
+  position: absolute;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  top: ((@toolHeader-height - @-height) / 2);
+  white-space: nowrap;
+  width: (@length-toolTitle-width - 40px);
+
+  .link {
+    color: @color-text;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    img {
+      bottom: 0;
+      left: 0;
+      margin: auto 0;
+      max-height: 100%;
+      max-width: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .noToolUser & {
+    left: 0;
+
+    .link img {
+      margin: auto;
+    }
+  }
+}
+
+.toolEnv {
+  .background-flat(black);
+  box-shadow: 0 0 5px fade(black, 50%);
+  height: 22px;
+  font-size: 11px;
+  line-height: 22px;
+  position: absolute;
+  text-align: center;
+  top: 18px;
+  right: -120px;
+  width: 300px;
+  transform: rotate(45deg);
+  text-transform: uppercase;
+}
+
+.toolUserDisplay {
+  @-padding: 10px;
+  @-avatar-size: @toolHeader-height - (@-padding * 2);
+
+  display: block;
+  right: @toolContent-padding;
+  position: absolute;
+  top: @-padding;
+
+  .toolHeader-hasEnvironment & {
+    right: 70px;
+  }
+
+  .toolUserSite,
+  .toolUser,
+  .toolUserAvatarProfile {
+    float: right;
+    margin-left: @-padding;
+  }
+
+  .toolUserAvatarProfile {
+    margin-left: (@-padding * 2);
+
+    .link {
+      display: block;
+      height: 100%;
+      text-decoration: none;
+      width: 100%;
+    }
+  }
+
+  .toolUserSite,
+  .toolUser {
+    margin-top: floor((@-avatar-size / 2) - @lineHeight-default);
+  }
+
+  .toolUserSite {
+    border-right: 1px solid @color-separator;
+    padding-right: @-padding;
+  }
+
+  .toolUserSiteDisplay,
+  .toolUserWelcome {
+    font-weight: 700;
+  }
+
+  .toolUserSiteControls,
+  .toolUserControls {
+    font-size: floor(@fontSize-default * 0.8);
+    text-align: right;
+
+    .piped {
+      margin: 0;
+    }
+  }
+}
+
+.toolProfile {
+  display: none;
+}
+
+.toolSearch {
+  position: absolute;
+  left: (@length-toolTitle-width + 60);
+  top: ((@toolHeader-height - @input-height) / 2);
+  transition: width @time-fast;
+  width: @search-controls-width-large;
+
+  .toolHeader-hasEnvironment & {
+    right: 52px;
+  }
+
+  .searchInput {
+    .icon;
+    .icon-action-search;
+
+    width: 100%;
+
+    &:before {
+      color: @color-text;
+      cursor: pointer;
+      left: 8px;
+      line-height: 1;
+      position: absolute;
+      top: 8px;
+    }
+
+    button {
+      display: none;
+    }
+
+    label {
+      color: @color-placeholder;
+      font-style: italic;
+      left: 0;
+      padding-left: @input-height;
+    }
+
+    input[type='text'] {
+      padding-left: @input-height;
+      width: 100%;
+    }
+  }
+}
+
+.toolNav {
+  display: none;
+}
+
+.toolNav-split {
+  overflow: hidden;
+  position: relative;
+
+  .link {
+    &, &:hover {
+      color: @color-text;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    @-item-height: 40px;
+
+    cursor: pointer;
+    height: @-item-height;
+    line-height: @-item-height;
+    padding: 0 20px;
+
+    &:hover,
+    &.state-hover {
+      background-color: fade(@color-focus, 10%);
+    }
+
+    .link {
+      display: block;
+    }
+  }
+}
+
+.toolNav-splitLeft {
+  float: left;
+  min-width: (@length-toolTitle-width + 40px);
+
+  li {
+    position: relative;
+
+    &.toolNav-splitLeft-nested {
+      .icon;
+      .icon-angle-right;
+
+      &:before {
+        padding-right: 0;
+        position: absolute;
+        right: 20px;
+        width: auto;
+      }
+    }
+  }
+}
+
+.toolNav-splitRight {
+  float: left;
+
+  &:before {
+    background-color: @color-separator;
+    bottom: 0;
+    content: '';
+    left: (@length-toolTitle-width + 39px);
+    position: absolute;
+    top: 0;
+    width: 2px;
+  }
+
+  ul {
+    min-width: (@length-toolTitle-width + 40px);
+  }
+}
+
+.toolNav-toggle {
+  @-size: 30px;
+
+  .icon;
+  .icon-reorder;
+
+  .background-flat(@color-focus);
+  border-radius: 2px;
+  cursor: pointer;
+  height: @-size;
+  left: 20px;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  top: ((@toolHeader-height - @-size) / 2);
+  user-select: none;
+  width: @-size;
+
+  &:before {
+    line-height: @-size;
+    padding: 0;
+  }
+}
+
+.toolContent {
+  background: @color-border;
+  margin: (0 - @toolHeader-height) (0 - @toolContent-padding) 0 (0 - @toolContent-padding);
+  padding: (@toolHeader-height + @toolContent-padding) @toolContent-padding (@toolContent-padding / 2) @toolContent-padding;
+  position: relative;
+  z-index: 0;
+}
+
+.toolBackground {
+  display: none;
+
+  .noToolUser & {
+    background-position: center;
+    background-size: cover;
+    bottom: 0;
+    display: block;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+}
+
+.toolFooter {
+  background: white;
+  bottom: 0;
+  height: @toolFooter-height;
+  left: 0;
+  line-height: @toolFooter-height;
+  padding: 0 @toolContent-padding;
+  position: fixed;
+  right: 0;
+  text-align: right;
+  z-index: -1;
+
+  img {
+    vertical-align: middle;
+  }
+}
+
+.toolMessage {
+  left: 50%;
+  margin-left: -150px;
+  position: fixed;
+  top: 0;
+  width: 300px;
+  z-index: 1000;
+
+  > .message {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: 0 0 20px fade(black, 50%);
+  }
+}
+
+.widget-queryField {
+  box-shadow: none;
+  padding: 0;
+
+  > h1 {
+    display: none;
+  }
+}
