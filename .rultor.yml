@@ -1,0 +1,60 @@
+install: |
+  sudo locale-gen en_US en_US.UTF-8
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+  export LANGUAGE=en_US.UTF-8
+  sudo gem install pdd -v 0.20.5
+  sudo apt-get install -y netpbm texlive-fonts-recommended
+  sudo apt-get install -y phantomjs
+  sudo npm install -g casperjs
+architect:
+- carlosmiranda
+- yegor256
+assets:
+  secring.gpg: yegor256/home#assets/secring.gpg
+  id_rsa: yegor256/home#assets/heroku-key
+  settings.xml: yegor256/home#assets/s3auth/settings.xml
+  pubring.gpg: yegor256/home#assets/pubring.gpg
+  id_rsa.pub: yegor256/home#assets/heroku-key.pub
+  s3cfg: yegor256/home#assets/s3cfg
+merge:
+  commanders:
+  - carlosmiranda
+  - dmzaytsev
+  - essobedo
+  - hdouss
+  - krzyk
+  - longtimeago
+  - mkordas
+  - pinaf
+  - yegor256
+  script: |-
+    mvn help:system clean install --errors -Pqulice --settings ../settings.xml
+    mvn clean
+    pdd --source=$(pwd) --verbose --file=/dev/null
+deploy:
+  script: |-
+    build=$(git rev-parse --short HEAD)
+    chmod 600 ../*.gpg
+    sed -i "s/BUILD/${build}/g" s3auth-rest/src/main/resources/log4j.properties
+    git add s3auth-rest/src/main/resources/log4j.properties
+    sed -i "s/BUILD/${build}/g" s3auth-rest/src/main/resources/META-INF/MANIFEST.MF
+    git add s3auth-rest/src/main/resources/META-INF/MANIFEST.MF
+    git commit -m 'build number set'
+    cp ../settings.xml settings.xml
+    mvn clean deploy --errors -Ps3auth -Pqulice --settings settings.xml
+    git remote add dokku dokku@www.s3auth.com:s3auth
+    mkdir ~/.ssh
+    mv ../id_rsa ../id_rsa.pub ~/.ssh
+    chmod -R 600 ~/.ssh/*
+    echo -e "Host *\n  StrictHostKeyChecking no\n  UserKnownHostsFile=/dev/null" > ~/.ssh/config
+    git add settings.xml
+    git commit -m 'settings.xml' && git push -f dokku $(git symbolic-ref --short HEAD):master && git reset HEAD~1
+    curl -f --connect-timeout 15 --retry 5 --retry-delay 30 http://www.s3auth.com
+    mvn clean deploy --errors -Ps3auth -Pqulice --settings settings.xml -pl :s3auth-relay
+    # mvn clean install site-deploy --errors -Psite --settings settings.xml
+    mvn clean
+    pdd --source=$(pwd) --verbose --file=s3auth.xml
+    s3cmd --no-progress put s3auth.xml --config=../s3cfg s3://pdd.teamed.io/s3auth.xml
+env:
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g

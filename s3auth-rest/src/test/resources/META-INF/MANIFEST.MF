@@ -1,0 +1,17 @@
+S3Auth-Version: 1.0-SNAPSHOT
+S3Auth-Revision: 123
+S3Auth-Date: 22-Aug-2012
+S3Auth-FbId: 123456789
+S3Auth-FbSecret: foo
+S3Auth-GoogleId: foo
+S3Auth-GoogleSecret: foo
+S3Auth-GithubId: 1234567
+S3Auth-GithubSecret: 1234567
+S3Auth-SecurityKey: key
+S3Auth-AwsDynamoEntryPoint: http://localhost:${dynamodb.port}
+S3Auth-AwsDynamoPort: ${dynamodb.port}
+S3Auth-AwsDynamoKey: ${failsafe.dynamo.key}
+S3Auth-AwsDynamoSecret: ${failsafe.dynamo.secret}
+S3Auth-AwsDynamoTable: s3auth
+S3Auth-AwsCloudWatchKey: AAAAAAAAAAAAAAAAAAAA
+S3Auth-AwsCloudWatchSecret: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

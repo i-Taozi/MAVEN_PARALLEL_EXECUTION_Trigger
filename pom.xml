@@ -1,209 +1,240 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.robotoworks.mechanoid</groupId>
-	<artifactId>mechanoid-project</artifactId>
-	<version>0.2.3-SNAPSHOT</version>
-	<packaging>pom</packaging>
+<?xml version="1.0"?>
+<!--
+Copyright (c) 2012-2019, s3auth.com
+All rights reserved.
 
-	<properties>
-		<tycho-version>0.22.0</tycho-version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<platform-version-name>luna</platform-version-name>
-		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
-	</properties>
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met: 1) Redistributions of source code must retain the above
+copyright notice, this list of conditions and the following
+disclaimer. 2) Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided
+with the distribution. 3) Neither the name of the s3auth.com nor
+the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written
+permission.
 
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
-
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
-
-	<modules>
-		<module>releng/com.robotoworks.mechanoid.updatesite</module>
-		<module>features/com.robotoworks.mechanoid.feature</module>
-		<module>plugins/com.robotoworks.mechanoid</module>
-		<module>plugins/com.robotoworks.mechanoid.ui</module>
-		<module>plugins/com.robotoworks.mechanoid.net</module>
-		<module>plugins/com.robotoworks.mechanoid.net.ui</module>
-		<module>plugins/com.robotoworks.mechanoid.ops</module>
-		<module>plugins/com.robotoworks.mechanoid.ops.ui</module>
-		<module>plugins/com.robotoworks.mechanoid.sharedprefs</module>
-		<module>plugins/com.robotoworks.mechanoid.sharedprefs.ui</module>
-		<module>plugins/com.robotoworks.mechanoid.db</module>
-		<module>plugins/com.robotoworks.mechanoid.db.ui</module>
-		<module>libs/mechanoid</module>
-		<module>plugins/com.robotoworks.mechanoid.standalone</module>
-
-		<!-- <module>tests/com.robotoworks.mechanoid.net.tests</module> -->
-		<!-- <module>tests/com.robotoworks.mechanoid.ops.tests</module> -->
-		<!-- <module>tests/com.robotoworks.mechanoid.sharedprefs.tests</module> -->
-		<!-- <module>tests/com.robotoworks.mechanoid.db.tests</module> -->
-	</modules>
-
-	<repositories>
-		<repository>
-			<id>luna</id>
-			<layout>p2</layout>
-			<url>${eclipse-site}</url>
-		</repository>
-		<repository>
-			<id>sonatype_releases</id>
-			<url>https://oss.sonatype.org/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>eclipse.xtend</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases</url>
-		</repository>
-	</repositories>
-
-<!-- 	<profiles>
-		<profile>
-			<id>platform-kepler</id>
-			<activation>
-				<property>
-					<name>platform-version-name</name>
-					<value>kepler</value>
-				</property>
-			</activation>
-			<properties>
-				<eclipse-site>http://download.eclipse.org/releases/kepler</eclipse-site>
-				<platform-version>[3.7,3.8)</platform-version>
-			</properties>
-		</profile>
-	</profiles>
- -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-versions-plugin</artifactId>
-				<version>${tycho-version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-source-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<executions>
-					<execution>
-						<id>plugin-source</id>
-						<goals>
-							<goal>plugin-source</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<environments>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.2.1</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-	<licenses>
-		<license>
-			<name>Eclipse Public License v1.0</name>
-			<comments>
-All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.htm
-</comments>
-		</license>
-	</licenses>
-	<url>
-http://www.robotoworks.com/mechanoid-plugin
-</url>
-	<description>
-      Mechanoid is a set of code generators from XText DSL's for the rapid development of Android applications.
-</description>
-	<inceptionYear>2012</inceptionYear>
-	<issueManagement>
-		<system>Github Issues</system>
-		<url>https://github.com/robotoworks/mechanoid/issues</url>
-	</issueManagement>
-	<organization>
-		<name>Robotoworks Limited</name>
-		<url>http://www.robotoworks.com/</url>
-	</organization>
-	<scm>
-		<developerConnection>https://github.com/robotoworks/mechanoid.git</developerConnection>
-		<url>https://github.com/robotoworks/mechanoid</url>
-		<connection>git://github.com/robotoworks/mechanoid.git</connection>
-	</scm>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<!--
+@todo #317:30min Need to fix other build errors in order to upgrade to
+ jcabi-parent v0.49.3. There is an error due to the use of deprecated APIs,
+ errors due to classpath issues during test runtime, and others.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.jcabi</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.31</version>
+  </parent>
+  <groupId>com.s3auth</groupId>
+  <artifactId>s3auth</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>s3auth</name>
+  <modules>
+    <module>s3auth-hosts</module>
+    <module>s3auth-relay</module>
+    <module>s3auth-rest</module>
+  </modules>
+  <description>Amazon S3 HTTP Auth Relay</description>
+  <url>http://www.s3auth.com</url>
+  <inceptionYear>2012</inceptionYear>
+  <organization>
+    <name>s3auth.com</name>
+    <url>http://www.s3auth.com</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>BSD</name>
+      <url>http://www.s3auth.com/misc/LICENSE.txt</url>
+      <distribution>site</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>1</id>
+      <name>Yegor Bugayenko</name>
+      <email>yegor@tpc2.com</email>
+      <organization>tpc2.com</organization>
+      <organizationUrl>http://www.teamed.io</organizationUrl>
+      <roles>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+  <ciManagement>
+    <system>rultor</system>
+    <url>http://www.rultor.com/s/s3auth</url>
+  </ciManagement>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/yegor256/s3auth/issues</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:git:git@github.com:yegor256/s3auth.git</connection>
+    <developerConnection>scm:git:git@github.com:yegor256/s3auth.git</developerConnection>
+    <url>https://github.com/yegor256/s3auth</url>
+  </scm>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>repo.s3auth.com</id>
+      <url>s3://repo.s3auth.com/snapshot</url>
+    </snapshotRepository>
+    <repository>
+      <id>repo.s3auth.com</id>
+      <url>s3://repo.s3auth.com/release</url>
+    </repository>
+    <site>
+      <id>maven.s3auth.com</id>
+      <url>s3://maven.s3auth.com</url>
+    </site>
+  </distributionManagement>
+  <repositories>
+    <repository>
+      <id>repo.s3auth.com</id>
+      <url>s3://repo.s3auth.com/snapshot</url>
+    </repository>
+  </repositories>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk</artifactId>
+        <version>1.7.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jcabi</groupId>
+        <artifactId>jcabi-urn</artifactId>
+        <version>0.8</version>
+        <classifier>mock</classifier>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <systemPropertyVariables>
+              <failsafe.aws.key>${aws.key}</failsafe.aws.key>
+              <failsafe.aws.secret>${aws.secret}</failsafe.aws.secret>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.jcabi</groupId>
+          <artifactId>jcabi-latex-maven-plugin</artifactId>
+          <version>1.0</version>
+          <configuration>
+            <closures>
+              <file>header.tex</file>
+              <file>uml2.tex</file>
+            </closures>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.jcabi</groupId>
+        <artifactId>jcabi-latex-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <file>packages.tex</file>
+                <file>classes-relay.tex</file>
+                <file>classes-hosts.tex</file>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <configuration>
+          <mergeUserSettings>true</mergeUserSettings>
+          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+          <debug>false</debug>
+          <localRepositoryPath>${project.basedir}/local-repo</localRepositoryPath>
+          <noLog>false</noLog>
+          <postBuildHookScript>verify</postBuildHookScript>
+          <preBuildHookScript>setup</preBuildHookScript>
+          <projectsDirectory>src/it</projectsDirectory>
+          <settingsFile>${basedir}/src/it/settings.xml</settingsFile>
+          <showErrors>true</showErrors>
+          <showVersion>false</showVersion>
+          <streamLogs>true</streamLogs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>ssl</id>
+      <activation>
+        <property>
+          <name>!skipTests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-ssl-maven-plugin</artifactId>
+            <version>0.12</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>keygen</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>qulice</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.qulice</groupId>
+            <artifactId>qulice-maven-plugin</artifactId>
+            <version>0.12</version>
+            <configuration>
+              <excludes>
+                <!-- there is a bug in qulice, that's why the file is excluded, try to remove this line -->
+                <exclude>checkstyle:/src/main/java/com/s3auth/hosts/Htpasswd.java</exclude>
+              </excludes>
+              <license>file:${basedir}/LICENSE.txt</license>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

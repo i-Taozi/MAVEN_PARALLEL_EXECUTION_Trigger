@@ -1,0 +1,101 @@
+Copyright (c) 2012-2019, s3auth.com
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met: 1) Redistributions of source code must retain the above
+copyright notice, this list of conditions and the following
+disclaimer. 2) Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided
+with the distribution. 3) Neither the name of the s3auth.com nor
+the names of its contributors may be used to endorse or promote
+products derived from this software without specific prior written
+permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+============================
+
+We're using Amazon EC2.
+
+Create a new EC2 instance., with Ubuntu Server 10, 64 bit.
+
+Save hostname to /etc/hostname:
+
+    echo "relay.s3auth.com" | sudo tee /etc/hostname
+
+Install Java & supplementary tools
+
+    sudo apt-get update
+    sudo apt-get install openjdk-7-jdk mailutils ntp
+    sudo apt-get upgrade
+
+Install Maven 3
+
+    wget http://apache.mirror.versatel.nl/maven/binaries/apache-maven-3.0.4-bin.tar.gz
+    tar xzf apache-maven-3.0.4-bin.tar.gz
+    rm -rf apache-maven-3.0.4-bin.tar.gz
+
+Copy src/main/production/pom.xml to /home/ubuntu/pom.xml
+
+Create /home/ubuntu/settings.xml:
+
+    <?xml version='1.0'?>
+    <settings>
+     <localRepository>/home/ubuntu/m2-repo</localRepository>
+     <servers>
+      <server>
+       <id>repo.s3auth.com</id>
+       <username>..aws-key..</username>
+       <password>..aws-secret..</password>
+      </server>
+     </servers>
+    </settings>
+
+Create run.sh in /home/ubuntu:
+
+    #!/bin/sh
+    while true
+    do
+        export MAVEN_HOME=/home/ubuntu/apache-maven-3.0.4
+        export MAVEN_OPTS=-Xmx256m
+    	$MAVEN_HOME/bin/mvn --errors --quiet \
+    	    --update-snapshots --settings /home/ubuntu/settings.xml \
+    	    test 2>&1 | logger -p local0.info -t run.sh
+    done
+
+Make sure it's executable:
+
+    chmod a+x run.sh
+
+Add this to crontab:
+
+    @reboot sudo /home/ubuntu/run.sh &
+
+Configure syslog as explained here:
+
+    https://papertrailapp.com/systems/setup
+
+    Uncomment these lines:
+        $ModLoad imudp
+        $UDPServerRun 514
+        $ModLoad imtcp
+        $InputTCPServerRun 514
+
+    Add these lines at the beginning of the file:
+        $EscapeControlCharactersOnReceive off
+        $PreserveFQDN on
+
+Logout and reboot the server

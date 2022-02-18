@@ -1,68 +1,50 @@
-Mechanoid
-=============
+<img src="http://img.s3auth.com/logo.png" width="200px" height="35px"/>
 
-Mechanoid is an Eclipse Plugin sporting a set of code generators for Android™ driven by Simple DSL's (Domain Specific Languages) with full Eclipse Editor Support for the rapid development of Android applications.
+[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RP1J1CH.svg)](https://www.0crat.com/contrib/C3RP1J1CH)
 
-Mechanoid DB
-------------
-Use the Sqlite language itself to generate Android content providers and the ActiveRecord pattern with rich editor support.
+[![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
+[![Managed by Zerocracy](https://www.0crat.com/badge/C3RP1J1CH.svg)](https://www.0crat.com/p/C3RP1J1CH)
+[![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/s3auth)](http://www.rultor.com/p/yegor256/s3auth)
+[![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 
-More: http://robotoworks.com/mechanoid/doc/db/index.html
+[![Availability at SixNines](https://www.sixnines.io/b/9dcb)](https://www.sixnines.io/h/9dcb)
+[![Build Status](https://travis-ci.org/yegor256/s3auth.svg?branch=master)](https://travis-ci.org/yegor256/s3auth)
+[![PDD status](http://www.0pdd.com/svg?name=yegor256/s3auth)](http://www.0pdd.com/p?name=yegor256/s3auth)
+[![Dependencies](https://www.versioneye.com/user/projects/561ac557a193340f2f0011e5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/561ac557a193340f2f0011e5)
 
-Mechanoid Net
--------------
-Generate REST over JSON service clients with this simple language to describe JSON Objects and REST methods.
+[s3auth.com](http://www.s3auth.com) is a Basic HTTP Auth gateway
+in front of your private Amazon S3 bucket. Read this blog post
+for a more detailed explanation: [Basic HTTP Auth for S3 Buckets](http://www.yegor256.com/2014/04/21/s3-http-basic-auth.html).
 
-More: http://robotoworks.com/mechanoid/doc/net/index.html
+Point your `test.example.com` CNAME to `relay.s3auth.com`,
+and register the domain in [s3auth.com](http://www.s3auth.com) web panel.
+You will be able to access bucket's content in a browser with an HTTP basic auth.
+Your bucket will be accessible using your Amazon IAM credentials
+and with custom user/password pairs in your `.htpasswd` file
+(similar to Apache HTTP Server).
 
-Mechanoid Ops
--------------
-A Framework to create and run decoupled background operations as described in Virgil Dobjanschi's Google IO REST 2010 presentation.
+For example, try [http://maven.s3auth.com/](http://maven.s3auth.com/)
+(with username `s3auth` and password `s3auth`).
+You will access content of Amazon S3 bucket `maven.s3auth.com`,
+which is not readable anonymously otherwise.
 
-More: http://robotoworks.com/mechanoid/doc/ops/index.html
+## How to contribute
 
-Mechanoid Prefs
----------------
-A simple DSL to generate thin wrappers for strongly typed access to shared preferences.
+Fork repository, make changes, send us a pull request. We will review
+your changes and apply them to the `master` branch shortly, provided
+they don't violate our quality standards. To avoid frustration, before
+sending us your pull request please run full Maven build:
 
-More: http://robotoworks.com/mechanoid/doc/prefs/index.html
+```
+$ mvn clean install -Pqulice
+```
 
-Installation
-============
+To avoid build errors use JDK >= 1.7 and Maven >= 3.1.1
 
-Mechanoid can be installed like other Eclipse Plugins. In Eclipse go to Help > Install New Software and add the following update site URL.
+To run it locally:
 
-Latest Snapshot: http://www.robotoworks.com/mechanoid/updates/snapshot
+```
+$ mvn clean install -Phit-refresh -Dport=8080
+```
 
-Please see the getting started guide for complete details: http://robotoworks.com/mechanoid/doc/start.html
-
-License
-=======
-
-Mechanoid Runtime Library
--------------------------
-
-    Copyright 2013 Robotoworks Limited
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-Eclipse Plugin Components
--------------------------
-
-    Copyright 2013 Robotoworks Limited
-    
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-       
-       http://www.eclipse.org/legal/epl-v10.html
+You will be able to open it at `http://localhost:8080`
