@@ -1,5 +1,0 @@
-<configuration>
-	<inputs>
-		<oracle-nosql name="nosql" hosts="host1:2811" />
-	</inputs>
-</configuration>

@@ -1,10 +1,7 @@
-target/
-bin/
-.project
-.settings/
-.classpath
-.idea/
-*.iml
-*.ipr
-*.iws
+.DS_Store
+target
+*/bin
+*/target
+*~
+*.versionsBackup
 

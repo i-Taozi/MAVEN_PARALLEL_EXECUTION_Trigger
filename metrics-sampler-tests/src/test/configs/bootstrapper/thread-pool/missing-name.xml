@@ -1,5 +1,0 @@
-<configuration>
-	<shared-resources>
-		<thread-pool size="10" max-size="20" keep-alive-time="60" /> 
-	</shared-resources>
-</configuration>

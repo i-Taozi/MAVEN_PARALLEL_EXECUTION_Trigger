@@ -1,6 +1,0 @@
-<configuration>
-	<variables>
-		<string name="string" value="value" />
-		<string name="string" value="value" />
-	</variables>
-</configuration>

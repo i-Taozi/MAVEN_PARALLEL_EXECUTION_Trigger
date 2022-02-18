@@ -1,5 +1,0 @@
-<configuration>
-	<outputs>
-		<graphite name="graphite" port="2003" />
-	</outputs>
-</configuration>

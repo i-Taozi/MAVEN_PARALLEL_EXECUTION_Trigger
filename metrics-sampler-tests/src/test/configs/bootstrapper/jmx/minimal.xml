@@ -1,5 +1,0 @@
-<configuration>
-	<inputs>
-		<jmx name="jmx" url="url" username="username" password="password" provider-packages="provider.packages" />
-	</inputs>
-</configuration>

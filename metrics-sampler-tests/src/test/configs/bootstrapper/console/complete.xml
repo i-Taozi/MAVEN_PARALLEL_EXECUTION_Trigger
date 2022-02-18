@@ -1,5 +1,0 @@
-<configuration>
-	<outputs>
-		<console name="console" default="true" />
-	</outputs>
-</configuration>
