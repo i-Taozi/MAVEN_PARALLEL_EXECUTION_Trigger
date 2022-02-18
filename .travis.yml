@@ -1,18 +1,42 @@
+---
+services: 
+  - docker
+
+# Building the image which is needed for the integration tests.
+# This is done in the sub module.
+# TODO: May be we need to think about this.
+# TODO: Make our own image and publish this to docker hub.
+before_install:
+  - docker --version
+  - cd jenkins-client-it-docker
+  - docker build --no-cache -t jenkins-with-plugins .
+  - docker run --name jenkins-for-testing -v "$(pwd)/jobs":/var/jenkins_home/jobs  -d -p 8080:8080 -p 50000:50000  --env JENKINS_OPTS=--httpPort=8080 jenkins-with-plugins
+  - cd ..
+
+# We skip the installation step,
+# cause everything must run without
+# preliminary installation.
+install: true
+
 language: java
 
+script: 
+  - mvn -Prun-its,run-docker-its clean verify --batch-mode --fail-at-end
+
+# Make sure we stop the container
+# and remove the container independent
+# if it is running or not (-f option).
+# Finally remove the image which has been created
+# before during the before_install part.
+after_script:
+  - docker stop jenkins-for-testing
+  - docker rm -f -v jenkins-for-testing
+  - docker rmi -f jenkins-with-plugins
+
+# http://www.webupd8.org/2017/06/why-oracle-java-7-and-6-installers-no.html
+# - oraclejdk8 is not supported anymore.
+jdk:
+ - openjdk8
 cache:
   directories:
-  - ~/.m2
-
-git:
-  depth: 1
-
-branches:
-  only:
-    - master
-
-install:
-  mvn -T 1C install -Dmaven.test.skip -B -fae -s settings.xml
-
-script:
-  mvn -T 1C test -B -fae -s settings.xml
+  - $HOME/.m2/repository
