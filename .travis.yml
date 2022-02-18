@@ -1,14 +1,18 @@
-sudo: false
-cache:
-  directories:
-    - "$HOME/.m2"
 language: java
 jdk:
-  - oraclejdk8
-script:
-  - mvn -T 1C -U clean install -Dall -Djava.awt.headless=true -DskipTests=false
-notifications:
-  email: false
-  on_failure: never
-env: GDAL_LIBRARY_NAME=disabled_see_geot-4733
-dist: trusty
+  - openjdk-ea
+  - openjdk17
+  - openjdk11
+  - openjdk8
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - jdk: openjdk-ea
+
+after_success:
+  - mvn clean test jacoco:report-aggregate coveralls:report
+
+cache:
+  directories:
+  - $HOME/.m2
