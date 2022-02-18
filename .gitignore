@@ -1,20 +1,14 @@
-# Please add IDE-specific files (e.g. .*.sw* from Vim or .idea from IntelliJ)
-# to your global config. If you don't have one set up already, you can create
-# it using "git config --global core.excludesfile ~/.gitignore".
+.settings
+.idea
+*.iml
+target
+.project
+.classpath
+.checkstyle
+bin
+build.xml
+.DS_Store
+m2e-wtp
 
-# Maven
-/target/
-/app-archetype/
-/archetypes/app/target/
-/archetypes/content-article/target/
-/archetypes/content-common/target/
-/archetypes/app-archetype/target/
-/archetypes/content-common-archetype/target/
-/archetypes/content-article-archetype/target/
-/db/target/
-/docs/documentation/_site/*
-/hunspell/target/
-/tool-ui/bower_components/
-/tool-ui/node/
-/tool-ui/node_modules/
-/tool-ui/target/
+# btm transaction
+*.tlog

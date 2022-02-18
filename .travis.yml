@@ -1,17 +1,28 @@
-branches:
-  except:
-    - /^v[-.0-9]+$/
-
 language: java
-
 jdk:
-  - oraclejdk8
-
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
-install: true
-
-script: mvn -T 1C -Plibrary verify && git clone https://github.com/perfectsense/travis-maven-deploy.git && travis-maven-deploy/deploy.sh
+    - openjdk9
+    - openjdk11
+stages:
+  - name: script
+    if: type != cron
+before_install:
+  - cp settings.xml $HOME/.m2/settings.xml
+install: mvn -P release,wildfly install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+script: mvn -P arquillian-tests,wildfly test -B
+cache:
+  directories:
+    - $HOME/.m2
+deploy:
+  provider: script
+  script: "mvn -P dev,wildfly deploy -q"
+  skip_cleanup: true
+  on:
+    branch: master
+    jdk: openjdk9
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5ada7bbc05b2a99cff40
+    on_success: change
+    on_failure: always
+    on_start: never
