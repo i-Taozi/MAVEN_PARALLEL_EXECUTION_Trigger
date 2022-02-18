@@ -1,292 +1,255 @@
-# NuoDB Migrator #
+## NanoHTTPD – a tiny web server in Java
 
-[![Build Status](https://travis-ci.org/nuodb/migration-tools.png?branch=master)](https://travis-ci.org/nuodb/migration-tools)
+*NanoHTTPD* is a light-weight HTTP server designed for embedding in other applications, released under a Modified BSD licence.
 
-*A command-line interface for helping domain administrators manage backup and migration of their databases.*
+It is being developed at Github and uses Apache Maven for builds & unit testing:
 
-This tool is designed to assist you in migrating data from supported SQL databases to a NuoDB database. Use *nuodb-migrator dump*, *nuodb-migrator load*, *nuodb-migrator schema* to copy, normalize, and load data from an existing database (NuoDB or 3rd party) to a NuoDB database.  With the command-line interface, domain administrators will be able to perform the following database backup and migration tasks:
+ * Build status: [![Build Status](https://api.travis-ci.org/NanoHttpd/nanohttpd.png)](https://travis-ci.org/NanoHttpd/nanohttpd)
+ * Coverage Status: [![Coverage Status](https://coveralls.io/repos/NanoHttpd/nanohttpd/badge.svg)](https://coveralls.io/r/NanoHttpd/nanohttpd)
+ * Current central released version: [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.nanohttpd/nanohttpd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.nanohttpd/nanohttpd)
 
-1. Dump schema & data from an existing database to the file system
-2. Load schema & data from the file system to a target NuoDB database
-3. Generate a NuoDB schema from a source database
-4. Copy data & schema from an existing database to a target NuoDB database in one step on the fly [under development]
+## Quickstart
 
-*These functions tested on MySQL, MSSQL Server, Oracle, PostgreSQL, IBM DB2, Sybase Adaptive Server Enterprise and supposed to work with any JDBC-compliant database.*
+We'll create a custom HTTP server project using Maven for build/dep system. This tutorial assumes you are using a Unix variant and a shell. First, install Maven and Java SDK if not already installed. Then run:
 
-## Building from Source ##
+    mvn compile
+    mvn exec:java -pl webserver -Dexec.mainClass="org.nanohttpd.webserver.SimpleWebServer"
+    
+You should now have a HTTP file server running on <http://localhost:8080/>.
 
-    $ git clone https://github.com/nuodb/migration-tools
-    $ cd migration-tools/
-    $ mvn install
-    $ cd assembly/target/nuodb-migrator/
-    $ bin/nuodb-migrator --help
+### Custom web app
 
-## Synopsis ##
+Let's raise the bar and build a custom web application next:
 
-### Root command line options ###
-
-    $ bin/nuodb-migrator
-        --help (-h) |
-        --version (-v) |
-        --help=<[dump] | [load] | [schema]> |
-        --list |
-        --config=<path>
-        <[dump] | [load] | [schema]>
-
-### Dump schema & data from an existing database ###
-
-    $ bin/nuodb-migrator dump
-        [source database connection, required]
-            --source.driver=driver                                      JDBC driver class name
-            --source.url=url                                            Source database connection URL in the standard syntax jdbc:<subprotocol>:<subname>
-            [--source.username=[username]]                              Source database username
-            [--source.password=[password]]                              Source database password (will prompt if this option is not provided)
-            [--source.properties=[properties]]                          Additional connection properties encoded as URL query string "property1=value1&property2=value2"
-            [--source.catalog=[catalog]]                                Default database catalog name to use
-            [--source.schema=[schema]]                                  Default database schema name to use
-            [--source.auto.commit=[true | false]]                       If set to true each individual statement is treated as a transaction and is automatically committed after it is executed, false by default
-            [--source.transaction.isolation=[transaction isolation]]    Sets transaction isolation level, it's a symbolic name or an integer constant of the required level from JDBC standard: none or 0, read.uncommitted or 1, read.committed or 2, repeatable.read or 4, serializable or 8. NuoDB does not support all of the levels, only read.committed or 2, serializable or 8 and also supports two additional levels that are not in the JDBC standard: write.committed or 5, consistent.read or 7
-        [output specification, optional]
-            [--output.type=[output type]]                               Output type (csv, xml, bson), default is csv
-            [--output.path=[output path]]                               Path on the file system
-            [--output.*=[attribute value]]                              Output format attributes
-        [migration modes, optional]
-            [--data=[true | false]]                                     Enables or disables data migration, true by default
-            [--schema=[true | false]]                                   Enables or disables schema migration, true by default
-        [data migration, optional]
-            [table names]
-                [--table=table [table ...]]                             Comma separated list of either simple table names or fully qualified names including catalog and schema or table name patterns using regex symbols, where * matches any number of characters and ? symbol to match any single character or mix of table names and table name patterns
-                [--table.exclude=table [table ...]]                     Comma separated list of either excluded table names or excluded table name patterns using regex symbol * to match any number of characters and ? to match any single character
-            [select statements, optional]
-                [--query=query [query ...]]                             Select statement
-            [--time.zone (-z)=time zone]                                Time zone enables date columns to be dumped and reloaded between servers in different time zones
-            [--query.limit=[query limit]]                               Query limit is a maximum number of rows to split a table into chunks with LIMIT {limit} OFFSET {offset} syntax in a database specific way, where each chunk is written to a separate file. If a query limit is not given or is not supported by the migrator for a particular database queries are not split
-        [schema migration, optional]
-            [--table.type=[table type [table type ...]]]                Comma separated types of tables (TABLE, VIEW, SYSTEM TABLE, GLOBAL TEMPORARY, ALIAS, SYNONYM, etc) to process, by default only TABLE type is processed
-            [--meta.data.*=[true | false]]                              Includes or excludes specific meta data type (catalog, schema, table, column, primary.key, index, foreign.key, check, sequence, column.trigger) from processing, by default all objects are included
-        [executor options, optional]
-            [--threads (-t)=[threads]]                                  Number of worker threads, defaults to a number of available processors
-
-### Load schema & data to a target NuoDB database ###
-
-    $ bin/nuodb-migrator load
-        [target database connection, required]
-           [--target.driver=driver]                                     JDBC driver class name, default is com.nuodb.jdbc.Driver
-            --target.url=url                                            Target database connection URL in the format jdbc:com.nuodb://{broker1}:{port1},{broker2}:{port2},..,{brokerN}:{portN}/{database}?{params}
-            [--target.username=[username]]                              Target database username
-            [--target.password=[password]]                              Target database password (will prompt if this option is not provided)
-            [--target.properties=[properties]]                          Additional connection properties encoded as URL query string "property1=value1&property2=value2"
-            [--target.schema=[schema]]                                  Default database schema name to use
-        [input specification, required]
-            --input.path=[input path]                                   Path on the file system
-            [--input.*=[attribute value]]                               Input format attributes
-        [migration modes, optional]
-            [--data=[true | false]]                                     Enables or disables data migration, true by default
-            [--schema=[true | false]]                                   Enables or disables schema migration, true by default
-        [data migration, optional]
-            [table names]
-                [--table=table [table ...]]                             Comma separated list of either simple table names or fully qualified names including catalog and schema or table name patterns using regex symbols, where * matches any number of characters and ? symbol to match any single character or mix of table names and table name patterns
-                [--table.exclude=table [table ...]]                     Comma separated list of either excluded table names or excluded table name patterns using regex symbol * to match any number of characters and ? to match any single character
-            [commit strategy specification]
-                [--commit.strategy=[single | batch | custom]]           Commit strategy name, either single or batch or fully classified class name of a custom strategy implementing com.nuodb.migrator.jdbc.commit.CommitStrategy, default is batch
-                [--commit.*=[commit strategy attributes]]               Commit strategy attributes, such as commit.batch.size which is a number of updates to batch for commit point used with batch commit strategy, default is 1000
-            [insert type specification]
-                [--replace (-r)]                                        Writes REPLACE statements rather than INSERT statements
-                [--table.*.replace]                                     Writes REPLACE statement for the specified table
-                [--table.*.insert]                                      Writes INSERT statement for the specified
-                table
-            [--time.zone (-z)=time zone]                                Time zone enables date columns to be dumped and reloaded between servers in different time zones
-        [schema migration, optional]
-            [type declarations & translations, optional]
-                [--use.nuodb.types=[true | false]]                      Instructs the migrator to transform source database types to the best matching NuoDB types, where CHAR, VARCHAR and CLOB source types will be rendered as STRING columns, nuodb-types.properties file is a source of type overrides, the option is false by default
-                [--use.explicit.defaults=[true | false]]                Transforms source column implicit default values to NuoDB explicit defaults, the option is false by default
-                [--type.name=type name]                                 SQL type name template, i.e. decimal({p},{s}) or varchar({n}), where {p} is a placeholder for a precision, {s} is a scale and {n} is a maximum size
-                [--type.code=type code]                                 Integer code of declared SQL type
-                [--type.size=[type size]]                               Maximum size of custom data type
-                [--type.precision=[type precision]]                     The maximum total number of decimal digits that can be stored, both to the left and to the right of the decimal point. Typically, type precision is in the range of 1 through the maximum precision of 38.
-                [--type.scale=[type scale]]                             The number of fractional digits for numeric data types
-            [--table.type=[table type [table type ...]]]                Comma separated types of tables (TABLE, VIEW, SYSTEM TABLE, GLOBAL TEMPORARY, ALIAS, SYNONYM, etc) to process, by default only TABLE type is processed
-            [--meta.data.*=[true | false]]                              Includes or excludes specific meta data type (catalog, schema, table, column, primary.key, index, foreign.key, check, sequence, column.trigger) from processing, by default all objects are included
-            [--script.type=drop [create]]                               Comma separated types of statements to be generated, default is drop & create
-            [--group.scripts.by=[table | meta.data]]                    Group generated DDL scripts, table by default
-            [--naming.strategy=[naming strategy]]                       Naming strategy to use, either qualify, hash, auto or class name implementing com.nuodb.migrator.jdbc.metadata.generator.NamingStrategy, default is auto
-            [--identifier.quoting=[identifier quoting]]                 Identifier quoting policy name, minimal, always or fully qualified class name implementing com.nuodb.migrator.jdbc.dialect.IdentifierQuoting, default is always
-            [--identifier.normalizer=[identifier normalizer]]           Identifier transformer to use, available normalizers are noop, standard, lower.case, upper.case or fully qualified class name implementing com.nuodb.migrator.jdbc.dialect.IdentifierNormalizer, default is noop
-        [executor options, optional]
-            [--threads (-t)=[threads]]                                  Number of worker threads, defaults to a number of available processors
-            [--parallelizer (-p)=[parallelizer]]                        Parallelization strategy name, either table.level (default), row.level or fully classified class name of a custom parallelizer implementing com.nuodb.migrator.backup.loader.Parallelizer. Table level parallelization activates 1 worker thread per table at max, while row level enables forking with more than 1 thread, where the number of worker threads is based on the weight of the loaded row set to the size of loaded tables. Notice row level forking may (and typically does) reorder the rows in the target table.
-            [--parallelizer.*=[parallelizer attributes]]                Parallelizer attributes, such as min.rows.per.thread and max.rows.per.thread which are min possible and max allowed number of rows per thread, default are 100000 and 0 (unlimited) correspondingly
-
-### Generate a schema for a target NuoDB database ###
-
-    $ bin/nuodb-migrator schema
-        [source database connection, required]
-            --source.driver=driver                                      JDBC driver class name
-            --source.url=url                                            Source database connection URL in the standard syntax jdbc:<subprotocol>:<subname>
-            [--source.username=[username]]                              Source database username
-            [--source.password=[password]]                              Source database password (will prompt if this option is not provided)
-            [--source.properties=[properties]]                          Additional connection properties encoded as URL query string "property1=value1&property2=value2"
-            [--source.catalog=[catalog]]                                Default database catalog name to use
-            [--source.schema=[schema]]                                  Default database schema name to use
-            [--source.auto.commit=[true | false]]                       If set to true each individual statement is treated as a transaction and is automatically committed after it is executed, false by default
-            [--source.transaction.isolation=[transaction isolation]]    Sets transaction isolation level, it's a symbolic name or an integer constant of the required level from JDBC standard: none or 0, read.uncommitted or 1, read.committed or 2, repeatable.read or 4, serializable or 8. NuoDB does not support all of the levels, only read.committed or 2, serializable or 8 and also supports two additional levels that are not in the JDBC standard: write.committed or 5, consistent.read or 7
-        [target database connection, optional]
-            [--target.url=url]                                          Target database connection URL in the format jdbc:com.nuodb://{broker}:{port}/{database}
-            [--target.username=[username]]                              Target database username
-            [--target.password=[password]]                              Target database password (will prompt if this option is not provided)
-            [--target.properties=[properties]]                          Additional connection properties encoded as URL query string "property1=value1&property2=value2"
-            [--target.schema=[schema]]                                  Default database schema name to use
-        [script output, optional]
-            --output.path=output path                                   Saves script to a file specified by path
-        [table names]
-            [--table=table [table ...]]                                 Comma separated list of either simple table names or fully qualified names including catalog and schema or table name patterns using regex symbols, where * matches any number of characters and ? symbol to match any single character or mix of table names and table name patterns
-            [--table.exclude=table [table ...]]                         Comma separated list of either excluded table names or excluded table name patterns using regex symbol * to match any number of characters and ? to match any single character
-        [type declarations & translations, optional]
-            [--use.nuodb.types=[true | false]]                          Instructs the migrator to transform source database types to the best matching NuoDB types, where CHAR, VARCHAR and CLOB source types will be rendered as STRING columns, nuodb-types.properties file is a source of type overrides, the option is false by default
-            [--use.explicit.defaults=[true | false]]                    Transforms source column implicit default values to NuoDB explicit defaults, the option is false by default
-            [--type.name=type name]                                     SQL type name template, i.e. decimal({p},{s}) or varchar({n}), where {p} is a placeholder for a precision, {s} is a scale and {n} is a maximum size
-            [--type.code=type code]                                     Integer code of declared SQL type
-            [--type.size=[type size]]                                   Maximum size of custom data type
-            [--type.precision=[type precision]]                         The maximum total number of decimal digits that can be stored, both to the left and to the right of the decimal point. Typically, type precision is in the range of 1 through the maximum precision of 38.
-            [--type.scale=[type scale]]                                 The number of fractional digits for numeric data types
-        [--table.type=[table type [table type ...]]]                    Comma separated types of tables (TABLE, VIEW, SYSTEM TABLE, GLOBAL TEMPORARY, ALIAS, SYNONYM, etc) to process, by default only TABLE type is processed
-        [--meta.data.*=[true | false]]                                  Includes or excludes specific meta data type (catalog, schema, table, column, primary.key, index, foreign.key, check, sequence, column.trigger) from processing, by default all objects are included
-        [--script.type=drop [create]]                                   Comma separated types of statements to be generated, default is drop & create
-        [--group.scripts.by=[table | meta.data]]                        Group generated DDL scripts, table by default
-        [--naming.strategy=[naming strategy]]                           Naming strategy to use, either qualify, hash, auto or class name implementing com.nuodb.migrator.jdbc.metadata.generator.NamingStrategy, default is auto
-        [--identifier.quoting=[identifier quoting]]                     Identifier quoting policy name, minimal, always or fully qualified class name implementing com.nuodb.migrator.jdbc.dialect.IdentifierQuoting, default is always
-        [--identifier.normalizer=[identifier normalizer]]               Identifier transformer to use, available normalizers are noop, standard, lower.case, upper.case or fully qualified class name implementing com.nuodb.migrator.jdbc.dialect.IdentifierNormalizer, default is noop
-        [--fail.on.empty.database=[true | false]]                       If an empty source database is migrated an error will be raised or warn message will be printed to logs depending on the value of this switch. Default is true, which raises error
-
-#### Override database types ####
-
-The migrator allows to override any default database types from the command line or using config file. To override how source column types appear in a generated schema use *--type.name*, *--type.code*, *--type.size*, *--type.precision*, *--type.scale* command line parameters.
-
-*--type.name* is a parameter for type name template with optional placeholders for precision, scale and size variables. For each overridden type *--type.name* template will be used for rendering resulting type name:
-* --type.name=CLOB causes to generate CLOB
-* --type.name=VARCHAR({N}) results in VARCHAR type where {N} placeholder is substituted by a source column size value
-* --type.name=NUMERIC({P},{S}) produces NUMERIC where {P} placeholder stands for precision & {S} is a scale of a source database type
-
-*--type.code* is a parameter, which declares a source database type and it should come in pairs with *--type.name* parameter, to have type template name for each type code. It accepts the following expressions for the type code:
-* a fully qualified type name java.sql.Types.CLOB
-* short type name, such as CLOB
-* integer constant for a required type, such as 2005 for CLOB type
-* vendor specific int constant for a required type
-
-*--type.size*, *--type.precision*, *--type.scale* are optional parameters which define (if used) maximum (right) bound of size, precision, scale for a source type and allow to render different target type names depending on source type runtime attributes.
-
-#### Use NuoDB types ####
-
-*--use.nuodb.types* option loads set of type overrides from [conf/nuodb-types.config](https://github.com/nuodb/migration-tools/blob/master/assembly/src/main/assembly/conf/nuodb-types.config) and instructs the migrator to remap source CHAR, VARCHAR & CLOB column types to STRING for every matching source column from a source database during schema generation.
-
-#### Override MySQL TINYINT type ####
-
-MySQL JDBC Driver treats the TINYINT(1) as the BIT type by default, which sometimes is unwanted behaviour.
-This is manipulated by *tinyInt1isBit* parameter, found more details at [Configuration Properties for Connector/J](http://dev.mysql.com/doc/refman/5.0/en/connector-j-reference-configuration-properties.html).
-
-If you connect as *--source.url=jdbc:mysql://localhost/test?tinyInt1isBit=true* (which is equivalent to omitting *tinyInt1isBit=true*) and since TINYINT(1) is converted by MySQL J/Connector to BIT and NuoDBDialect transforms BIT to BOOLEAN the below table:
-```sql
-CREATE TABLE `t1`(`f1` TINYINT(1));
-```
-will be rendered as:
-```sql
-CREATE TABLE "t1" ("f1" BOOLEAN);
-```
-You can provide overrides on the command line to transform it to SMALLINT. The combination *--source.url=jdbc:mysql://localhost/test?tinyInt1isBit=true --type.code=java.sql.Types.BIT --type.size=0 --type.name=SMALLINT* will render:
-```sql
-CREATE TABLE "t1" ("f1" SMALLINT);
-```
-If you have *tinyInt1isBit=false* set in the url, use *--source.url=jdbc:mysql://localhost/test?tinyInt1isBit=false --type.code=java.sql.Types.TINYINT --type.size=3 --type.name=SMALLINT* to produce SMALLINT. MySQL always reports TINYINT(1) size as 3, notice bug open http://bugs.mysql.com/bug.php?id=38171:
-```sql
-CREATE TABLE "t1" ("f1" SMALLINT);
+    mvn archetype:generate -DgroupId=com.example -DartifactId=myHellopApp -DinteractiveMode=false
+    cd myHellopApp
+    
+Edit `pom.xml`, and add this between \<dependencies\>:
+ 
+	<dependency>
+		<groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+		<artifactId>nanohttpd</artifactId>
+		<version>2.2.0</version>
+	</dependency>
+	
+Edit `src/main/java/com/example/App.java` and replace it with:
+```java
+    package com.example;
+    
+    import java.io.IOException;
+    import java.util.Map;
+    
+    import fi.iki.elonen.NanoHTTPD;
+    // NOTE: If you're using NanoHTTPD >= 3.0.0 the namespace is different,
+    //       instead of the above import use the following:
+	// import org.nanohttpd.NanoHTTPD;
+    
+    public class App extends NanoHTTPD {
+    
+        public App() throws IOException {
+            super(8080);
+            start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+            System.out.println("\nRunning! Point your browsers to http://localhost:8080/ \n");
+        }
+    
+        public static void main(String[] args) {
+            try {
+                new App();
+            } catch (IOException ioe) {
+                System.err.println("Couldn't start server:\n" + ioe);
+            }
+        }
+    
+        @Override
+        public Response serve(IHTTPSession session) {
+            String msg = "<html><body><h1>Hello server</h1>\n";
+            Map<String, String> parms = session.getParms();
+            if (parms.get("username") == null) {
+                msg += "<form action='?' method='get'>\n  <p>Your name: <input type='text' name='username'></p>\n" + "</form>\n";
+            } else {
+                msg += "<p>Hello, " + parms.get("username") + "!</p>";
+            }
+            return newFixedLengthResponse(msg + "</body></html>\n");
+        }
+    }
 ```
 
-## Connect to Third-party Databases ##
+Compile and run the server:
+ 
+    mvn compile
+    mvn exec:java -Dexec.mainClass="com.example.App"
+    
+If it started ok, point your browser at <http://localhost:8080/> and enjoy a web server that asks your name and replies with a greeting. 
 
-To interface with third-party databases through JDBC-compliant drivers you should download & install appropriate JAR files.
+### Nanolets
 
-You can add required dependency to pom.xml, then clean & package project:
+Nanolets are like servlets only that they have a extremely low profile. They offer an easy to use system for a more complex server application.
+This text has to be extended with an example, so for now take a look at the unit tests for the usage. <https://github.com/NanoHttpd/nanohttpd/blob/master/nanolets/src/test/java/org/nanohttpd/junit/router/AppNanolets.java>
 
-    $ mvn clean install
+## Status
 
-The required JDBC driver JAR file will be download automatically to the assembly/target/nuodb-migrator/jar/ directory
+We are currently in the process of stabilizing NanoHTTPD from the many pull requests and feature requests that were integrated over the last few months. The next release will come soon, and there will not be any more "intended" major changes before the next release. If you want to use the bleeding edge version, you can clone it from Github, or get it from sonatype.org (see "Maven dependencies / Living on the edge" below).
 
-Alternatively, you can download & copy required JAR file to assembly/target/nuodb-migrator/jar/ manually. For example, to install PostgreSQL JDBC4 Driver:
+## Project structure
 
-    $ mvn clean install
-    $ curl http://jdbc.postgresql.org/download/postgresql-9.2-1001.jdbc4.jar > \
-        assembly/target/nuodb-migrator/jar/postgresql-9.2-1001.jdbc4.jar
+NanoHTTPD project currently consist of four parts:
 
-To include MySQL JDBC Driver into assembly using Maven add the following dependency to pom.xml, then clean & package project:
+ * `/core` – Fully functional HTTP(s) server consisting of one (1) Java file, ready to be customized/inherited for your own project.
 
-    <?xml version="1.0" encoding="UTF-8"?>
-    <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        ...
-        <dependencies>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.20</version>
-            </dependency>
-        </dependencies>
-        ...
-    </project>
+ * `/samples` – Simple examples on how to customize NanoHTTPD. See *HelloServer.java* for a killer app that greets you enthusiastically!
 
-For Microsoft SQL Server you might use jTDS Type 4 JDBC Driver:
+ * `/websocket` – Websocket implementation, also in a single Java file. Depends on core.
 
-    <dependency>
-        <groupId>net.sourceforge.jtds</groupId>
-        <artifactId>jtds</artifactId>
-        <version>1.2.4</version>
-    <dependency>
+ * `/webserver` – Standalone file server. Run & enjoy. A popular use seems to be serving files out off an Android device.
 
-For PostgreSQL add PostgreSQL Native Driver of the required version to the pom.xml file:
+ * `/nanolets` – Standalone nano app server, giving a servlet like system to the implementor.
 
-    <dependency>
-        <groupId>postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.0-801.jdbc4</version>
-    </dependency>
+ * `/fileupload` – integration of the apache common file upload library.
 
-## Examples ##
+## Features
+### Core
+* Only one Java file, providing HTTP 1.1 support.
+* No fixed config files, logging, authorization etc. (Implement by yourself if you need them. Errors are passed to java.util.logging, though.)
+* Support for HTTPS (SSL).
+* Basic support for cookies.
+* Supports parameter parsing of GET and POST methods.
+* Some built-in support for HEAD, POST and DELETE requests. You can easily implement/customize any HTTP method, though.
+* Supports file upload. Uses memory for small uploads, temp files for large ones.
+* Never caches anything.
+* Does not limit bandwidth, request time or simultaneous connections by default.
+* All header names are converted to lower case so they don't vary between browsers/clients.
+* Persistent connections (Connection "keep-alive") support allowing multiple requests to be served over a single socket connection.
 
-The following examples show how to dump MySQL to a file (in the first case), and an existing NuoDB database (in the second case).  The third case shows how to use the load command.
+### Websocket
+* Tested on Firefox, Chrome and IE.
 
-Example 1: Dump all tables from MySQL "enron" catalog in CSV format
+### Webserver
+* Default code serves files and shows (prints on console) all HTTP parameters and headers.
+* Supports both dynamic content and file serving.
+* File server supports directory listing, `index.html` and `index.htm`.
+* File server supports partial content (streaming & continue download).
+* File server supports ETags.
+* File server does the 301 redirection trick for directories without `/`.
+* File server serves also very long files without memory overhead.
+* Contains a built-in list of most common MIME types.
+* Runtime extension support (extensions that serve particular MIME types) - example extension that serves Markdown formatted files. Simply including an extension JAR in the webserver classpath is enough for the extension to be loaded.
+* Simple [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) support via `--cors` parameter
+  * by default serves `Access-Control-Allow-Headers: origin,accept,content-type`
+  * possibility to set `Access-Control-Allow-Headers` by setting System property: `AccessControlAllowHeader`
+  * _example: _ `-DAccessControlAllowHeader=origin,accept,content-type,Authorization`
+  * possible values:
+      * `--cors`: activates CORS support, `Access-Control-Allow-Origin` will be set to `*`.
+      * `--cors=some_value`: `Access-Control-Allow-Origin` will be set to `some_value`. 
 
-    $ bin/nuodb-migrator dump --source.driver=com.mysql.jdbc.Driver \
-        --source.url=jdbc:mysql://localhost:3306/test --source.catalog=test \
-        --source.username=<username> \
-        --output.type=csv --output.path=/tmp/dump.cat
+**_CORS argument examples_**
 
-Example 2: Dump records from "hockey" table where "id" is not equal to 25 from NuoDB "test" catalog in BSON format
 
-    $ bin/nuodb-migrator dump --source.driver=com.nuodb.jdbc.Driver \
-        --source.url=jdbc:com.nuodb://localhost/test \
-        --source.username=<username> \
-        --source.schema=hockey --table=hockey --table.hockey.filter=id<>25 \
-        --output.path=/tmp/dump.cat --output.type=bson
+* `--cors=http://appOne.company.com`
+* `--cors="http://appOne.company.com, http://appTwo.company.com"`: note the double quotes so that the two URLs are considered part of a single argument.
 
-Example 3: Load CSV data to the corresponding tables in NuoDB from /tmp/dump.cat
+## Maven dependencies
 
-    $ bin/nuodb-migrator load --target.url=jdbc:com.nuodb://localhost/test \
-        --target.username=<username> --target.password=<password> \
-        --input.path=/tmp/dump.cat
+NanoHTTPD is a Maven based project and deployed to central. Most development environments have means to access the central repository. The coordinates to use in Maven are: 
 
-Example 4: Generate NuoDB schema from Oracle "test" database and output it to stdout stream. To save schema in a particular file on the file system add --output.path=<file> option, i.e. --output.path=/tmp/schema.sql
+	<dependencies>
+		<dependency>
+			<groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+			<artifactId>nanohttpd</artifactId>
+			<version>CURRENT_VERSION</version>
+		</dependency>
+	</dependencies>
 
-    $ bin/nuodb-migrator schema --source.driver=oracle.jdbc.driver.OracleDriver \
-        --source.url=jdbc:oracle:thin:@//localhost:1521/test \
-        --source.username=<username> --source.password=<password> --source.schema=test
+(Replace `CURRENT_VERSION` with whatever is reported latest at <http://nanohttpd.org/>.)
 
-Example 5: Migrate schema from Microsoft SQL Server "test" database to a NuoDB database excluding generation of foreign keys and check constraints on table and column levels. Generated table names and column identifiers will be transformed using "standard" identifier normalizer (changed to upper case if unquoted).
+The coordinates for your development environment should correspond to these. When looking for an older version take care because we switched groupId from *com.nanohttpd* to *org.nanohttpd* in mid 2015.
 
-    $ bin/nuodb-migrator schema --source.driver=net.sourceforge.jtds.jdbc.Driver \
-        --source.url=jdbc:jtds:sqlserver://localhost:1433/test \
-        --source.username=<username> --source.password=<password> --source.schema=dbo \
-        --target.url=jdbc:com.nuodb://localhost/test \
-        --target.username=<username> --target.password=<password> --target.schema=hockey \
-        --meta.data.foreign.key=false --meta.data.check.constraint=false \
-        --identifier.normalizer=standard
+Next it depends what you are using NanoHTTPD for, there are three main usages.
+
+## Gradle dependencies
+
+In gradle you can use NanoHTTPD the same way because gradle accesses the same central repository:
+
+	dependencies {
+		runtime(
+			[group: 'org.nanohttpd', name: 'nanohttpd', version: 'CURRENT_VERSION'],
+		)
+	}
+
+(Replace `CURRENT_VERSION` with whatever is reported latest at <http://nanohttpd.org/>.)
+
+Just replace the name with the artifact id of the module you want to use and gradle will find it for you. 
+
+### Develop your own specialized HTTP service
+
+For a specialized HTTP (HTTPS) service you can use the module with artifactId *nanohttpd*.
+
+		<dependency>
+			<groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+			<artifactId>nanohttpd</artifactId>
+			<version>CURRENT_VERSION</version>
+		</dependency>
+		
+Here you write your own subclass of *org.nanohttpd.NanoHTTPD* to configure and to serve the requests.
+  
+### Develop a websocket based service    
+
+For a specialized websocket service you can use the module with artifactId *nanohttpd-websocket*.
+
+		<dependency>
+			<groupId>org.nanohttpd</groupId> <!-- <groupId>com.nanohttpd</groupId> for 2.1.0 and earlier -->
+			<artifactId>nanohttpd-websocket</artifactId>
+			<version>CURRENT_VERSION</version>
+		</dependency>
+
+Here you write your own subclass of *org.nanohttpd.NanoWebSocketServer* to configure and to serve the websocket requests. A small standard echo example is included as *org.nanohttpd.samples.echo.DebugWebSocketServer*. You can use it as a starting point to implement your own services.
+
+### Develop a custom HTTP file server    
+
+For a more classic approach, perhaps to just create a HTTP server serving mostly service files from your disk, you can use the module with artifactId *nanohttpd-webserver*.
+
+		<dependency>
+			<groupId>org.nanohttpd</groupId>
+			<artifactId>nanohttpd-webserver</artifactId>
+			<version>CURRENT_VERSION</version>
+		</dependency>
+
+The included class *org.nanohttpd.SimpleWebServer* is intended to be used as a starting point for your own implementation but it also can be used as is. Starting the class as is will start a HTTP server on port 8080 and publishing the current directory.
+
+### Living on the edge
+
+The latest Github master version can be fetched through sonatype.org:
+
+	<dependencies>
+		<dependency>
+			<artifactId>nanohttpd</artifactId>
+			<groupId>org.nanohttpd</groupId>
+			<version>XXXXX-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	...
+	<repositories>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+### generating an self signed SSL certificate
+
+Just a hint how to generate a certificate for localhost.
+
+	keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360 -keysize 2048 -ext SAN=DNS:localhost,IP:127.0.0.1  -validity 9999
+
+This will generate a keystore file named 'keystore.jks' with a self signed certificate for a host named localhost with the IP address 127.0.0.1 . Now
+you can use:
+
+	server.makeSecure(NanoHTTPD.makeSSLSocketFactory("/keystore.jks", "password".toCharArray()), null);
+
+Before you start the server to make NanoHTTPD serve HTTPS connections, when you make sure 'keystore.jks' is in your classpath.
+ 
+-----
+
+*Thank you to everyone who has reported bugs and suggested fixes.*
