@@ -1,31 +1,6 @@
-language: java
-
-cache:
-  directories:
-  - $HOME/.m2
-
-jdk:
-  - openjdk8
-  - openjdk9
-  - openjdk10
-  - openjdk11
-# It is unlikely that OpenJDK Early Access (openjdk-ea) it will work in the near future, the ASM library supports only bytecode from official release version.
-#  - openjdk-ea
-
-
-#matrix:
-#  allow_failures:
-#    - jdk: openjdk-ea
-
-# Activate container based infra https://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
-install: mvn -T 1C clean -B -V
-script: mvn -T 1C clean test -Pjacoco -Ptravisci -B -V
+language: java
+jdk:
+    - oraclejdk8
 
-
-after_success:
-# Codecov.io
-# Report available here : https://codecov.io/gh/find-sec-bugs/find-sec-bugs
-# The tests are runned with the script command (mvn -T 1C clean test...)
-# Docs: https://docs.codecov.io/v1.0/docs/about-the-codecov-bash-uploader
-  - bash <(curl -s https://codecov.io/bash)
+script: mvn clean test
