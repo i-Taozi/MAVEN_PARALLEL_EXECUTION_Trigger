@@ -1,0 +1,179 @@
+grammar com.robotoworks.mechanoid.net.NetModel with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+generate netModel "http://www.robotoworks.com/mechanoid/net/NetModel"
+
+Model:
+	"package" packageName=QualifiedName
+	(declarations+=Declaration)*
+;
+
+Declaration:
+	UserTypeDeclaration | Client
+;
+
+Client:
+	'client' name=ID baseUrl=STRING? '{'
+		blocks+=ClientBlock*
+	'}'
+;
+
+ClientBlock:
+	HeaderBlock | ParamsBlock | HttpMethod
+;
+
+HeaderBlock:
+	'headers' headers+=Header (',' headers+=Header)*
+;
+
+Header:
+	name=STRING ':' value=STRING
+;
+
+HttpMethod:
+	type=HttpMethodType name=ID path=Path? '{' 
+		blocks += HttpMethodBlock*
+	'}'
+;
+
+HttpMethodBlock:
+	HeaderBlock | ParamsBlock | BodyBlock | ResponseBlock
+;
+
+enum HttpMethodType:
+	get | put | post | delete | patch
+;
+
+Path:
+	{Path}
+	'/' (arb+=ArbitraryPathSegment|params+=SimpleMemberAssignment) ('/' (arb+=ArbitraryPathSegment|params+=SimpleMemberAssignment))*
+;
+
+ArbitraryPathSegment:
+	QualifiedName ("-" QualifiedName)*
+;
+
+ParamsBlock:
+	{ParamsBlock}
+	'params' params+=SimpleMemberAssignment (',' params+=SimpleMemberAssignment)*
+;
+
+SimpleMemberAssignment:
+	member=SimpleMember ("=" defaultValue=Literal)?
+;
+
+Literal:
+	{BooleanLiteral} literal=BooleanValue |
+	{StringLiteral} literal=STRING |
+	{NumericLiteral} literal=SignedNumber
+;
+
+BodyBlock:
+	'body' type=BlockType
+;
+
+ResponseBlock:
+	{ResponseBlock}
+	'response' ('extends' superType=[ComplexTypeDeclaration])? (type=BlockType)?
+;
+
+BlockType:
+	Type | ComplexTypeLiteral
+;
+
+Member:
+	(TypedMember | SkipMember) /*('=' defaultValue=Value)?  */
+;
+
+TypedMember:
+	name=(ID|STRING) ':' type=Type
+;
+
+SkipMember :
+	name=(ID|STRING) literal=ComplexTypeLiteral
+;
+
+SimpleMember:
+	name=(ID|STRING) ':' type=IntrinsicType
+;
+
+Type:
+	UserType | IntrinsicType | GenericListType
+;
+
+GenericListType:
+	elementType=(UserType|IntrinsicType) id='[]'
+;
+
+UserType:
+	declaration = [UserTypeDeclaration] 
+;
+
+UserTypeDeclaration:
+	ComplexTypeDeclaration | EnumTypeDeclaration
+;
+
+ComplexTypeDeclaration:
+	keyword='entity' (nogen?='nogen')? name=ID (literal=ComplexTypeLiteral)?
+;
+
+EnumTypeDeclaration:
+	keyword='enum' (nogen?='nogen')? name=ID ('extends' superType=IntegerType)? (literal=EnumTypeLiteral)?
+;
+
+EnumTypeLiteral:
+	('{' members+=EnumMember (',' members+=EnumMember)* '}')
+;
+
+EnumMember:
+	name=ID (assignment?='=' value=INT)?
+;
+
+ComplexTypeLiteral:
+	('{' members+=Member (',' members+=Member)* '}')
+;
+
+IntrinsicType:
+	StringType | BooleanType | NumericType
+;
+
+StringType:
+	id="String"
+;
+
+BooleanType:
+	id="boolean"
+;
+
+NumericType:
+	IntegerType | LongType | DoubleType
+;
+	
+IntegerType:
+	id="int"
+;
+
+LongType:
+	id="long"
+;
+
+DoubleType:
+	id="double"
+;
+
+QualifiedName:
+	ID ("." ID)*;
+	
+enum BooleanValue:
+	true|false
+;
+
+SignedNumber returns ecore::EBigDecimal:
+'-'?NUMBER
+;	
+
+terminal NUMBER returns ecore::EBigDecimal:
+	('0'..'9')* ('.' ('0'..'9')+)?;
+	
+terminal INT returns ecore::EInt: 
+	"$$$don't use this anymore$$$";

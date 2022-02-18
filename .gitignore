@@ -1,5 +1,10 @@
-.DS_Store
-.settings
 bin
+classes
+target
 .metadata
-/.pom.xml.swp
+org.eclipse.xtext.*
+org.eclipse.xtend.*
+.DS_Store
+*._trace
+*.smap
+.launch

@@ -1,0 +1,38 @@
+grammar com.robotoworks.mechanoid.ops.OpServiceModel with org.eclipse.xtext.common.Terminals
+
+generate opServiceModel "http://www.robotoworks.com/mechanoid/ops/OpServiceModel"
+
+Model:
+	'package' packageName=QualifiedName
+	service=ServiceBlock;
+
+ServiceBlock:
+	'service' name=ID '{' (ops+=Operation)* '}';
+
+Operation:
+	'operation' name=ID '(' (args+=OperationArg (',' args+=OperationArg)*)? ')' uniqueClause=UniqueClause?
+;
+
+OperationArg:
+	type=OpArgType name=ID
+;
+
+UniqueClause:
+	{NotUnique} 'not' 'unique' |
+	{UniqueDeclaration} 'unique' '(' args+=[OperationArg] (',' args+=[OperationArg])* ')'
+;
+
+
+enum OpArgType:
+	Boolean='boolean' | 
+	String='String' | 
+	Integer='int' | 
+	Float='float' |
+	Double='double' |
+	Long='long' |
+	Parcelable='Parcelable'
+	;
+
+
+QualifiedName:
+	ID ("." ID)*;
