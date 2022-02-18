@@ -1,15 +1,28 @@
-/*~
-/.classpath
-/.project
-/.settings/
-/target/
-/bin/
-/.idea/
-simmetrics.iml
-simmetrics-core/simmetrics-core.iml
-simmetrics-example/simmetrics-example.iml
-pom.xml.releaseBackup
-pom.xml.versionBackup
-release.properties
+#Eclipse
+.classpath
+.project
+test-output
+.settings
 
+#IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
 
+#Neo4j
+*.db/
+
+#Gradle
+.gradle
+
+#Build directories
+bin/
+build/
+target/
+
+#Maven
+*.versionsBackup
+
+#Tests artifacts
+plugin/derived-config.txt
