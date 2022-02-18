@@ -1,73 +1,47 @@
-Dagger 1
-========
+# [Flyway](https://flywaydb.org) by [Redgate](https://www.red-gate.com/) [![Build Status](https://api.travis-ci.org/flyway/flyway.svg)](https://travis-ci.org/flyway/flyway) [![Maven Central](https://img.shields.io/maven-central/v/org.flywaydb/flyway-core.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.flywaydb.flyway-core%22) [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
-A fast dependency injector for Android and Java.
+### Database Migrations Made Easy.
 
+![Flyway](https://flywaydb.org/assets/logo/flyway-logo.png "Flyway")
 
-Deprecated – Please upgrade to Dagger 2
----------------------------------------
+#### Evolve your database schema easily and reliably across all your instances.
+Simple, focused and powerful.
 
-Square's Dagger 1.x is deprecated in favor of [Google's Dagger 2](https://github.com/google/dagger).
-Please see [the migration guide](https://google.github.io/dagger/dagger-1-migration.html) for help
-with the upgrade.
+#### Works on
+Windows, macOS, Linux, Docker and Java
 
+#### Supported build tools
+Maven and Gradle
 
-Download Dagger 1
------------------
+#### Supported databases
+Oracle, SQL Server, DB2, MySQL, Aurora MySQL, MariaDB, Percona XtraDB Cluster, PostgreSQL, Aurora PostgreSQL, Redshift, CockroachDB, SAP HANA, Sybase ASE, Informix, H2, HSQLDB, Derby, SQLite, Firebird
 
-You will need to include the `dagger-${dagger.version}.jar` in your
-application's runtime.  In order to activate code generation you will need to
-include `dagger-compiler-${dagger.version}.jar` in your build at compile time.
+#### Third party plugins
+SBT, Ant, Spring Boot, Grails, Play!, DropWizard, Grunt, Griffon, Ninja, ...
 
-In a Maven project, one would include the runtime in the dependencies section
-of your `pom.xml` (replacing `${dagger.version}` with the appropriate current
-release), and the `dagger-compiler` artifact as an "optional" or "provided"
-dependency:
+## Documentation
+https://flywaydb.org
 
-```xml
-<dependencies>
-  <dependency>
-    <groupId>com.squareup.dagger</groupId>
-    <artifactId>dagger</artifactId>
-    <version>${dagger.version}</version>
-  </dependency>
-  <dependency>
-    <groupId>com.squareup.dagger</groupId>
-    <artifactId>dagger-compiler</artifactId>
-    <version>${dagger.version}</version>
-    <optional>true</optional>
-  </dependency>
-</dependencies>
-```
+## About
+Flyway is brought to you by [Redgate](https://www.red-gate.com/) with the help of [many contributors](https://flywaydb.org/documentation/contribute/hallOfFame.html).
 
-You can also find downloadable .jars on Maven Central. You'll need
-[Dagger][dl-dagger], [JavaPoet][dl-javapoet], and [javax.inject][dl-inject].
+## How to contribute
+https://flywaydb.org/documentation/contribute
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+## License
+Copyright © [Red Gate Software Ltd](http://www.red-gate.com) 2010-2022
 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
+http://www.apache.org/licenses/LICENSE-2.0
 
-License
--------
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
-    Copyright 2012 Square, Inc.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-
-
- [1]: http://square.github.com/dagger/
- [dl-dagger]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.squareup.dagger%22%20a%3A%22dagger%22
- [dl-javapoet]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.squareup%22%20a%3A%22javapoet%22
- [dl-inject]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22javax.inject%22%20a%3A%22javax.inject%22
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
+## Trademark
+Flyway is a registered trademark of Boxfuse GmbH, owned by  [Red Gate Software Ltd](https://www.red-gate.com/).
