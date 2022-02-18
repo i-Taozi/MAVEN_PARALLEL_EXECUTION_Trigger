@@ -1,11 +1,14 @@
+sudo: false
+cache:
+  directories:
+    - "$HOME/.m2"
 language: java
 jdk:
   - oraclejdk8
-#  - oraclejdk7
-#  - openjdk7
-before_script:
-  - me.j360.disboot.websocket.echo "MAVEN_OPTS='-Xmx1024m -XX:MaxPermSize=256m'" > ~/.mavenrc
-after_success:
-  - mvn -T 1C clean cobertura:cobertura
-  - bash <(curl -s https://codecov.io/bash)
-install: travis_wait 30 mvn -T 1C install
+script:
+  - mvn -U clean install -Dall -Djava.awt.headless=true -DskipTests=false
+notifications:
+  email: false
+  on_failure: never
+env: GDAL_LIBRARY_NAME=disabled_see_geot-4733
+dist: trusty
