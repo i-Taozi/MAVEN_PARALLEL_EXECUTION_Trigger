@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eidviewer" default="default" basedir=".">
+
+    <property environment="env" />
+
+    <taskdef name="bundleapp"
+             classname="com.oracle.appbundler.AppBundlerTask"   
+             classpath="lib/appbundler-1.0.jar" />
+
+    <target name="appbundle">
+        <bundleapp outputdirectory="../../target"
+            name="${env.APPNAME}"
+            displayname="${env.APPNAME}"
+            icon="eidviewer.icns"
+            identifier="net.devbase.jfreesteel.viewer"
+            shortversion="${env.VERSION}"
+            applicationCategory="public.app-category.utilities"
+            mainclassname="net.devbase.jfreesteel.viewer.EidViewer">
+
+            <classpath file="../../target/eidviewer-${env.VERSION}.jar"/>
+<!--
+            <runtime dir="" />
+            <classpath dir="../../target">
+                <include name="dependency/**"/>
+            </classpath>
+            <option value="-Xdock:icon=Contents/Resources/eidviewer.icns"/>
+-->
+        </bundleapp>
+    </target>
+</project>

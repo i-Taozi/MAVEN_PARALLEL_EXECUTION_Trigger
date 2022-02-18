@@ -1,0 +1,55 @@
+### Using a self-signed certificate
+
+Applet using smartcardio API has to be signed. You can buy a code-signing
+certificate from a trusted CA or create a self-signed certificate for signing:
+
+  keytool -genkey -alias signFiles -keystore signing.jks \
+          -keypass changeme -dname "cn=<Your Name>" -storepass changeme
+
+  keytool -selfcert -alias signFiles -keystore signing.jks \
+          -storepass changeme
+
+Now create a signed applet JAR:
+
+  mvn install
+
+... or if using a different keystore password:
+
+  mvn -Djarsigner.storepass="<storepass>" install
+
+
+The self-signed certificate is not accepted as Signer CA so there will be a
+warning dialog. In the future Java releases self-signed certificates may not be
+accepted depending on the security level settings in the Java Control Panel.
+
+You can export and set your self-signed certificate as Signer CA.
+
+  keytool -export -alias signFiles -file cert.crt -keystore signing.jks \
+          -storepass changeme
+
+Now open the Java Control Panel (from the Java JRE path), in the Security tab
+click the Manage Certificates... button. In the drop down select the Signer CA
+type and click the Import button to load your cert.crt file.
+
+
+### Release profile
+
+Release profile uses a trusted OpenSource code signing certificate from Certum.
+
+Timestamping is enabled so the code signature can be valid even after the
+signing certificate is expired. Codebase properties are restricted to domains
+jfreesteal.devbase.net, grakic.github.io and localhost.
+
+If you are using this applet in an open source project, and need a signed applet
+with different codebase properties, write me an email at <grakic@devbase.net>
+describing your project and intended use case for the applet.
+
+
+Having a valid signing certificate, create a signed applet JAR using:
+
+  mvn -Prelease -Dcodesign.keypath=<keystore> -Dcodesign.pass=<keypass> \
+      -Dcodesign.alias=<common name> install
+
+To purchase a Standard Certum code signing certificate go to:
+  http://www.certum.eu/certum/cert,offer_en_standard_code_signing.xml
+

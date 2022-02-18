@@ -1,0 +1,12 @@
+Source: jfreesteel-eidviewer
+Maintainer: Goran Rakic <grakic@devbase.net>
+
+Package: jfreesteel-eidviewer
+Section: utils
+Priority: optional
+Architecture: all
+Depends: default-jre, pcscd
+Homepage: http://jfreesteel.devbase.net
+Description: Serbian eID viewer application.
+ JFreesteel eID Viewer is a nice looking graphical application to read data from the Serbian eID card.
+ .

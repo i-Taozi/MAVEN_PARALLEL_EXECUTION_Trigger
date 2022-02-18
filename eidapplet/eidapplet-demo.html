@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JFreesteel EidApplet Demo</title>
+<style type="text/css">
+body {
+   font-family: sans-serif;
+   padding: 30px;
+}
+#eid {
+   width: 640px;
+   height: 320px;
+   margin: 0 auto;
+   border: 1px solid #ccc;
+   border-radius: 15px;
+   box-shadow: 3px 3px 3px #ccc;
+   overflow: hidden;
+}
+#eid h1 {
+   -webkit-background-clip: text;
+   -moz-background-clip: text;
+   background-clip: text;
+   color: transparent;
+   text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+   color: #333;
+   font-size: 18pt;
+}
+#eid h1, #eid small {
+    padding: 20px;
+    padding-left: 260px;
+    word-wrap: break-word;
+}
+#eid small {
+    color: #aaa;
+    font-size: 8pt;
+    display: block;
+}
+#eid img {
+   float: left;
+}
+</style>
+<!--[if lt IE 8]> <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.min.js"></script> <![endif]-->
+<script type="text/javascript" src="https://www.java.com/js/deployJava.js"></script>
+<script type="text/javascript">
+var nameNode;
+var infoNode;
+var photoNode;
+
+function inserted(info, photo) {
+  infoNode.innerHTML = info;
+
+  eidInfo = JSON.parse(info);
+  nameNode.innerHTML = eidInfo.name_full;
+
+  photoNode.src = "data:image/png;base64,"+photo;
+}
+function removed() {
+  nameNode.innerHTML = "";
+  infoNode.innerHTML = "";
+  photoNode.src = "eidapplet.gif";
+}
+
+window.onload = function() {
+    nameNode = document.getElementById("name");
+    infoNode = document.getElementById("info");
+    photoNode = document.getElementById("photo");
+
+//    Mozilla Bug 606737 workaround
+//    var applet = document.getElementById("jfreesteel-eidapplet");
+//    applet.setupJSObject();
+}
+</script>
+</head>
+<body>
+
+<script type="text/javascript">
+    var attributes = {
+        code: 'net.devbase.jfreesteel.applet.EidApplet.class',
+        codebase: './target/',
+        archive: 'eidapplet-1.0-SNAPSHOT.jar',
+        width: 1,
+        height: 1,
+        mayscript: 'true',
+        id: 'jfreesteel-eidapplet'
+    };
+    var parameters = {
+        RemovedCallback: 'removed',
+        InsertedCallback: 'inserted',
+        Permissions: 'all-permissions'
+    };
+    deployJava.runApplet(attributes, parameters, '1.6');
+</script>
+
+<div id="eid">
+  <img id="photo" src="eidapplet.gif" />
+  <h1 id="name"></h1>
+  <small id="info"></small>
+</div>
+
+</body>
+</html>
