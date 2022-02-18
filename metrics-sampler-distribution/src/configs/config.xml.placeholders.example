@@ -1,0 +1,89 @@
+<configuration pool-size="10">
+	<inputs>
+		<jmx name="wls-template" template="true" username="admin" password="weblogic1" provider-packages="weblogic.management.remote" persistent-connection="true">
+ 			<ignore-object-names>
+ 				<ignore-object-name regexp="^com\.oracle\.jrockit:type=Flight.+" />
+ 			</ignore-object-names>
+		</jmx>
+ 		<jmx name="wls01" url="service:jmx:t3://weblogic1.jmxsampler.org:6001/jndi/weblogic.management.mbeanservers.runtime" parent="wls-template" />
+ 		<jmx name="tomcat01" url="service:jmx:rmi:///jndi/rmi://tomcat.jmxsampler.org:9001/jmxrmi" persistent-connection="true" />
+		<mod-qos name="apache01" url="http://apache.jmxsampler.org:8240/qos-viewer?auto" username="user" password="pass" auth="basic"/>
+	</inputs>
+	<outputs>
+		<console name="console" />
+		<graphite name="graphite" host="graphite.jmxsampler.org" port="2003" />
+	</outputs>
+	<variables>
+		<dictionary name="memory-pools">
+			<entry key="Old Space" value="old" />
+			<entry key="ClassBlock Memory" value="class-blocks" />
+			<entry key="Class Memory" value="classes" />
+			<entry key="Nursery" value="young" />
+		</dictionary>
+		<dictionary name="usage">
+			<entry key="Usage" value="current" />
+			<entry key="PeakUsage" value="peak" />
+		</dictionary>
+	</variables>
+	<selector-groups>
+		<selector-group name="wls">
+			<regexp from-name="com\.bea:Name=DataSource_(.+),ServerRuntime=.+,Type=JDBCOracleDataSourceRuntime\.(ActiveConnectionsAverageCount|ActiveConnectionsCurrentCount|ActiveConnectionsHighCount|ConnectionDelayTime|ConnectionsTotalCount|CurrCapacity|CurrCapacityHighCount|FailuresToReconnectCount|HighestNumAvailable|HighestNumUnavailable|LeakedConnectionCount|NumAvailable|NumUnavailable|ReserveRequestCountWaitSecondsHighCount|WaitingForConnection.*)" to-name="${input.name}.jdbc.${name[1]}.${name[2]}" />
+	 		<regexp from-name="com\.bea:Name=JTARuntime,ServerRuntime=.*,Type=JTARuntime\.(.*TotalCount)" to-name="${input.name}.jta.${name[1]}" />
+			<regexp from-name="com\.bea:Name=ThreadPoolRuntime,ServerRuntime=.*,Type=ThreadPoolRuntime\.(CompletedRequestCount|ExecuteThreadIdleCount|ExecuteThreadTotalCount|HoggingThreadCount|MinThreadsConstraintsCompleted|MinThreadsConstraintsPending|PendingUserRequestCount|QueueLength|SharedCapacityForWorkManagers|StandbyThreadCount|Throughput)" to-name="${input.name}.threads.${name[1]}"/>
+	 		<regexp from-name="com\.bea:Name=.*,ServerRuntime=.*,Type=JRockitRuntime\.(JvmProcessorLoad|TotalGarbageCollectionCount|TotalGarbageCollectionTime|FreePhysicalMemory|UsedPhysicalMemory|Uptime)" to-name="${input.name}.jrockit.${name[1]}" />
+		</selector-group>
+		<selector-group name="tomcat">
+			<regexp from-name="Catalina:type=GlobalRequestProcessor,name=.http-bio-9240.\.(requestCount|bytesSent|bytesReceived)" to-name="${input.name}.http.${name[1]}"/>
+		</selector-group>
+        <selector-group name="hotspot">
+            <regexp from-name="java\.lang:type=ClassLoading\.(TotalLoadedClassCount|LoadedClassCount|UnloadedClassCount)" to-name="${input.name}.classloading.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Threading\.(ThreadCount|TotalStartedThreadCount|PeakThreadCount|DaemonThreadCount)" to-name="${input.name}.threads.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Compilation\.(TotalCompilationTime)" to-name="${input.name}.compilation.${name[1]}"/>
+            <regexp from-name="java\.lang:type=OperatingSystem\.(AvailableProcessors|CommittedVirtualMemorySize|FreePhysicalMemorySize|FreeSwapSpaceSize|MaxFileDescriptorCount|OpenFileDescriptorCount|TotalPhysicalMemorySize|TotalSwapSpaceSize)" to-name="${input.name}.os.${name[1]}"/>
+            <regexp from-name="java\.lang:name=(.+),type=GarbageCollector\.(CollectionCount|CollectionTime)" to-name="${input.name}.gc.${name[1]}.${name[2]}"/>
+            <regexp from-name="java\.lang:name=(.+),type=MemoryPool\.(Usage|PeakUsage)#(.*)" to-name="${input.name}.memory.${fn:map(usage,name[2])}.${fn:map(memory-pools,name[1])}.${name[3]}"/>
+            <regexp from-name="java\.lang:type=Memory\.HeapMemoryUsage#(.*)" to-name="${input.name}.memory.heap.current.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Memory\.NonHeapMemoryUsage#(.*)" to-name="${input.name}.memory.nonheap.current.${name[1]}"/>
+        </selector-group>
+        <selector-group name="jrockit">
+            <regexp from-name="java\.lang:type=ClassLoading\.(TotalLoadedClassCount|LoadedClassCount|UnloadedClassCount)" to-name="${input.name}.classloading.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Threading\.(ThreadCount|TotalStartedThreadCount|PeakThreadCount|DaemonThreadCount)" to-name="${input.name}.threads.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Compilation\.(TotalCompilationTime)" to-name="${input.name}.compilation.${name[1]}"/>
+            <regexp from-name="java\.lang:type=OperatingSystem\.(AvailableProcessors|CommittedVirtualMemorySize|FreePhysicalMemorySize|FreeSwapSpaceSize|MaxFileDescriptorCount|OpenFileDescriptorCount|TotalPhysicalMemorySize|TotalSwapSpaceSize)" to-name="${input.name}.os.${name[1]}"/>
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.oracle\.cls\.memory\.(committed|init|used|max)" to-name="${input.name}.memory.classloading.current.${name[1]}" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.oracle\.cls\.memory\.peak\.(committed|used)" to-name="${input.name}.memory.classloading.peak.${name[1]}" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.gc\.pool\.(heap|nursery)\.peak\.(committed|used)" to-name="${input.name}.memory.${name[1]}.peak.${name[2]}" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.gc\.pool\.(nursery)\.(committed|init|used|max)" to-name="${input.name}.memory.${name[1]}.current.${name[2]}" />
+            <regexp from-name="java\.lang:type=Memory\.HeapMemoryUsage#(.*)" to-name="${input.name}.memory.heap.current.${name[1]}"/>
+            <regexp from-name="java\.lang:type=Memory\.NonHeapMemoryUsage#(.*)" to-name="${input.name}.memory.nonheap.current.${name[1]}"/>
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.gc\.total\.oc\.(pauseTime|time)" to-name="${input.name}.gc.old.${name[1]}" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.gc\.total\.oc\.compaction\.time" to-name="${input.name}.gc.old.compactionTime" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.gc\.total\.yc\.(pauseTime|time)" to-name="${input.name}.gc.young.${name[1]}" />
+            <regexp from-name="oracle\.jrockit\.management:type=PerfCounters\.jrockit\.threads\.sync\.(count|time|stoppedTime)" to-name="${input.name}.threads.sync.${name[1]}" />
+        </selector-group>
+		<selector-group name="mod_qos">
+			<regexp from-name=".*,metric=([^,]+),path=/([^.]+)\.(current|limit)" to-name="${input.name}.${name[2]}.${name[1]}.${name[3]}"/>
+			<regexp from-name=".*,metric=([^,]+)$" to-name="${input.name}.${name[1]}"/>
+			<regexp from-name=".*,metric=([^,]+)\.(current|limit)" to-name="${input.name}.${name[1]}.${name[2]}"/>
+		</selector-group>
+	</selector-groups>
+	<samplers>
+ 		<sampler input="wls01" outputs="graphite" interval="10">
+ 			<selectors>
+ 				<use-group name="wls" />
+ 				<use-group name="jrockit" />
+ 			</selectors>
+ 		</sampler>
+ 		<sampler input="tomcat01" outputs="console" interval="10" disabled="true">
+ 			<selectors>
+ 				<use-group name="tomcat" />
+ 				<use-group name="hotspot" />
+ 			</selectors>
+ 		</sampler>
+		<sampler input="apache01" outputs="console" interval="10">
+			<selectors>
+				<use-group name="mod_qos" />
+			</selectors>
+		</sampler>
+	</samplers>
+</configuration>

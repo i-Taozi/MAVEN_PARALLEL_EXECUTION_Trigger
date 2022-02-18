@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.dimovelev</groupId>
+		<artifactId>metrics-sampler</artifactId>
+		<version>0.9.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>metrics-sampler-extension-oracle-nosql</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.dimovelev</groupId>
+			<artifactId>metrics-sampler-core</artifactId>
+			<version>0.9.2-SNAPSHOT</version>
+		</dependency>
+		<!-- 1. Download Oracle NoSQL from https://download.oracle.com/otn-pub/otn_software/nosql-database/kv-ce-4.5.12.zip
+			 2. Extract the ZIP file and go to kv-4.5.12/lib
+			 3. Install the artifacts in your local maven repository using:
+			 mvn install:install-file -DgroupId=com.oracle.nosql -DartifactId=kvstore -Dpackaging=jar -Dversion=4.5.12 -Dfile=kvstore.jar -DgeneratePom=true
+			 mvn install:install-file -DgroupId=com.oracle.nosql -DartifactId=kvclient -Dpackaging=jar -Dversion=4.5.12 -Dfile=kvclient.jar -DgeneratePom=true -->
+		<dependency>
+			<groupId>com.oracle.nosql</groupId>
+			<artifactId>kvstore</artifactId>
+			<version>4.5.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle.nosql</groupId>
+			<artifactId>kvclient</artifactId>
+			<version>4.5.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

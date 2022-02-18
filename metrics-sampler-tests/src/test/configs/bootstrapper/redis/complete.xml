@@ -1,0 +1,13 @@
+<configuration>
+	<inputs>
+		<redis name="redis" host="host" port="2811" password="password">
+			<variables>
+				<string name="string" value="value" />
+			</variables>
+			<commands>
+				<redis-size database="1" keys="list" />
+				<redis-size database="2" keys="hash,set" />
+			</commands>
+		</redis> 
+	</inputs>
+</configuration>

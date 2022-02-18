@@ -1,13 +1,10 @@
+target/
+bin/
 .project
-.classpath
-/target
 .settings/
-*.versionsBackup
-
-#intellij files
-.idea
+.classpath
+.idea/
 *.iml
 *.ipr
 *.iws
 
-.DS_Store
