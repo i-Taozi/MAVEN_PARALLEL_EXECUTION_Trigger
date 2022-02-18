@@ -1,45 +1,73 @@
-### [Atmosphere Framework](https://github.com/Atmosphere/atmosphere) Extensions and Plugin
+Dagger 1
+========
 
-You need Atmosphere Runtime version 2.4.0 and higher to use those extension. To install, just do
+A fast dependency injector for Android and Java.
 
-```java
-     <dependency>
-         <groupId>org.atmosphere</groupId>
-         <artifactId>atmosphere-{atmosphere-module}</artifactId>
-         <version>2.6.5</version>
-      </dependency>
+
+Deprecated – Please upgrade to Dagger 2
+---------------------------------------
+
+Square's Dagger 1.x is deprecated in favor of [Google's Dagger 2](https://github.com/google/dagger).
+Please see [the migration guide](https://google.github.io/dagger/dagger-1-migration.html) for help
+with the upgrade.
+
+
+Download Dagger 1
+-----------------
+
+You will need to include the `dagger-${dagger.version}.jar` in your
+application's runtime.  In order to activate code generation you will need to
+include `dagger-compiler-${dagger.version}.jar` in your build at compile time.
+
+In a Maven project, one would include the runtime in the dependencies section
+of your `pom.xml` (replacing `${dagger.version}` with the appropriate current
+release), and the `dagger-compiler` artifact as an "optional" or "provided"
+dependency:
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>com.squareup.dagger</groupId>
+    <artifactId>dagger</artifactId>
+    <version>${dagger.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.squareup.dagger</groupId>
+    <artifactId>dagger-compiler</artifactId>
+    <version>${dagger.version}</version>
+    <optional>true</optional>
+  </dependency>
+</dependencies>
 ```
-Where module can be one of the listed directory above. Client on the module's pom.xml to get the exact artifact name.
 
-![jdk8](https://github.com/Atmosphere/atmosphere-extensions/workflows/jdk8/badge.svg)
-![JDK11](https://github.com/Atmosphere/atmosphere-extensions/workflows/JDK11/badge.svg)
-![JDK13](https://github.com/Atmosphere/atmosphere-extensions/workflows/JDK13/badge.svg)
+You can also find downloadable .jars on Maven Central. You'll need
+[Dagger][dl-dagger], [JavaPoet][dl-javapoet], and [javax.inject][dl-inject].
 
-For GWT 2.7
+Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
-```java
-     <dependency>
-         <groupId>org.atmosphere</groupId>
-         <artifactId>atmosphere-{atmosphere-module}</artifactId>
-         <version>2.3.0-GWT27</version>
-      </dependency>
-```
 
-Easiest way to use extensions is by looking at our [Samples](https://github.com/Atmosphere/atmosphere-samples) 
-or jump directly into the [code](https://github.com/Atmosphere/atmosphere-samplesi/extensions-samples) of the extensions you want to use.
 
-[Javadocs](http://atmosphere.github.io/atmosphere-extensions/apidocs/) and [Getting Started](https://github.com/Atmosphere/atmosphere-extensions/wiki)
+License
+-------
 
-If you are an Atmosphere GWT 1.0.x users, The GWT module is deprecated and the final version that can be used with Atmosphere 2.0.x is
-```java
-     <dependency>
-         <groupId>org.atmosphere</groupId>
-         <artifactId>atmosphere-{gwt-module}</artifactId>
-         <version>1.1.0.RC5</version>
-      </dependency>
-```
-It is strongly recommended to upgrade to the GWT2.0 module.
+    Copyright 2012 Square, Inc.
 
-If you are interested, subscribe to our [mailing list](http://groups.google.com/group/atmosphere-framework) for more info!  We are on irc.freenode.net under #atmosphere-comet
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-[![Analytics](https://ga-beacon.appspot.com/UA-31990725-2/Atmosphere/atmosphere-extensions)]
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+
+
+ [1]: http://square.github.com/dagger/
+ [dl-dagger]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.squareup.dagger%22%20a%3A%22dagger%22
+ [dl-javapoet]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.squareup%22%20a%3A%22javapoet%22
+ [dl-inject]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22javax.inject%22%20a%3A%22javax.inject%22
+ [snap]: https://oss.sonatype.org/content/repositories/snapshots/
