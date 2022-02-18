@@ -1,24 +1,15 @@
-bin
-build
-target
-*.iml
-*.ipr
-*.iws
-*.ids
-.project
-.classpath
-.settings
-.metadata
-.gradle
-*.h2.db
-.DS_Store
+/*~
+/.classpath
+/.project
+/.settings/
+/target/
+/bin/
+/.idea/
+simmetrics.iml
+simmetrics-core/simmetrics-core.iml
+simmetrics-example/simmetrics-example.iml
+pom.xml.releaseBackup
+pom.xml.versionBackup
+release.properties
 
-**/.idea/**
-!**/.idea/runConfigurations/
-!**/.idea/runConfigurations/*
-!**/.idea/codeStyles/
-!**/.idea/codeStyles/*
 
-flyway-core/SPOOLEDCONTENTS.SQL
-flyway-cli-sample/jars/
-out/**

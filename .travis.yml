@@ -1,13 +1,18 @@
-language: minimal
+sudo: false
+language: java
+jdk:
+  - oraclejdk8
+  - openjdk7
 
-env:
-  matrix:
-    - JDK_VERSION=10
-    - JDK_VERSION=11
-    - JDK_VERSION=12
-    - JDK_VERSION=13
+branches:
+  only:
+  - master
+  - develop
+  - release-*
 
-install: skip
+before_install:
+ - mvn clean
 
-script:
-  - docker run -it --rm -v "$PWD":/usr/src/flyway -w /usr/src/flyway maven:3-jdk-$JDK_VERSION mvn -T 1C install -e
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report -P coveralls.io
+
