@@ -1,47 +1,45 @@
-# [Flyway](https://flywaydb.org) by [Redgate](https://www.red-gate.com/) [![Build Status](https://api.travis-ci.org/flyway/flyway.svg)](https://travis-ci.org/flyway/flyway) [![Maven Central](https://img.shields.io/maven-central/v/org.flywaydb/flyway-core.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.flywaydb.flyway-core%22) [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+### [Atmosphere Framework](https://github.com/Atmosphere/atmosphere) Extensions and Plugin
 
-### Database Migrations Made Easy.
+You need Atmosphere Runtime version 2.4.0 and higher to use those extension. To install, just do
 
-![Flyway](https://flywaydb.org/assets/logo/flyway-logo.png "Flyway")
+```java
+     <dependency>
+         <groupId>org.atmosphere</groupId>
+         <artifactId>atmosphere-{atmosphere-module}</artifactId>
+         <version>2.6.5</version>
+      </dependency>
+```
+Where module can be one of the listed directory above. Client on the module's pom.xml to get the exact artifact name.
 
-#### Evolve your database schema easily and reliably across all your instances.
-Simple, focused and powerful.
+![jdk8](https://github.com/Atmosphere/atmosphere-extensions/workflows/jdk8/badge.svg)
+![JDK11](https://github.com/Atmosphere/atmosphere-extensions/workflows/JDK11/badge.svg)
+![JDK13](https://github.com/Atmosphere/atmosphere-extensions/workflows/JDK13/badge.svg)
 
-#### Works on
-Windows, macOS, Linux, Docker and Java
+For GWT 2.7
 
-#### Supported build tools
-Maven and Gradle
+```java
+     <dependency>
+         <groupId>org.atmosphere</groupId>
+         <artifactId>atmosphere-{atmosphere-module}</artifactId>
+         <version>2.3.0-GWT27</version>
+      </dependency>
+```
 
-#### Supported databases
-Oracle, SQL Server, DB2, MySQL, Aurora MySQL, MariaDB, Percona XtraDB Cluster, PostgreSQL, Aurora PostgreSQL, Redshift, CockroachDB, SAP HANA, Sybase ASE, Informix, H2, HSQLDB, Derby, SQLite, Firebird
+Easiest way to use extensions is by looking at our [Samples](https://github.com/Atmosphere/atmosphere-samples) 
+or jump directly into the [code](https://github.com/Atmosphere/atmosphere-samplesi/extensions-samples) of the extensions you want to use.
 
-#### Third party plugins
-SBT, Ant, Spring Boot, Grails, Play!, DropWizard, Grunt, Griffon, Ninja, ...
+[Javadocs](http://atmosphere.github.io/atmosphere-extensions/apidocs/) and [Getting Started](https://github.com/Atmosphere/atmosphere-extensions/wiki)
 
-## Documentation
-https://flywaydb.org
+If you are an Atmosphere GWT 1.0.x users, The GWT module is deprecated and the final version that can be used with Atmosphere 2.0.x is
+```java
+     <dependency>
+         <groupId>org.atmosphere</groupId>
+         <artifactId>atmosphere-{gwt-module}</artifactId>
+         <version>1.1.0.RC5</version>
+      </dependency>
+```
+It is strongly recommended to upgrade to the GWT2.0 module.
 
-## About
-Flyway is brought to you by [Redgate](https://www.red-gate.com/) with the help of [many contributors](https://flywaydb.org/documentation/contribute/hallOfFame.html).
+If you are interested, subscribe to our [mailing list](http://groups.google.com/group/atmosphere-framework) for more info!  We are on irc.freenode.net under #atmosphere-comet
 
-## How to contribute
-https://flywaydb.org/documentation/contribute
-
-## License
-Copyright © [Red Gate Software Ltd](http://www.red-gate.com) 2010-2022
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-## Trademark
-Flyway is a registered trademark of Boxfuse GmbH, owned by  [Red Gate Software Ltd](https://www.red-gate.com/).
+[![Analytics](https://ga-beacon.appspot.com/UA-31990725-2/Atmosphere/atmosphere-extensions)]
