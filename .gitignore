@@ -1,43 +1,16 @@
-*.class
-*.log
-*.iml
-.idea
-.lucene
-.DS_Store
-.classpath
+# Please add IDE-specific files (e.g. .*.sw* from Vim or .idea from IntelliJ)
+# to your global config. If you don't have one set up already, you can create
+# it using "git config --global core.excludesfile ~/.gitignore".
+
+# Maven
 target
-bin
+/target/
+/*/target/
+/mysql/lib_mysqludf_dari.so
+/docs/documentation/javadocs
+/docs/documentation/_site
+/asm/dependency-reduced-pom.xml
+/reflections/dependency-reduced-pom.xml
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-### Gradle template
-.gradle
-build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Cache of project
-.gradletasknamecache
-
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
-
-generated
-generatedTest
-
-### Maven
-!maven
-!maven-wrapper.jar
-!maven-wrapper.properties
-/hibernate-redis/dependency-reduced-pom.xml
-
-### Netbeans 
-nbactions.xml
-
+# Jekyll
+_site
