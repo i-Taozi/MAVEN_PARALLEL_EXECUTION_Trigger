@@ -1,12 +1,43 @@
-target/
-.idea
+*.class
+*.log
 *.iml
-*.h2.db
-src/main/latex/*.pdf
-src/main/latex/*.aux
-src/main/latex/*.gz
-local-repo/
-/bin
-.settings/
+.idea
+.lucene
+.DS_Store
 .classpath
-.project
+target
+bin
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Gradle template
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+generated
+generatedTest
+
+### Maven
+!maven
+!maven-wrapper.jar
+!maven-wrapper.properties
+/hibernate-redis/dependency-reduced-pom.xml
+
+### Netbeans 
+nbactions.xml
+

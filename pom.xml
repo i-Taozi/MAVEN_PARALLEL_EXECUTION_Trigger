@@ -1,215 +1,424 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (c) 2012-2019, s3auth.com
-All rights reserved.
+  ~ Copyright (c) 2017. Sunghyouk Bae <sunghyouk.bae@gmail.com>
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met: 1) Redistributions of source code must retain the above
-copyright notice, this list of conditions and the following
-disclaimer. 2) Redistributions in binary form must reproduce the above
-copyright notice, this list of conditions and the following
-disclaimer in the documentation and/or other materials provided
-with the distribution. 3) Neither the name of the s3auth.com nor
-the names of its contributors may be used to endorse or promote
-products derived from this software without specific prior written
-permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
-NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
-THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-<!--
-@todo #317:30min Need to fix other build errors in order to upgrade to
- jcabi-parent v0.49.3. There is an error due to the use of deprecated APIs,
- errors due to classpath issues during test runtime, and others.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.jcabi</groupId>
-    <artifactId>parent</artifactId>
-    <version>0.31</version>
-  </parent>
-  <groupId>com.s3auth</groupId>
-  <artifactId>s3auth</artifactId>
-  <version>1.0-SNAPSHOT</version>
+
+  <groupId>com.github.debop</groupId>
+  <artifactId>hibernate-redis-parent</artifactId>
+  <version>2.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>s3auth</name>
+
+  <name>hibernate-redis</name>
+  <description>Hibernate 2nd cache provider using Redis</description>
+  <inceptionYear>2014</inceptionYear>
+  <url>https://github.com/debop/hibernate-redis</url>
+
+  <prerequisites>
+    <maven>3.0.5</maven>
+  </prerequisites>
+
   <modules>
-    <module>s3auth-hosts</module>
-    <module>s3auth-relay</module>
-    <module>s3auth-rest</module>
+    <module>hibernate-redis-client</module>
+    <module>hibernate4</module>
+    <module>hibernate5</module>
+    <module>hibernate52</module>
+
+    <module>hibernate-redis</module>
+
+    <!-- Examples -->
+    <module>hibernate-examples</module>
+    <module>hibernate-redis-stresser</module>
   </modules>
-  <description>Amazon S3 HTTP Auth Relay</description>
-  <url>http://www.s3auth.com</url>
-  <inceptionYear>2012</inceptionYear>
-  <organization>
-    <name>s3auth.com</name>
-    <url>http://www.s3auth.com</url>
-  </organization>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/debop/hibernate-redis.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/debop/hibernate-redis.git</developerConnection>
+    <url>https://github.com/debop/hibernate-redis</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <issueManagement>
+    <system>github</system>
+    <url>http://github.com/debop/hibernate-redis/issues</url>
+  </issueManagement>
   <licenses>
     <license>
-      <name>BSD</name>
-      <url>http://www.s3auth.com/misc/LICENSE.txt</url>
-      <distribution>site</distribution>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>manual</distribution>
     </license>
   </licenses>
   <developers>
     <developer>
-      <id>1</id>
-      <name>Yegor Bugayenko</name>
-      <email>yegor@tpc2.com</email>
-      <organization>tpc2.com</organization>
-      <organizationUrl>http://www.teamed.io</organizationUrl>
+      <id>debop</id>
+      <name>Sunghyouk Bae</name>
+      <email>sunghyouk.bae@gmail.com</email>
       <roles>
-        <role>Architect</role>
         <role>Developer</role>
       </roles>
-      <timezone>+1</timezone>
+      <timezone>+9</timezone>
+    </developer>
+    <developer>
+      <id>johnou</id>
+      <name>Johno Crawford</name>
+      <email>johno@sulake.com</email>
+      <organization>Sulake</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
     </developer>
   </developers>
-  <ciManagement>
-    <system>rultor</system>
-    <url>http://www.rultor.com/s/s3auth</url>
-  </ciManagement>
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/yegor256/s3auth/issues</url>
-  </issueManagement>
-  <scm>
-    <connection>scm:git:git@github.com:yegor256/s3auth.git</connection>
-    <developerConnection>scm:git:git@github.com:yegor256/s3auth.git</developerConnection>
-    <url>https://github.com/yegor256/s3auth</url>
-  </scm>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>repo.s3auth.com</id>
-      <url>s3://repo.s3auth.com/snapshot</url>
-    </snapshotRepository>
-    <repository>
-      <id>repo.s3auth.com</id>
-      <url>s3://repo.s3auth.com/release</url>
-    </repository>
-    <site>
-      <id>maven.s3auth.com</id>
-      <url>s3://maven.s3auth.com</url>
-    </site>
-  </distributionManagement>
-  <repositories>
-    <repository>
-      <id>repo.s3auth.com</id>
-      <url>s3://repo.s3auth.com/snapshot</url>
-    </repository>
-  </repositories>
+
+
+  <properties>
+    <java.version>1.6</java.version>
+
+    <springframework.version>4.3.11.RELEASE</springframework.version>
+    <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+    <spring.data.jpa.version>1.11.8.RELEASE</spring.data.jpa.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
+
       <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk</artifactId>
-        <version>1.7.5</version>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring.boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Redisson -->
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson</artifactId>
+        <version>3.5.4</version>
+      </dependency>
+
+      <!-- Lattuce -->
+      <dependency>
+        <groupId>io.lettuce</groupId>
+        <artifactId>lettuce-core</artifactId>
+        <version>5.0.0.RELEASE</version>
+      </dependency>
+
+      <dependency>
+        <groupId>de.ruedigermoeller</groupId>
+        <artifactId>fst</artifactId>
+        <version>2.53</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.xerial.snappy</groupId>
+        <artifactId>snappy-java</artifactId>
+        <version>1.1.4</version>
+      </dependency>
+
+      <!-- Logging -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.25</version>
       </dependency>
       <dependency>
-        <groupId>com.jcabi</groupId>
-        <artifactId>jcabi-urn</artifactId>
-        <version>0.8</version>
-        <classifier>mock</classifier>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <!-- project lombok -->
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.16.18</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <!-- Hikari CP -->
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>2.7.1</version>
+      </dependency>
+
+      <!-- Database Drivers -->
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.4.196</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>6.0.6</version>
+      </dependency>
+
+      <!-- Test -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.8.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.carrotsearch</groupId>
+        <artifactId>junit-benchmarks</artifactId>
+        <version>0.7.2</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>23.1-jre</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${springframework.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-jpa</artifactId>
+        <version>${spring.data.jpa.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${springframework.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <version>${spring.boot.version}</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>hamcrest-core</artifactId>
+            <groupId>org.hamcrest</groupId>
+          </exclusion>
+        </exclusions>
+        <scope>test</scope>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- project lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.carrotsearch</groupId>
+      <artifactId>junit-benchmarks</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Hikari CP -->
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Database Drivers -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <configuration>
-            <systemPropertyVariables>
-              <failsafe.aws.key>${aws.key}</failsafe.aws.key>
-              <failsafe.aws.secret>${aws.secret}</failsafe.aws.secret>
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.jcabi</groupId>
-          <artifactId>jcabi-latex-maven-plugin</artifactId>
-          <version>1.0</version>
-          <configuration>
-            <closures>
-              <file>header.tex</file>
-              <file>uml2.tex</file>
-            </closures>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <defaultGoal>package</defaultGoal>
+
     <plugins>
       <plugin>
-        <groupId>com.jcabi</groupId>
-        <artifactId>jcabi-latex-maven-plugin</artifactId>
-        <inherited>false</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
         <executions>
           <execution>
+            <id>attach-sources</id>
             <goals>
-              <goal>compile</goal>
+              <goal>jar</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <configuration>
+          <show>private</show>
+          <nohelp>false</nohelp>
+          <failOnError>false</failOnError>
+          <footer>hibernate-redis</footer>
+          <stylesheetfile>${project.basedir}/../stylesheet.css</stylesheetfile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+              <goal>javadoc</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+          <execution>
+            <id>aggregate</id>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+            <phase>site</phase>
             <configuration>
-              <sources>
-                <file>packages.tex</file>
-                <file>classes-relay.tex</file>
-                <file>classes-hosts.tex</file>
-              </sources>
             </configuration>
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-invoker-plugin</artifactId>
-        <configuration>
-          <mergeUserSettings>true</mergeUserSettings>
-          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-          <debug>false</debug>
-          <localRepositoryPath>${project.basedir}/local-repo</localRepositoryPath>
-          <noLog>false</noLog>
-          <postBuildHookScript>verify</postBuildHookScript>
-          <preBuildHookScript>setup</preBuildHookScript>
-          <projectsDirectory>src/it</projectsDirectory>
-          <settingsFile>${basedir}/src/it/settings.xml</settingsFile>
-          <showErrors>true</showErrors>
-          <showVersion>false</showVersion>
-          <streamLogs>true</streamLogs>
-        </configuration>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <inherited>false</inherited>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
       </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
-      <id>ssl</id>
-      <activation>
-        <property>
-          <name>!skipTests</name>
-        </property>
-      </activation>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-ssl-maven-plugin</artifactId>
-            <version>0.12</version>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.4</version>
             <executions>
               <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
                 <goals>
-                  <goal>keygen</goal>
+                  <goal>sign</goal>
                 </goals>
               </execution>
             </executions>
@@ -217,24 +426,6 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
         </plugins>
       </build>
     </profile>
-    <profile>
-      <id>qulice</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.qulice</groupId>
-            <artifactId>qulice-maven-plugin</artifactId>
-            <version>0.12</version>
-            <configuration>
-              <excludes>
-                <!-- there is a bug in qulice, that's why the file is excluded, try to remove this line -->
-                <exclude>checkstyle:/src/main/java/com/s3auth/hosts/Htpasswd.java</exclude>
-              </excludes>
-              <license>file:${basedir}/LICENSE.txt</license>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
+
 </project>

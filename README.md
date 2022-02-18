@@ -1,50 +1,191 @@
-<img src="http://img.s3auth.com/logo.png" width="200px" height="35px"/>
+hibernate-redis  
+===============
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.debop/hibernate-redis.svg)](https://repo1.maven.org/maven2/com/github/debop/hibernate-redis) [![Build Status](https://travis-ci.org/debop/hibernate-redis.png)](https://travis-ci.org/debop/hibernate-redis)
 
-[![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C3RP1J1CH.svg)](https://www.0crat.com/contrib/C3RP1J1CH)
+[hibernate][1] (4.x, 5.1.x, 5.2.x) 2nd level cache provider using redis server 3.x. with [Redisson][2] 2.3.x
 
-[![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
-[![Managed by Zerocracy](https://www.0crat.com/badge/C3RP1J1CH.svg)](https://www.0crat.com/p/C3RP1J1CH)
-[![DevOps By Rultor.com](http://www.rultor.com/b/yegor256/s3auth)](http://www.rultor.com/p/yegor256/s3auth)
-[![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
+Reduce cache size by [Redisson][2] SnappyCodec (see [snappy-java][snappy], [Fast-Serialization][fst])
 
-[![Availability at SixNines](https://www.sixnines.io/b/9dcb)](https://www.sixnines.io/h/9dcb)
-[![Build Status](https://travis-ci.org/yegor256/s3auth.svg?branch=master)](https://travis-ci.org/yegor256/s3auth)
-[![PDD status](http://www.0pdd.com/svg?name=yegor256/s3auth)](http://www.0pdd.com/p?name=yegor256/s3auth)
-[![Dependencies](https://www.versioneye.com/user/projects/561ac557a193340f2f0011e5/badge.svg?style=flat)](https://www.versioneye.com/user/projects/561ac557a193340f2f0011e5)
+### Note
 
-[s3auth.com](http://www.s3auth.com) is a Basic HTTP Auth gateway
-in front of your private Amazon S3 bucket. Read this blog post
-for a more detailed explanation: [Basic HTTP Auth for S3 Buckets](http://www.yegor256.com/2014/04/21/s3-http-basic-auth.html).
+From 2.2.1 onwards Hibernate region naming (hibernate.cache.region_prefix) has been simplified to "hibernate".
 
-Point your `test.example.com` CNAME to `relay.s3auth.com`,
-and register the domain in [s3auth.com](http://www.s3auth.com) web panel.
-You will be able to access bucket's content in a browser with an HTTP basic auth.
-Your bucket will be accessible using your Amazon IAM credentials
-and with custom user/password pairs in your `.htpasswd` file
-(similar to Apache HTTP Server).
+hibernate-core 5.2.x based on Java 8, use hibernate-redis 2.2.0 or higher
 
-For example, try [http://maven.s3auth.com/](http://maven.s3auth.com/)
-(with username `s3auth` and password `s3auth`).
-You will access content of Amazon S3 bucket `maven.s3auth.com`,
-which is not readable anonymously otherwise.
+Region factory for hibernate 5.2.x is hibernate.redis.cache.hibernate52.SingletonRedisRegionFactory
 
-## How to contribute
+### Setup
 
-Fork repository, make changes, send us a pull request. We will review
-your changes and apply them to the `master` branch shortly, provided
-they don't violate our quality standards. To avoid frustration, before
-sending us your pull request please run full Maven build:
+##### Maven Repository
 
-```
-$ mvn clean install -Pqulice
+add dependency
+
+```xml
+<dependency>
+    <groupId>com.github.debop</groupId>
+    <artifactId>hibernate-redis</artifactId>
+    <version>2.3.2</version>
+</dependency>
 ```
 
-To avoid build errors use JDK >= 1.7 and Maven >= 3.1.1
+Optional dependencies.
+Redisson support various codec (serializer, compression). you can choose other codec. see Redisson Help.
 
-To run it locally:
-
+```xml
+<dependency>
+    <groupId>org.redisson</groupId>
+    <artifactId>redisson</artifactId>
+    <version>${redisson.version}</version>
+</dependency>
+<dependency>
+    <groupId>de.ruedigermoeller</groupId>
+    <artifactId>fst</artifactId>
+    <version>${fst.version}</version>
+</dependency>
+<dependency>
+    <groupId>org.xerial.snappy</groupId>
+    <artifactId>snappy-java</artifactId>
+    <version>${snappy-java.version}</version>
+</dependency>
 ```
-$ mvn clean install -Phit-refresh -Dport=8080
+
+##### Setup hibernate configuration
+
+Setup hibernate configuration (Note package name for hibernate 4 / hibernate 5 / hibernate52)
+
+```java
+// Secondary Cache
+props.put(Environment.USE_SECOND_LEVEL_CACHE, true);
+props.put(Environment.USE_QUERY_CACHE, true);
+props.put(Environment.CACHE_REGION_FACTORY, org.hibernate.cache.redis.hibernate52.SingletonRedisRegionFactory.class.getName());
+props.put(Environment.CACHE_REGION_PREFIX, "hibernate");
+
+// Optional setting for second level cache statistics
+props.setProperty(Environment.GENERATE_STATISTICS, "true");
+props.setProperty(Environment.USE_STRUCTURED_CACHE, "true");
+
+// Hibernate 4
+props.setProperty(Environment.TRANSACTION_STRATEGY, JdbcTransactionFactory.class.getName());
+
+// Configuration for Redis that used by hibernate
+props.put(Environment.CACHE_PROVIDER_CONFIG, "hibernate-redis.properties");
 ```
 
-You will be able to open it at `http://localhost:8080`
+also same configuration for using Spring Framework or [Spring Data JPA][4]
+
+### Redis settings for hibernate-redis
+
+sample for hibernate-redis.properties
+
+```ini
+ ##########################################################
+ #
+ # properities for hibernate-redis
+ #
+ ##########################################################
+
+ # Redisson configuration file
+ redisson-config=conf/redisson.yaml
+
+ # Cache Expiry settings
+ # 'hibernate' is second cache prefix
+ # 'common', 'account' is actual region name
+ redis.expiryInSeconds.default=120
+ redis.expiryInSeconds.hibernate.common=0
+ redis.expiryInSeconds.hibernate.account=1200
+```
+
+sample for Redisson configuration (see [more samples](https://github.com/mrniko/redisson/wiki/2.-Configuration) )
+
+```yaml
+# redisson configuration for redis servers
+# see : https://github.com/mrniko/redisson/wiki/2.-Configuration
+
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  pingTimeout: 1000
+  connectTimeout: 1000
+  timeout: 1000
+  retryAttempts: 1
+  retryInterval: 1000
+  reconnectionTimeout: 3000
+  failedAttempts: 1
+  password: null
+  subscriptionsPerConnection: 5
+  clientName: null
+  address: "redis://127.0.0.1:6379"
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 25
+  connectionMinimumIdleSize: 5
+  connectionPoolSize: 100
+  database: 0
+  dnsMonitoring: false
+  dnsMonitoringInterval: 5000
+threads: 0
+# Codec
+codec: !<org.redisson.codec.SnappyCodec> {}
+useLinuxNativeEpoll: false
+eventLoopGroup: null
+```
+
+### Hibernate configuration via Spring [Application property files](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-application-property-files)
+
+In Spring applications, the hibernate- and hibernate-redis configuration represented above can be configured within
+Spring application property files like below.
+
+```ini
+spring.jpa.properties.hibernate.cache.use_second_level_cache=true
+spring.jpa.properties.hibernate.cache.use_query_cache=true
+spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.redis.hibernate52.SingletonRedisRegionFactory
+spring.jpa.properties.hibernate.cache.region_prefix=hibernate
+
+spring.jpa.properties.hibernate.cache.use_structured_entries=true
+spring.jpa.properties.hibernate.generate_statistics=true
+
+spring.jpa.properties.redisson-config=classpath:conf/redisson.yaml
+
+spring.jpa.properties.redis.expiryInSeconds.default=120
+spring.jpa.properties.redis.expiryInSeconds.hibernate.common=0
+spring.jpa.properties.redis.expiryInSeconds.hibernate.account=1200
+```
+
+### Setup hibernate entity to use cache
+
+add @org.hibernate.annotations.Cache annotation to Entity class like this
+
+```java
+@Entity
+@Cache(region="common", usage = CacheConcurrencyStrategy.READ_WRITE)  // or @Cacheable(true) for JPA
+@Getter
+@Setter
+public class Item implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String description;
+
+    private static final long serialVersionUID = -281066218676472922L;
+}
+```
+
+### How to monitor hibernate-cache is running
+
+run "redis-cli monitor" command in terminal. you can see putting cached items, retrieving cached items.
+
+### Sample code
+
+see hibernate-examples module
+
+
+
+[1]: http://www.hibernate.org/
+[2]: https://github.com/mrniko/redisson
+[3]: https://github.com/debop/hibernate-redis/blob/master/hibernate-redis/src/test/java/org/hibernate/test/cache/HibernateCacheTest.java
+[4]: http://projects.spring.io/spring-data-jpa/
+[lombok]: http://www.projectlombok.org/
+[fst]: https://github.com/RuedigerMoeller/fast-serialization
+[snappy]: https://github.com/xerial/snappy-java
+[benchmark]: https://github.com/debop/hibernate-redis/blob/master/hibernate-redis/src/test/java/org/hibernate/test/serializer/SerializerTest.java
