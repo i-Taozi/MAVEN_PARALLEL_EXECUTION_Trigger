@@ -16,7 +16,7 @@ env:
 
 install: true
 
-script: mvn -Plibrary verify
+script: mvn -T 1C -Plibrary verify
 
 cache:
   directories:
