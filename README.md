@@ -1,42 +1,35 @@
-# orientdb-gremlin
+# Apache Drill
 
-[![Build Status](https://travis-ci.org/orientechnologies/orientdb-gremlin.svg?branch=develop)](https://travis-ci.org/orientechnologies/orientdb-gremlin?branch=develop) [![Coverage Status](https://coveralls.io/repos/mpollmeier/orientdb-gremlin/badge.svg?branch=master)](https://coveralls.io/r/mpollmeier/orientdb-gremlin?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.michaelpollmeier/orientdb-gremlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.michaelpollmeier/orientdb-gremlin/) 
+[![Build Status](https://github.com/apache/drill/workflows/Github%20CI/badge.svg)](https://github.com/apache/drill/actions)
+[![Artifact](https://img.shields.io/maven-central/v/org.apache.drill/distribution.svg)](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.apache.drill%22%20AND%20a%3A%22distribution%22)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Stack Overflow](https://img.shields.io/:stack%20overflow-apache--drill-brightgreen.svg)](http://stackoverflow.com/questions/tagged/apache-drill)
+[![Join Drill Slack](https://img.shields.io/badge/slack-open-e01563.svg)](http://apache-drill.slack.com "Join our Slack community")
 
-[Apache TinkerPop](https://tinkerpop.apache.org/) 3 graph structure implementation for OrientDB. This started off as just a proof of concept, but thanks to a lot of help it's now in a really good shape and it has been officially adopted by the OrientDB team to be part of OrientDB `v3.x` and should eventually replace OrientDB's `graphdb` implementation that is still on TinkerPop 2. 
 
-The main area that need some more work is index lookups - currently it does find the right index for a simple case, e.g. `g.V.hasLabel("myLabel").has("someKey", "someValue")`. However if there are multiple indexes on the same property, or if there the traversal should better use a composite index, that's not handled well yet. If you feel inclined you can add these cases to the `OrientGraphIndexTest.java`. The function that looks up indexes is `OrientGraphStep.findIndex`.
+Apache Drill is a distributed MPP query layer that supports SQL and alternative query languages against NoSQL and Hadoop data storage systems.  It was inspired in part by [Google's Dremel](http://research.google.com/pubs/pub36632.html).  
 
-## Tests
-* you can run the standard tinkerpop test suite with `mvn install -P release`
-* there are some additional tests that you can run independently with `mvn test`
-* additionally there is a separate suite of tests in the `tests-scala` directory which you can run using `sbt test`
-* to automatically format the code (travis CI enforces a format check), just run `mvn clean install`
+## Developers
 
-## Usage
-Have a look at the tests-scala which demonstrates the usage. There's also an orientdb example project in [gremlin-scala-examples](https://github.com/mpollmeier/gremlin-scala-examples).
+Please read [Environment.md](docs/dev/Environment.md) for setting up and running Apache Drill. For complete developer documentation see [DevDocs.md](docs/dev/DevDocs.md).
 
-## Labels and classes
-Vertices and Edges are stored as classes based on their label. In order to allow vertices and edges to use the same label, the implementation prepends `V_` or `E_` in the class name:
-* vertex with label `user` -> classname `V_user`
-* edge with label `user` -> classname `E_user`
+## More Information
+Please see the [Apache Drill Website](http://drill.apache.org/) or the [Apache Drill Documentation](http://drill.apache.org/docs/) for more information including:
 
-## Migrations
-You might want to use [orientdb-migrations](https://github.com/springnz/orientdb-migrations) to create a schema with indexes etc. 
+ * Remote Execution Installation Instructions
+ * [Running Drill on Docker instructions](https://drill.apache.org/docs/running-drill-on-docker/)
+ * Information about how to submit logical and distributed physical plans
+ * More example queries and sample data
+ * Find out ways to be involved or discuss Drill
 
-## Release
-* upgrade version: remove SNAPSHOT (driver/pom.xml and tests-scala/build.sbt)
-* commit on branch, push, create PR on github
-* await green light from travis
-* merge PR on github
-* then execute
-```
-* mvn pull
-* mvn clean deploy -Prelease
-* git tag VERSION
-```
-* bump versions to next SNAPSHOT (pom.xml, build.sbt)
-* then
-```
-* git push
-* git push --tags
-```
+
+## Join the community!
+Apache Drill is an Apache Foundation project and is seeking all types of users and contributions.
+Please say hello on the [Apache Drill mailing list](http://drill.apache.org/mailinglists/).You can also join our [Google Hangouts](http://drill.apache.org/community-resources/)
+or [join](https://bit.ly/2VM0XS8) our [Slack Channel](https://join.slack.com/t/apache-drill/shared_invite/enQtNTQ4MjM1MDA3MzQ2LTJlYmUxMTRkMmUwYmQ2NTllYmFmMjU4MDk0NjYwZjBmYjg0MDZmOTE2ZDg0ZjBlYmI3Yjc4Y2I2NTQyNGVlZTc) if you need help with using or developing Apache Drill (more information can be found on [Apache Drill website](http://drill.apache.org/)).
+
+## Export Control
+This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software. BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted. See <http://www.wassenaar.org/> for more information.  
+The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms. The form and manner of this Apache Software Foundation distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.
+The following provides more details on the included cryptographic software: 
+ Java SE Security packages are used to provide support for authentication, authorization and secure sockets communication. The Jetty Web Server is used to provide communication via HTTPS. The Cyrus SASL libraries, Kerberos Libraries and OpenSSL Libraries are used to provide SASL based authentication and SSL communication.
